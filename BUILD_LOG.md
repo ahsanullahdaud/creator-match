@@ -81,3 +81,23 @@ One entry per build step from `PLAN.md`, appended in order, never rewritten.
 
 - Next's type augmentation makes `NODE_ENV` a required key of `NodeJS.ProcessEnv`, so a test passing a plain object to `getConfig` failed `tsc`. The parameter is now `Record<string, string | undefined>`, which `process.env` still satisfies.
 - The first attempt to write all files in one shell command failed with `ENAMETOOLONG` on spawn; files were written in smaller batches.
+
+## Step 4 - Cache layer and status route (2026-10-02)
+
+### What was built
+
+- `src/lib/cache.ts`: `CacheStore` interface (`get`, `set` with TTL, `incr` with TTL on first creation, `del`). `MemoryStore` for local dev and tests, with expiry on read. `RedisStore` over `@upstash/redis` with JSON handled locally (`automaticDeserialization: false`) so both stores behave identically. `getCache()` picks Redis when both `KV_REST_API_*` variables are set, otherwise memory, and warns once in production when falling back. `resetCache()` for tests.
+- `src/lib/route.ts` (not in the plan's module list, added as the route wrapper CLAUDE.md refers to): `handle()` maps thrown errors to the JSON error shape, forces `cache-control: no-store`, and writes one JSON log line per request with status, duration, and any stage timings the route adds. `json()` builds responses.
+- `src/app/api/status/route.ts`: Node runtime, force-dynamic. Does a real cache round trip so bad Redis credentials surface here, then returns `StatusResponse` with the store kind, default visitor numbers, `budget: "ok"`, `maxCreators`, and an empty examples list. Visitor counters, budget state and examples come in steps 7, 9 and 11.
+- Tests: memory store TTL and counter semantics with fake timers, Redis adapter against a mocked Upstash client (asserts `ex` on set and a single `expire` per counter), store selection from env, the route wrapper, and the status route. 50 tests total.
+
+### Verification
+
+- `npm run lint`, `npm run typecheck`, `npm test`: clean, 8 files, 50 tests.
+- Local, against the running dev server: `GET /api/status` returned 200, `cache-control: no-store`, `store: "memory"`.
+- Commit `1a8416b` pushed. Vercel deployment `6814998720` succeeded. Live `GET https://creator-match-seven.vercel.app/api/status` returned 200 with `store: "redis"`, confirming the Marketplace Upstash variables are injected and the round trip works.
+
+### Surprises
+
+- The shared test setup imported the cache module at load time, which pulled in the real Upstash client before a test file's `vi.mock` of it applied. The setup now imports `resetCache` lazily inside `afterEach`.
+- Next 16 refuses to start a second `next dev` for the same directory while one is running, so the local check used the existing server on port 3000.
