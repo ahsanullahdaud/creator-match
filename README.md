@@ -4,6 +4,8 @@ Paste a brand brief, get a ranked shortlist of YouTube creators with a fit score
 
 How it works: Claude turns the brief into YouTube search queries, the YouTube Data API returns matching videos and their channels, then Claude scores each channel against the brief and drafts the first message. Results are cached so repeated briefs cost nothing, and live searches are rate limited because the YouTube quota is small.
 
+Live: https://creator-match-seven.vercel.app (placeholder page until the brief form lands in step 5).
+
 Status: in progress. `PLAN.md` has the design and build order, `BUILD_LOG.md` records each step.
 
 ## Run locally
