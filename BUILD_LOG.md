@@ -60,3 +60,24 @@ One entry per build step from `PLAN.md`, appended in order, never rewritten.
 - Build passed. GitHub deployment `6814097709`, environment Production, state `success`; Vercel commit status "Deployment has completed". From push to success in under 30 s.
 - The generated URLs (`creator-match-or5fjb2bq-ahsanullahdaud.vercel.app`, `creator-match-ahsanullahdaud.vercel.app`, `creator-match-git-main-ahsanullahdaud.vercel.app`) all redirect to Vercel login: Standard Protection is on, which is the default and is fine. The open production domain is a different hostname because `creator-match.vercel.app` was already taken by an unrelated project.
 - Production domain found and verified: https://creator-match-seven.vercel.app. Vercel assigned the `-seven` suffix because the bare name was taken. Confirmed by changing the page title in `src/app/layout.tsx` (commit `e5cffd9`), which deployment `6814161731` picked up within a minute of the push. The domain returns 200 with title "Creator Match" and the new description meta. Step 2 complete.
+
+## Step 3 - Schemas, config, hashing, errors, semaphore (2026-10-02)
+
+### What was built
+
+- `src/lib/schemas.ts`: every Zod schema from PLAN.md plus `clampFitScore`, `PasscodeRequest`, and the `internal` error code (500) for unexpected failures, which the plan's enum lacked. Claude-facing schemas carry no numeric or length constraints.
+- `src/lib/config.ts`: `getConfig()` reads the environment lazily, treats empty strings as unset so a copied `.env.example` works, coerces numbers, and rejects a public search budget above the total or above YouTube's 100-call cap. `LIMITS` and `TTL_SECONDS` hold the fixed constants.
+- `src/lib/hash.ts`: `briefId` (16 hex chars over canonical, normalized JSON), `ipHash` (salted), `queryHash`, `canonicalJson`, `normalizeText`, `pacificDate`, `utcDate`.
+- `src/lib/errors.ts`: `AppError` with code to status mapping, `retryable` flag and `cause`; `toErrorResponse` turns any thrown value into the `ErrorResponse` JSON shape and hides non-AppError messages behind a logged 500; `fromZodError` names failing fields.
+- `src/lib/semaphore.ts`: counting semaphore with FIFO waiters, `run()` that always releases, idempotent release.
+- `src/test/setup.ts` (unstubs env, restores mocks and timers after each test) and `src/test/fixtures.ts` (brief, query plan, creator, score). `smoke.test.ts` removed. 35 unit tests across five files.
+
+### Verification
+
+- `npm run lint`, `npm run typecheck`, `npm test`: clean, 5 files, 35 tests, under 1 s.
+- Commit `26025b3` pushed. Vercel deployment `6814629219` succeeded; https://creator-match-seven.vercel.app returns 200 with title "Creator Match".
+
+### Surprises
+
+- Next's type augmentation makes `NODE_ENV` a required key of `NodeJS.ProcessEnv`, so a test passing a plain object to `getConfig` failed `tsc`. The parameter is now `Record<string, string | undefined>`, which `process.env` still satisfies.
+- The first attempt to write all files in one shell command failed with `ENAMETOOLONG` on spawn; files were written in smaller batches.
