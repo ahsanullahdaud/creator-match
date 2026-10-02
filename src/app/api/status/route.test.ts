@@ -1,0 +1,46 @@
+import { describe, expect, it, vi } from "vitest";
+import { GET } from "@/app/api/status/route";
+import { resetCache } from "@/lib/cache";
+import { StatusResponse } from "@/lib/schemas";
+
+describe("GET /api/status", () => {
+  it("reports the memory store and default limits when no KV env is set", async () => {
+    vi.stubEnv("KV_REST_API_URL", "");
+    vi.stubEnv("KV_REST_API_TOKEN", "");
+    vi.stubEnv("VISITOR_SEARCH_LIMIT", "");
+    resetCache();
+    const log = vi.spyOn(console, "log").mockImplementation(() => {});
+
+    const res = await GET(new Request("http://localhost/api/status"));
+
+    expect(res.status).toBe(200);
+    expect(res.headers.get("content-type")).toBe("application/json");
+    expect(res.headers.get("cache-control")).toBe("no-store");
+    const body = StatusResponse.parse(await res.json());
+    expect(body).toEqual({
+      visitor: { remaining: 3, limit: 3, bypass: false },
+      budget: "ok",
+      maxCreators: 10,
+      store: "memory",
+      examples: [],
+    });
+
+    expect(log).toHaveBeenCalledTimes(1);
+    const line = JSON.parse(log.mock.calls[0][0] as string);
+    expect(line).toMatchObject({ route: "status", method: "GET", status: 200 });
+    expect(typeof line.ms).toBe("number");
+    expect(typeof line.cache_ms).toBe("number");
+  });
+
+  it("reflects an overridden visitor limit", async () => {
+    vi.stubEnv("KV_REST_API_URL", "");
+    vi.stubEnv("KV_REST_API_TOKEN", "");
+    vi.stubEnv("VISITOR_SEARCH_LIMIT", "1");
+    resetCache();
+    vi.spyOn(console, "log").mockImplementation(() => {});
+
+    const res = await GET(new Request("http://localhost/api/status"));
+    const body = StatusResponse.parse(await res.json());
+    expect(body.visitor).toEqual({ remaining: 1, limit: 1, bypass: false });
+  });
+});
