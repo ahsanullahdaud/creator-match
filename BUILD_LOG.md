@@ -101,3 +101,24 @@ One entry per build step from `PLAN.md`, appended in order, never rewritten.
 
 - The shared test setup imported the cache module at load time, which pulled in the real Upstash client before a test file's `vi.mock` of it applied. The setup now imports `resetCache` lazily inside `afterEach`.
 - Next 16 refuses to start a second `next dev` for the same directory while one is running, so the local check used the existing server on port 3000.
+
+## Step 5 - Brief form (2026-10-02)
+
+### What was built
+
+- `src/components/BriefForm.tsx`: three required text inputs (brand, product, audience), four selects with defaults (goal, channel size, region, language), optional notes, submit. Validates with `Brief.safeParse` on submit and shows one friendly message per field ("Required", "Too short, at least N characters", "Too long"). Inputs use 16px text so iOS does not zoom on focus, and the layout is a single column on phones with the four selects in a 2x2 grid that becomes one row on wider screens. Takes a `busy` prop for the pipeline steps to come.
+- `src/components/ExampleButtons.tsx`: three pill buttons that fill the form and submit it in one click.
+- `src/components/MatchWorkspace.tsx`: the client wrapper that owns page state. For now it logs the parsed brief to the console and shows it in a "Brief ready" panel, so verification works on a phone where there is no console. Step 6 replaces this with the pipeline.
+- `src/lib/labels.ts` (human labels for every dropdown value, typed so a new enum value fails to compile without a label) and `src/lib/example-briefs.ts` (the three fictional briefs from PLAN.md, parsed through the schema). Both have tests. 54 tests total.
+- `src/app/page.tsx` rewritten: header line, workspace, footer. Template SVGs removed (which also removed the empty `public/` folder). Body font changed from the template's Arial to Geist.
+
+### Verification
+
+- `npm run lint`, `npm run typecheck`, `npm test`: clean, 10 files, 54 tests.
+- Local, against the running dev server: `GET /` returned 200 with all 8 field names, 3 example buttons, the submit button, and no template text.
+- Commit `02dbfb3` pushed. Vercel deployment `6815222261` succeeded. Live `GET /` shows the same 8 fields, 3 examples, and submit.
+
+### Surprises
+
+- A shell heredoc holding the JSX component failed to parse as a command, so the two component files were written with the file tool instead of a heredoc.
+- `git rm` of the last files in `public/` deleted the folder itself. Next does not need it, and `favicon.ico` lives under `src/app`.
