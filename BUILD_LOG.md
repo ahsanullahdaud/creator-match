@@ -53,3 +53,9 @@ One entry per build step from `PLAN.md`, appended in order, never rewritten.
 
 - `gh` was installed after this shell session started, so it was missing from PATH in both shells. Invoked by full path, `C:\Program Files\GitHub CLI\gh.exe`.
 - Git for Windows warned about LF to CRLF conversion on every file; the `.gitattributes` above settles it.
+
+### Vercel deploy (2026-10-02, later)
+
+- The Vercel project already existed and was connected to the GitHub repo but had no production deployment. Empty commit `a3bb252` "Trigger first Vercel deploy" pushed to `main`.
+- Build passed. GitHub deployment `6814097709`, environment Production, state `success`; Vercel commit status "Deployment has completed". From push to success in under 30 s.
+- The generated URLs (`creator-match-or5fjb2bq-ahsanullahdaud.vercel.app`, `creator-match-ahsanullahdaud.vercel.app`, `creator-match-git-main-ahsanullahdaud.vercel.app`) all redirect to Vercel login: Standard Protection is on, which is the default and is fine. The open production domain is a different hostname because `creator-match.vercel.app` was already taken by an unrelated project.
