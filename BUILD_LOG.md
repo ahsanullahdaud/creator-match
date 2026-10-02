@@ -34,3 +34,22 @@ One entry per build step from `PLAN.md`, appended in order, never rewritten.
 - `create-next-app` refuses a directory that already contains `PLAN.md` and `CLAUDE.md`. They were parked in a temp folder during scaffolding and moved back.
 - `tsc --noEmit` depends on `.next/types/routes.d.ts`, which only exists after `next dev`, `next build` or `next typegen`. The `typecheck` script runs `next typegen` first so a fresh clone passes.
 - Vitest 5 and the template's `@types/node@^20` conflict; resolved by matching `@types/node` to the installed Node major.
+
+## Step 2 - GitHub and Vercel (2026-10-02)
+
+### What was done
+
+- `git init -b main`. No git identity existed on this machine, so `user.name` and `user.email` were set per-repo to the GitHub profile name and the GitHub noreply address.
+- Pre-commit review: 26 files staged. The only env-named file is `.env.example`, whose values are empty or placeholders. No `.env.local` exists on disk. A pattern scan of the staged content for Anthropic, Google, GitHub and AWS key shapes, private-key blocks, and `key=` / `token=` / `secret=` assignments found nothing.
+- `NPM COMMANDS.txt`, a personal command cheat sheet found in the project root, was kept out of the repo through `.git/info/exclude` (local-only ignore, not committed).
+- Added `.gitattributes` (`* text=auto eol=lf`, binaries marked) so Windows checkouts stay LF and Prettier and Git agree on line endings.
+- Commit `9aa151f` "Step 1: scaffold Next.js 16 app with tooling". `gh repo create creator-match --private --source=. --push` created https://github.com/ahsanullahdaud/creator-match and pushed `main`.
+
+### Pending
+
+- Vercel import and first deploy. The Vercel CLI on this machine is logged out and login is interactive, so the import happens in the Vercel dashboard (New Project, pick the GitHub repo, keep defaults, no env vars yet). The live URL check will be appended below once the deployment exists.
+
+### Surprises
+
+- `gh` was installed after this shell session started, so it was missing from PATH in both shells. Invoked by full path, `C:\Program Files\GitHub CLI\gh.exe`.
+- Git for Windows warned about LF to CRLF conversion on every file; the `.gitattributes` above settles it.
