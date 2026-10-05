@@ -141,6 +141,12 @@ export function clampFitScore(score: CreatorScore): CreatorScore {
 export const ScoredCreator = Creator.extend({ score: CreatorScore.nullable() });
 export type ScoredCreator = z.infer<typeof ScoredCreator>;
 
+// One scoring request covers a batch of creators; each result names its channel.
+export const CreatorScoreBatch = z.object({
+  scores: z.array(CreatorScore.extend({ channelId: z.string() })),
+});
+export type CreatorScoreBatch = z.infer<typeof CreatorScoreBatch>;
+
 // ----- Errors -----
 export const ErrorCode = z.enum([
   "invalid_request",
@@ -149,14 +155,18 @@ export const ErrorCode = z.enum([
   "budget_exhausted",
   "score_cap",
   "youtube_error",
-  "claude_error",
+  "llm_error",
   "forbidden",
   "internal",
 ]);
 export type ErrorCode = z.infer<typeof ErrorCode>;
 
 export const ErrorResponse = z.object({
-  error: z.object({ code: ErrorCode, message: z.string() }),
+  error: z.object({
+    code: ErrorCode,
+    message: z.string(),
+    retryable: z.boolean().optional(),
+  }),
 });
 export type ErrorResponse = z.infer<typeof ErrorResponse>;
 

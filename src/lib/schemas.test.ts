@@ -101,7 +101,7 @@ describe("ScoreLine", () => {
       ScoreLine.parse({
         type: "error",
         channelId: "UC1",
-        code: "claude_error",
+        code: "llm_error",
         message: "overloaded",
         retryable: true,
       }).type,
@@ -123,7 +123,7 @@ describe("ErrorCode", () => {
         "budget_exhausted",
         "score_cap",
         "youtube_error",
-        "claude_error",
+        "llm_error",
         "forbidden",
         "internal",
       ]),

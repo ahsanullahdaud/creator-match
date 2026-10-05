@@ -2,17 +2,20 @@ import { describe, expect, it, vi } from "vitest";
 import { LIMITS, TTL_SECONDS, getConfig, hasRedis } from "@/lib/config";
 
 const KEYS = [
-  "ANTHROPIC_API_KEY",
+  "GEMINI_API_KEY",
   "YOUTUBE_API_KEY",
   "KV_REST_API_URL",
   "KV_REST_API_TOKEN",
   "DEMO_PASSCODE",
   "RATE_LIMIT_SALT",
-  "CLAUDE_QUERY_MODEL",
-  "CLAUDE_SCORE_MODEL",
-  "SCORE_CONCURRENCY",
-  "CLAUDE_MAX_RETRIES",
-  "CLAUDE_TIMEOUT_MS",
+  "LLM_PROVIDER",
+  "LLM_QUERY_MODEL",
+  "LLM_SCORE_MODEL",
+  "LLM_CONCURRENCY",
+  "LLM_SCORE_BATCH_SIZE",
+  "LLM_MAX_RETRIES",
+  "LLM_TIMEOUT_MS",
+  "LLM_DAILY_REQUEST_BUDGET",
   "VISITOR_SEARCH_LIMIT",
   "VISITOR_BRIEF_LIMIT",
   "YT_PUBLIC_SEARCH_BUDGET",
@@ -28,12 +31,15 @@ describe("getConfig", () => {
   it("falls back to defaults when variables are unset or empty", () => {
     clearEnv();
     const config = getConfig();
-    expect(config.ANTHROPIC_API_KEY).toBeUndefined();
-    expect(config.CLAUDE_QUERY_MODEL).toBe("claude-haiku-4-5");
-    expect(config.CLAUDE_SCORE_MODEL).toBe("claude-sonnet-5-5");
-    expect(config.SCORE_CONCURRENCY).toBe(5);
-    expect(config.CLAUDE_MAX_RETRIES).toBe(3);
-    expect(config.CLAUDE_TIMEOUT_MS).toBe(30_000);
+    expect(config.GEMINI_API_KEY).toBeUndefined();
+    expect(config.LLM_PROVIDER).toBe("gemini");
+    expect(config.LLM_QUERY_MODEL).toBe("gemini-3.5-flash-lite");
+    expect(config.LLM_SCORE_MODEL).toBe("gemini-3.5-flash-lite");
+    expect(config.LLM_CONCURRENCY).toBe(2);
+    expect(config.LLM_SCORE_BATCH_SIZE).toBe(5);
+    expect(config.LLM_MAX_RETRIES).toBe(2);
+    expect(config.LLM_TIMEOUT_MS).toBe(30_000);
+    expect(config.LLM_DAILY_REQUEST_BUDGET).toBe(450);
     expect(config.VISITOR_SEARCH_LIMIT).toBe(3);
     expect(config.VISITOR_BRIEF_LIMIT).toBe(10);
     expect(config.YT_PUBLIC_SEARCH_BUDGET).toBe(60);
@@ -44,14 +50,28 @@ describe("getConfig", () => {
 
   it("reads overrides and coerces numbers", () => {
     clearEnv();
-    vi.stubEnv("SCORE_CONCURRENCY", "7");
+    vi.stubEnv("LLM_CONCURRENCY", "4");
+    vi.stubEnv("LLM_SCORE_BATCH_SIZE", "10");
     vi.stubEnv("VISITOR_SEARCH_LIMIT", "1");
     vi.stubEnv("KV_REST_API_URL", "https://example.upstash.io");
     vi.stubEnv("KV_REST_API_TOKEN", "token");
     const config = getConfig();
-    expect(config.SCORE_CONCURRENCY).toBe(7);
+    expect(config.LLM_CONCURRENCY).toBe(4);
+    expect(config.LLM_SCORE_BATCH_SIZE).toBe(10);
     expect(config.VISITOR_SEARCH_LIMIT).toBe(1);
     expect(hasRedis(config)).toBe(true);
+  });
+
+  it("rejects an unknown provider", () => {
+    clearEnv();
+    vi.stubEnv("LLM_PROVIDER", "openai");
+    expect(() => getConfig()).toThrow(/LLM_PROVIDER/);
+  });
+
+  it("rejects a batch size above the creator cap", () => {
+    clearEnv();
+    vi.stubEnv("LLM_SCORE_BATCH_SIZE", "11");
+    expect(() => getConfig()).toThrow(/LLM_SCORE_BATCH_SIZE/);
   });
 
   it("rejects a non-numeric limit with the variable name in the message", () => {
@@ -74,7 +94,7 @@ describe("getConfig", () => {
   });
 
   it("accepts an explicit env object", () => {
-    expect(getConfig({ SCORE_CONCURRENCY: "2" }).SCORE_CONCURRENCY).toBe(2);
+    expect(getConfig({ LLM_CONCURRENCY: "3" }).LLM_CONCURRENCY).toBe(3);
   });
 
   it("keeps the fixed limits and TTLs the plan relies on", () => {
@@ -82,6 +102,7 @@ describe("getConfig", () => {
     expect(LIMITS.MAX_CREATORS).toBe(10);
     expect(LIMITS.YT_SEARCH_DAILY_CAP).toBe(100);
     expect(TTL_SECONDS.ytChannel).toBe(24 * 3600);
+    expect(TTL_SECONDS.llmCounter).toBe(48 * 3600);
     expect(TTL_SECONDS.brief).toBe(7 * 24 * 3600);
   });
 });

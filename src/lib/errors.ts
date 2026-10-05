@@ -8,7 +8,7 @@ export const ERROR_STATUS: Record<ErrorCode, number> = {
   budget_exhausted: 503,
   score_cap: 429,
   youtube_error: 502,
-  claude_error: 502,
+  llm_error: 502,
   forbidden: 403,
   internal: 500,
 };
@@ -67,7 +67,11 @@ export function toErrorResponse(error: unknown): Response {
     appError = new AppError("internal", "Unexpected server error");
   }
   const body: ErrorResponse = {
-    error: { code: appError.code, message: appError.message },
+    error: {
+      code: appError.code,
+      message: appError.message,
+      ...(appError.retryable ? { retryable: true } : {}),
+    },
   };
   return new Response(JSON.stringify(body), {
     status: appError.status,

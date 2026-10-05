@@ -16,7 +16,7 @@ describe("AppError", () => {
     expect(new AppError("budget_exhausted", "x").status).toBe(503);
     expect(new AppError("score_cap", "x").status).toBe(429);
     expect(new AppError("youtube_error", "x").status).toBe(502);
-    expect(new AppError("claude_error", "x").status).toBe(502);
+    expect(new AppError("llm_error", "x").status).toBe(502);
     expect(new AppError("forbidden", "x").status).toBe(403);
     expect(new AppError("internal", "x").status).toBe(500);
     expect(Object.keys(ERROR_STATUS)).toHaveLength(9);
@@ -24,7 +24,7 @@ describe("AppError", () => {
 
   it("carries retryable, cause and an overridden status", () => {
     const cause = new Error("429 from upstream");
-    const error = new AppError("claude_error", "Rate limited", {
+    const error = new AppError("llm_error", "Rate limited", {
       retryable: true,
       cause,
     });

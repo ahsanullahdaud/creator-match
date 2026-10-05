@@ -1,7 +1,7 @@
-import { toErrorResponse } from "./errors";
+import { AppError, toErrorResponse } from "./errors";
 
 export interface RouteContext {
-  /** Extra fields for this request's log line, e.g. stage timings in ms. */
+  /** Extra fields for the log line of this request, e.g. stage timings in ms. */
   log: Record<string, unknown>;
 }
 
@@ -16,6 +16,15 @@ export function json<T>(body: T, init: ResponseInit = {}): Response {
   headers.set("content-type", "application/json");
   if (!headers.has("cache-control")) headers.set("cache-control", "no-store");
   return new Response(JSON.stringify(body), { ...init, headers });
+}
+
+/** The request body as JSON, or a 400 invalid_request. */
+export async function readJson(request: Request): Promise<unknown> {
+  try {
+    return await request.json();
+  } catch {
+    throw new AppError("invalid_request", "Request body must be JSON");
+  }
 }
 
 /**
