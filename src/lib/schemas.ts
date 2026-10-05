@@ -215,7 +215,7 @@ export const VisitorStatus = z.object({
 });
 export type VisitorStatus = z.infer<typeof VisitorStatus>;
 
-export const BudgetState = z.enum(["ok", "low", "exhausted"]);
+export const BudgetState = z.enum(["ok", "low", "exhausted", "unavailable"]);
 export type BudgetState = z.infer<typeof BudgetState>;
 
 export const BriefResponse = z.object({

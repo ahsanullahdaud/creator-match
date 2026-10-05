@@ -62,6 +62,9 @@ export function toErrorResponse(error: unknown): Response {
   let appError: AppError;
   if (isAppError(error)) {
     appError = error;
+  } else if (isCacheUnavailable(error)) {
+    console.warn("cache unavailable", error.operation, error.cause);
+    appError = cacheDownError(error);
   } else {
     console.error("Unhandled error", error);
     appError = new AppError("internal", "Unexpected server error");
@@ -76,5 +79,36 @@ export function toErrorResponse(error: unknown): Response {
   return new Response(JSON.stringify(body), {
     status: appError.status,
     headers: { "content-type": "application/json" },
+  });
+}
+
+/** The shared store could not be reached. Routes fail closed on it. */
+export class CacheUnavailableError extends Error {
+  readonly operation: string;
+
+  constructor(operation: string, cause?: unknown) {
+    super(
+      `Cache ${operation} failed`,
+      cause !== undefined ? { cause } : undefined,
+    );
+    this.name = "CacheUnavailableError";
+    this.operation = operation;
+  }
+}
+
+export function isCacheUnavailable(
+  error: unknown,
+): error is CacheUnavailableError {
+  return error instanceof CacheUnavailableError;
+}
+
+export const CACHE_DOWN_MESSAGE =
+  "Live search is unavailable right now. The example briefs still work.";
+
+/** What a visitor sees when Redis is down: a refusal, not a crash. */
+export function cacheDownError(cause?: unknown): AppError {
+  return new AppError("budget_exhausted", CACHE_DOWN_MESSAGE, {
+    retryable: true,
+    cause,
   });
 }

@@ -75,9 +75,11 @@ const INITIAL: PipelineState = {
 export function friendlyError(error: ErrorResponse["error"]): string {
   switch (error.code) {
     case "budget_exhausted":
-      return error.message.includes("search")
-        ? "Today's live search budget is used up. Try one of the example briefs, or come back tomorrow."
-        : "Today's AI request budget is used up. Try one of the example briefs, or come back tomorrow.";
+      // The server already words these for visitors and names the example briefs.
+      return (
+        error.message ||
+        "Today's budget is used up. Try one of the example briefs, or come back tomorrow."
+      );
     case "llm_error":
       return error.retryable
         ? "The AI service is busy right now. Try again in a moment."

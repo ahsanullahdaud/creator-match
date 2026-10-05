@@ -28,6 +28,12 @@ function message(
       text: "Today's live search budget is used up for everyone. The example briefs still work, and the budget resets at midnight Pacific.",
     };
   }
+  if (budget === "unavailable") {
+    return {
+      tone: "stop",
+      text: "Live search is temporarily unavailable. The example briefs still work.",
+    };
+  }
   if (!visitor) return null;
   if (visitor.bypass) {
     return {

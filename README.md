@@ -18,7 +18,7 @@ A fresh brief takes under 10 seconds. A brief that has been seen before, and eac
 
 ## Engineering decisions
 
-- **Cache first, everywhere.** Briefs, searches, and scores live in Redis for 7 days, keyed by a hash of the normalized brief, so the same brief with different capitalisation or spacing hits the same entry. YouTube searches are cached per query and channel stats per channel. A cached result never costs quota or counts against anyone's limit.
+- **Cache first, everywhere.** Briefs, searches, and scores live in Redis for 7 days, keyed by a hash of the normalized brief, so the same brief with different capitalisation or spacing hits the same entry. YouTube searches are cached per query and channel stats per channel. A cached result never costs quota or counts against anyone's limit. If Redis is unreachable, live runs refuse with the same "try an example" message instead of failing, and the examples keep working because they never touch Redis.
 - **Quotas are the real constraint.** YouTube allows 100 searches a day and the Gemini free tier allows 500 requests a day. The app counts both in Redis, keyed by the Pacific date the quotas reset on, and refuses before spending rather than after a 429. Scoring is batched so a fresh brief costs 3 YouTube searches and 3 Gemini requests, not 11.
 - **Open page, per-visitor limits.** There is no sign-up. Each visitor, identified by a salted hash of their IP, gets 3 live searches and 10 new briefs a day. Limits are checked before any external call and only charged when something was actually spent.
 - **A passcode for demos.** An optional passcode, stored as an HMAC in an HttpOnly cookie, lifts the per-visitor limits for the owner. The global quota still applies at a higher threshold, so a leaked cookie cannot exhaust it.
@@ -71,6 +71,15 @@ Deployed on Vercel with Upstash Redis added from the Marketplace, which injects 
 | Global Gemini requests    | 450 a day                             | Headroom below the 500 cap                 |
 
 Cached briefs and the three examples are always free.
+
+## Known limitations
+
+- The top ten are cut before scoring, so a strong channel ranked eleventh by the crude hits-and-recency ordering is never scored. Scoring fifteen would fix it at one more Gemini request per brief.
+- Channel size comes from subscriber counts, which can be stale or inflated. Views on the matched videos would be a better signal and cost one extra YouTube unit per brief.
+- Visitor limits are per IP, so an office or a carrier network shares one allowance, and the owner shares it with anyone on the same network. The passcode is the escape hatch; accounts would be the real fix.
+- The scoring prompt demands reasons that cite the channel data, but nothing checks that a reason names a real title or number, so a confident fabrication would be shown as written.
+- A slow Gemini batch is bounded only by the 30 second request timeout, and the SDK retries inside it, so a run of transient errors reaches the user as a timeout rather than the underlying cause.
+- There are no component or hook tests and no accessibility audit, and the precomputed examples drift from live stats until the script is re-run, which costs quota.
 
 ## What is next
 

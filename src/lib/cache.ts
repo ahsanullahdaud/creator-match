@@ -1,5 +1,6 @@
 import { Redis } from "@upstash/redis";
 import { getConfig, hasRedis } from "./config";
+import { CacheUnavailableError } from "./errors";
 import { exampleLookup } from "./examples";
 
 export type StoreKind = "memory" | "redis";
@@ -80,23 +81,36 @@ export class RedisStore implements CacheStore {
 
   constructor(private readonly redis: Redis) {}
 
+  /** Every client failure becomes CacheUnavailableError so routes can fail closed. */
+  private async guard<T>(operation: string, run: () => Promise<T>): Promise<T> {
+    try {
+      return await run();
+    } catch (error) {
+      throw new CacheUnavailableError(operation, error);
+    }
+  }
+
   async get<T>(key: string): Promise<T | null> {
-    const raw = await this.redis.get<string>(key);
+    const raw = await this.guard("get", () => this.redis.get<string>(key));
     return raw === null || raw === undefined ? null : (JSON.parse(raw) as T);
   }
 
   async set<T>(key: string, value: T, ttlSeconds: number): Promise<void> {
-    await this.redis.set(key, JSON.stringify(value), { ex: ttlSeconds });
+    await this.guard("set", () =>
+      this.redis.set(key, JSON.stringify(value), { ex: ttlSeconds }),
+    );
   }
 
   async incr(key: string, ttlSeconds: number): Promise<number> {
-    const next = await this.redis.incr(key);
-    if (next === 1) await this.redis.expire(key, ttlSeconds);
-    return next;
+    return this.guard("incr", async () => {
+      const next = await this.redis.incr(key);
+      if (next === 1) await this.redis.expire(key, ttlSeconds);
+      return next;
+    });
   }
 
   async del(key: string): Promise<void> {
-    await this.redis.del(key);
+    await this.guard("del", () => this.redis.del(key));
   }
 }
 
@@ -139,7 +153,13 @@ export function getCache(): CacheStore {
   let store: CacheStore;
   if (hasRedis(config) && url && token) {
     store = new RedisStore(
-      new Redis({ url, token, automaticDeserialization: false }),
+      new Redis({
+        url,
+        token,
+        automaticDeserialization: false,
+        // Fail fast when Redis is down: two quick retries, then the route fails closed.
+        retry: { retries: 2, backoff: (attempt) => 150 * 2 ** attempt },
+      }),
     );
   } else {
     if (process.env.NODE_ENV === "production") {
@@ -151,6 +171,11 @@ export function getCache(): CacheStore {
   }
   singleton = new ExampleBackedStore(store);
   return singleton;
+}
+
+/** Tests only: use this store (with the examples in front) instead of reading the environment. */
+export function setCache(store: CacheStore | null): void {
+  singleton = store ? new ExampleBackedStore(store) : null;
 }
 
 /** Drops the singleton so the next getCache() re-reads the environment. Tests only. */

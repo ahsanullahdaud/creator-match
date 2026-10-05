@@ -11,6 +11,7 @@ vi.mock("@upstash/redis", () => {
       mocks.calls.push(["construct", options]);
     }
     async get(key: string) {
+      if (key === "boom") throw new Error("fetch failed");
       return mocks.store.get(key) ?? null;
     }
     async set(key: string, value: string, options?: unknown) {
@@ -126,14 +127,15 @@ describe("getCache", () => {
     resetCache();
     mocks.calls.length = 0;
     expect(getCache().kind).toBe("redis");
-    expect(mocks.calls).toContainEqual([
-      "construct",
-      {
-        url: "https://example.upstash.io",
-        token: "token",
-        automaticDeserialization: false,
-      },
-    ]);
+    const construct = mocks.calls.find((call) => call[0] === "construct");
+    expect(construct?.[1]).toMatchObject({
+      url: "https://example.upstash.io",
+      token: "token",
+      automaticDeserialization: false,
+    });
+    expect(
+      (construct?.[1] as { retry: { retries: number } }).retry.retries,
+    ).toBe(2);
   });
 
   it("falls back to memory when only one KV variable is set", () => {
@@ -141,5 +143,18 @@ describe("getCache", () => {
     vi.stubEnv("KV_REST_API_TOKEN", "");
     resetCache();
     expect(getCache().kind).toBe("memory");
+  });
+});
+
+describe("RedisStore failures", () => {
+  it("wraps any client error in CacheUnavailableError with the operation", async () => {
+    const { CacheUnavailableError } = await import("@/lib/errors");
+    const store = new RedisStore(new Redis({ url: "https://x", token: "t" }));
+    const error = await store.get("boom").catch((e: unknown) => e);
+    expect(error).toBeInstanceOf(CacheUnavailableError);
+    expect(
+      (error as InstanceType<typeof CacheUnavailableError>).operation,
+    ).toBe("get");
+    expect(((error as Error).cause as Error).message).toBe("fetch failed");
   });
 });

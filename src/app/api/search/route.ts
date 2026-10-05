@@ -1,7 +1,7 @@
 import { hasBypass } from "@/lib/access";
 import { getCache } from "@/lib/cache";
 import { getConfig, LIMITS, TTL_SECONDS } from "@/lib/config";
-import { AppError, fromZodError } from "@/lib/errors";
+import { AppError, fromZodError, isCacheUnavailable } from "@/lib/errors";
 import { keys } from "@/lib/keys";
 import { aggregateHits, pickCandidates, selectCreators } from "@/lib/pipeline";
 import {
@@ -16,8 +16,10 @@ import { handle, json, readJson } from "@/lib/route";
 import {
   SearchRequest,
   type BriefRecord,
+  type BudgetState,
   type SearchRecord,
   type SearchResponse,
+  type VisitorStatus,
 } from "@/lib/schemas";
 import { getChannels, searchVideos, type SearchResult } from "@/lib/youtube";
 
@@ -46,12 +48,28 @@ export const POST = handle("search", async (request, ctx) => {
   const limits = { cache, config, visitor, bypass };
 
   const respond = async (record: SearchRecord, cached: boolean) => {
+    let visitorStatus: VisitorStatus;
+    let budget: BudgetState;
+    try {
+      visitorStatus = await visitorSearchStatus(limits);
+      budget = budgetState(await youtubeSearchesToday(cache), config, bypass);
+    } catch (error) {
+      // A cached or precomputed result is still worth returning when Redis is down.
+      if (!isCacheUnavailable(error)) throw error;
+      ctx.log.cache_down = true;
+      visitorStatus = {
+        remaining: 0,
+        limit: config.VISITOR_SEARCH_LIMIT,
+        bypass,
+      };
+      budget = "unavailable";
+    }
     const body: SearchResponse = {
       briefId,
       creators: record.creators,
       cached,
-      visitor: await visitorSearchStatus(limits),
-      budget: budgetState(await youtubeSearchesToday(cache), config, bypass),
+      visitor: visitorStatus,
+      budget,
     };
     return json(body);
   };

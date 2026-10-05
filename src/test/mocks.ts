@@ -1,3 +1,6 @@
+import type { CacheStore } from "@/lib/cache";
+import { CacheUnavailableError } from "@/lib/errors";
+
 /**
  * Shapes for vi.mock("@google/genai"). Call geminiModuleMock inside the mock
  * factory so the fake classes are created in the mocked module scope:
@@ -43,4 +46,33 @@ export function interactionWith(text: string, status = "completed") {
     output_text: text,
     usage: { total_input_tokens: 120, total_output_tokens: 60 },
   };
+}
+
+const DEAD = () => new Error("connect ECONNREFUSED 127.0.0.1:6379");
+
+/**
+ * A store that behaves like a dead Redis: every operation throws
+ * CacheUnavailableError, except reads of the keys handed to the constructor.
+ */
+export class FailingStore implements CacheStore {
+  readonly kind = "redis" as const;
+
+  constructor(private readonly reads: Record<string, unknown> = {}) {}
+
+  async get<T>(key: string): Promise<T | null> {
+    if (key in this.reads) return this.reads[key] as T;
+    throw new CacheUnavailableError("get", DEAD());
+  }
+
+  async set(): Promise<void> {
+    throw new CacheUnavailableError("set", DEAD());
+  }
+
+  async incr(): Promise<number> {
+    throw new CacheUnavailableError("incr", DEAD());
+  }
+
+  async del(): Promise<void> {
+    throw new CacheUnavailableError("del", DEAD());
+  }
 }

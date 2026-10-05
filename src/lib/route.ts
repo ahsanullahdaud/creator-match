@@ -1,4 +1,9 @@
-import { AppError, toErrorResponse } from "./errors";
+import {
+  AppError,
+  cacheDownError,
+  isCacheUnavailable,
+  toErrorResponse,
+} from "./errors";
 
 export interface RouteContext {
   /** Extra fields for the log line of this request, e.g. stage timings in ms. */
@@ -42,7 +47,13 @@ export function handle(
     try {
       response = await handler(request, ctx);
     } catch (error) {
-      response = toErrorResponse(error);
+      if (isCacheUnavailable(error)) {
+        ctx.log.cache_down = true;
+        console.warn("cache unavailable", error.operation, error.cause);
+        response = toErrorResponse(cacheDownError(error));
+      } else {
+        response = toErrorResponse(error);
+      }
     }
     if (!response.headers.has("cache-control")) {
       response.headers.set("cache-control", "no-store");
