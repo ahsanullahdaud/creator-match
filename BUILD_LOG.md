@@ -171,3 +171,26 @@ Decided before step 6, so no LLM code exists yet. The user chose the Google Gemi
 
 - Shell commands above roughly 8 KB get broken mid-heredoc by the tool and fail with an unmatched-quote error before anything runs. Files are now written in commands under that size.
 - The Interactions client in `@google/genai` takes `timeout`, `retries` and `retry_codes` per request, not through the constructor's `httpOptions` as the classic client does.
+
+## Step 7 - YouTube search and creator cards (2026-10-05)
+
+### What was built
+
+- `src/lib/youtube.ts`: `searchVideos` (search.list, `type=video`, 50 results, region and language filters only when set; cached 7 days by normalized query; a miss reserves one of today's searches first) and `getChannels` (channels.list for up to 50 ids, per-channel 24 h cache, one call for the misses, one quota unit). `quotaExceeded` maps to `budget_exhausted`, other failures to `youtube_error` (retryable on 5xx). The API key is only ever in the URL, never in an error message.
+- `src/lib/pipeline.ts`, pure: `aggregateHits` (a channel counts once per query, keeps its 3 newest videos), `pickCandidates` (hits then recency, cap 50), `eligible` (hidden subscriber counts out, fewer than 5 videos out, subscriber range with an exclusive upper bound), `toCreator`, `rankCreators` (hits × 3 + range fit + recency bonus + region match, ties by subscribers, cap 10), `selectCreators`.
+- `src/lib/rate-limit.ts`: `reserveYoutubeSearch` with the public threshold (60) or the total one (95) for a passcode holder, `countYoutubeUnit`, `budgetState` (ok, low under 10 left, exhausted). `src/lib/format.ts` for 42K-style counts.
+- `POST /api/search`: brief record or 404, cache hit returns `cached: true`, otherwise the three queries run in parallel, partial failures are tolerated as long as one query answered, candidates go through channels.list, filter, rank, store 7 days (1 day when empty). Visitor numbers are still the defaults until step 9. `GET /api/status` now reports the real budget state.
+- Client: the pipeline hook runs brief then search and surfaces per-stage errors; `PipelineStatus` shows both stages with timings and the queries as chips; `CreatorGrid` and `CreatorCard` render rank, thumbnail (next/image with YouTube hosts allowed in `next.config.ts`), handle, subscribers, videos, country, matched videos, and how many searches matched. Empty state explains the size range.
+- Tests: youtube.ts with `fetch` stubbed (params, caching, budget refusal, quota mapping, key never leaked, parsing), pipeline ranking math, search route with the YouTube module mocked (happy, cached, budget exhausted, partial, YouTube down, empty result, budget state), rate limits, status budget, format. 18 files, 108 tests.
+
+### Verification
+
+- `npm run lint`, `npm run typecheck`, `npm test`: clean.
+- Local, through the running dev server: LoomNotes search returned 10 channels in 1.9 s (3 live searches, 1 unit), the repeat came from cache in 0.7 s with 0 searches. The brief had to be regenerated (1 Gemini request) because the `next.config.ts` change restarted the dev server and emptied its memory cache.
+- Commit `d57524a` pushed. Vercel deployment `6858990150` succeeded. Live: Peak Fuel brief served from Redis, search returned 10 channels in 1.5 s (3 live searches, 1 unit), repeat from Redis in 0.7 s. Live `/api/status` reports `budget: "ok"`.
+- Real `search.list` calls spent in this step: 6 of 100 (3 local, 3 live). Gemini requests: 1.
+
+### Surprises
+
+- Next 16 writes dev logs under `.next/dev/logs/`, but the file was not present on this run, so the per-request log line was checked on the live deployment instead of locally.
+- Ranking with only three queries rarely produces a channel with more than 2 hits, so recency and region do most of the ordering below the top spots. Worth revisiting once scores exist.
