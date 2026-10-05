@@ -44,3 +44,18 @@ describe("GET /api/status", () => {
     expect(body.visitor).toEqual({ remaining: 1, limit: 1, bypass: false });
   });
 });
+
+describe("GET /api/status budget", () => {
+  it("reflects today's search counter", async () => {
+    vi.stubEnv("KV_REST_API_URL", "");
+    vi.stubEnv("KV_REST_API_TOKEN", "");
+    vi.stubEnv("YT_PUBLIC_SEARCH_BUDGET", "");
+    resetCache();
+    vi.spyOn(console, "log").mockImplementation(() => {});
+    const { getCache } = await import("@/lib/cache");
+    const { keys } = await import("@/lib/keys");
+    await getCache().set(keys.ytSearches(), 60, 3600);
+    const res = await GET(new Request("http://localhost/api/status"));
+    expect(StatusResponse.parse(await res.json()).budget).toBe("exhausted");
+  });
+});

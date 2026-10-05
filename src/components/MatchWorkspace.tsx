@@ -1,11 +1,12 @@
 "use client";
 
 import { BriefForm } from "./BriefForm";
+import { CreatorGrid } from "./CreatorGrid";
 import { PipelineStatus } from "./PipelineStatus";
 import { useMatchPipeline } from "@/hooks/useMatchPipeline";
 import { EXAMPLE_BRIEFS } from "@/lib/example-briefs";
 
-/** Owns the page state: the form feeds the pipeline, the status panel shows it. */
+/** Owns the page state: the form feeds the pipeline, the panels show it. */
 export function MatchWorkspace() {
   const { state, run, busy } = useMatchPipeline();
 
@@ -15,6 +16,12 @@ export function MatchWorkspace() {
         <BriefForm examples={EXAMPLE_BRIEFS} onValid={run} busy={busy} />
       </section>
       <PipelineStatus state={state} />
+      {state.creators && (
+        <CreatorGrid
+          creators={state.creators}
+          totalQueries={state.queries?.queries.length ?? 3}
+        />
+      )}
     </div>
   );
 }

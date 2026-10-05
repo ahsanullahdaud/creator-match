@@ -12,32 +12,52 @@ interface Step {
 }
 
 function steps(state: PipelineState): Step[] {
-  const briefState: StepState =
+  const failed = state.stage === "error" ? state.failedStage : null;
+
+  const brief: StepState =
     state.stage === "brief"
       ? "running"
-      : state.stage === "done"
-        ? "done"
-        : state.stage === "error"
-          ? "error"
+      : failed === "brief"
+        ? "error"
+        : state.queries
+          ? "done"
           : "idle";
   const briefDetail =
-    briefState === "done" && state.briefMs !== null
-      ? `${state.cached ? "from cache" : "generated"} in ${state.briefMs} ms`
-      : briefState === "running"
-        ? "asking the AI for search queries"
+    brief === "running"
+      ? "asking the AI for search queries"
+      : brief === "done" && state.briefMs !== null
+        ? `${state.briefCached ? "from cache" : "generated"} in ${state.briefMs} ms`
         : undefined;
+
+  const search: StepState =
+    state.stage === "search"
+      ? "running"
+      : failed === "search"
+        ? "error"
+        : state.creators
+          ? "done"
+          : "idle";
+  const searchDetail =
+    search === "running"
+      ? "searching YouTube"
+      : search === "done" && state.creators
+        ? `${state.creators.length} channel${state.creators.length === 1 ? "" : "s"} ${
+            state.searchCached ? "from cache" : "found"
+          } in ${state.searchMs} ms`
+        : undefined;
+
   return [
     {
       key: "brief",
       label: "Search queries",
-      state: briefState,
+      state: brief,
       detail: briefDetail,
     },
     {
       key: "search",
       label: "YouTube search",
-      state: "idle",
-      detail: "next build step",
+      state: search,
+      detail: searchDetail,
     },
     {
       key: "score",
@@ -55,7 +75,7 @@ const dotClass: Record<StepState, string> = {
   error: "bg-red-500",
 };
 
-/** The three pipeline stages, the generated queries, and any error. */
+/** The pipeline stages, the generated queries, and any error. */
 export function PipelineStatus({ state }: { state: PipelineState }) {
   if (state.stage === "idle") return null;
 
@@ -99,48 +119,33 @@ export function PipelineStatus({ state }: { state: PipelineState }) {
       )}
 
       {state.queries && (
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2">
           <h2 className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">
-            What we will search for
-            {state.cached && (
+            Searching YouTube for
+            {state.briefCached && (
               <span className="ml-2 rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-normal text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300">
                 cached
               </span>
             )}
           </h2>
-          <ul className="flex flex-col gap-2">
+          <ul className="flex flex-wrap gap-2">
             {state.queries.queries.map((query) => (
               <li
                 key={query.q}
-                className="rounded-lg border border-zinc-200 px-3 py-2 dark:border-zinc-800"
+                title={query.intent}
+                className="rounded-full border border-zinc-200 px-3 py-1 text-sm text-zinc-800 dark:border-zinc-700 dark:text-zinc-200"
               >
-                <p className="font-medium text-zinc-900 dark:text-zinc-100">
-                  {query.q}
-                </p>
-                <p className="text-sm text-zinc-500">{query.intent}</p>
+                {query.q}
               </li>
             ))}
           </ul>
-          {(state.queries.contentThemes.length > 0 ||
-            state.queries.avoid.length > 0) && (
-            <div className="flex flex-col gap-1 text-xs text-zinc-500">
-              {state.queries.contentThemes.length > 0 && (
-                <p>
-                  <span className="font-medium text-zinc-700 dark:text-zinc-300">
-                    Themes:
-                  </span>{" "}
-                  {state.queries.contentThemes.join(", ")}
-                </p>
-              )}
-              {state.queries.avoid.length > 0 && (
-                <p>
-                  <span className="font-medium text-zinc-700 dark:text-zinc-300">
-                    Avoid:
-                  </span>{" "}
-                  {state.queries.avoid.join(", ")}
-                </p>
-              )}
-            </div>
+          {state.queries.avoid.length > 0 && (
+            <p className="text-xs text-zinc-500">
+              <span className="font-medium text-zinc-700 dark:text-zinc-300">
+                Avoiding:
+              </span>{" "}
+              {state.queries.avoid.join(", ")}
+            </p>
           )}
         </div>
       )}
