@@ -37,14 +37,14 @@ export function OutreachPanel({
         Outreach draft
       </summary>
       <div className="flex flex-col gap-3 border-t border-zinc-200 px-3 py-3 text-sm dark:border-zinc-800">
-        <p className="text-zinc-700 dark:text-zinc-300">
+        <p className="break-words text-zinc-700 dark:text-zinc-300">
           <span className="font-medium text-zinc-900 dark:text-zinc-100">
             Angle:{" "}
           </span>
           {outreach.angle}
         </p>
         <div className="flex items-start justify-between gap-2">
-          <p className="text-zinc-700 dark:text-zinc-300">
+          <p className="break-words text-zinc-700 dark:text-zinc-300">
             <span className="font-medium text-zinc-900 dark:text-zinc-100">
               Subject:{" "}
             </span>
@@ -53,7 +53,7 @@ export function OutreachPanel({
           <CopyButton text={outreach.subjectLine} label="Copy" />
         </div>
         <div className="flex flex-col gap-2">
-          <p className="whitespace-pre-wrap text-zinc-700 dark:text-zinc-300">
+          <p className="break-words whitespace-pre-wrap text-zinc-700 dark:text-zinc-300">
             {outreach.openingMessage}
           </p>
           <div>

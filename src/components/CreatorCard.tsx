@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { OutreachPanel } from "./OutreachPanel";
 import type { ScoreStatus } from "@/hooks/useMatchPipeline";
-import { formatCount } from "@/lib/format";
+import { decodeHtml, formatCount } from "@/lib/format";
 import type { Creator, CreatorScore } from "@/lib/schemas";
 
 interface Props {
@@ -81,7 +81,7 @@ function ScoreArea({
             <span aria-hidden className="text-emerald-600">
               +
             </span>
-            <span>{reason}</span>
+            <span className="min-w-0 break-words">{reason}</span>
           </li>
         ))}
         {s.concerns.map((concern) => (
@@ -89,11 +89,11 @@ function ScoreArea({
             <span aria-hidden className="text-amber-600">
               !
             </span>
-            <span>{concern}</span>
+            <span className="min-w-0 break-words">{concern}</span>
           </li>
         ))}
       </ul>
-      <p className="text-xs text-zinc-500">{s.audienceOverlap}</p>
+      <p className="break-words text-xs text-zinc-500">{s.audienceOverlap}</p>
       <OutreachPanel outreach={s.outreach} />
     </div>
   );
@@ -108,7 +108,7 @@ export function CreatorCard({
   onRetry,
 }: Props) {
   return (
-    <li className="flex flex-col gap-3 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+    <li className="flex min-w-0 flex-col gap-3 overflow-hidden rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
       <div className="flex items-start gap-3">
         <Image
           src={creator.thumbnailUrl}
@@ -149,14 +149,14 @@ export function CreatorCard({
       {creator.matchedVideos.length > 0 && (
         <ul className="flex flex-col gap-1 border-t border-zinc-100 pt-3 dark:border-zinc-900">
           {creator.matchedVideos.map((video) => (
-            <li key={video.videoId} className="truncate text-sm">
+            <li key={video.videoId} className="min-w-0 text-sm">
               <a
                 href={`https://www.youtube.com/watch?v=${video.videoId}`}
                 target="_blank"
                 rel="noreferrer"
-                className="text-zinc-600 hover:underline dark:text-zinc-400"
+                className="block truncate text-zinc-600 hover:underline dark:text-zinc-400"
               >
-                {video.title || video.videoId}
+                {video.title ? decodeHtml(video.title) : video.videoId}
               </a>
             </li>
           ))}

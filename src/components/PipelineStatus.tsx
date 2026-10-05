@@ -184,7 +184,7 @@ export function PipelineStatus({ state, examples, onPickExample }: Props) {
               <li
                 key={query.q}
                 title={query.intent}
-                className="rounded-full border border-zinc-200 px-3 py-1 text-sm text-zinc-800 dark:border-zinc-700 dark:text-zinc-200"
+                className="max-w-full break-words rounded-full border border-zinc-200 px-3 py-1 text-sm text-zinc-800 dark:border-zinc-700 dark:text-zinc-200"
               >
                 {query.q}
               </li>

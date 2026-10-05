@@ -1,6 +1,7 @@
 import { getCache } from "./cache";
 import { getConfig, LIMITS, TTL_SECONDS } from "./config";
 import { AppError } from "./errors";
+import { decodeHtml } from "./format";
 import { queryHash } from "./hash";
 import { keys } from "./keys";
 import { countYoutubeUnit, reserveYoutubeSearch } from "./rate-limit";
@@ -164,7 +165,7 @@ export async function searchVideos(
     hits.push({
       channelId,
       videoId,
-      title: item.snippet?.title ?? "",
+      title: decodeHtml(item.snippet?.title ?? ""),
       publishedAt: item.snippet?.publishedAt ?? "",
     });
   }
