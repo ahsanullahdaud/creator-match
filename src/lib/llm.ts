@@ -8,9 +8,22 @@ import {
   type StructuredRequest,
   type ThinkingLevel,
 } from "./llm/provider";
-import { QUERY_SYSTEM_PROMPT, REASK_SUFFIX, queryPrompt } from "./prompts";
+import {
+  QUERY_SYSTEM_PROMPT,
+  REASK_SUFFIX,
+  SCORE_SYSTEM_PROMPT,
+  queryPrompt,
+  scorePrompt,
+} from "./prompts";
 import { reserveLlmRequest } from "./rate-limit";
-import { QueryPlan, type Brief } from "./schemas";
+import {
+  CreatorScoreBatch,
+  QueryPlan,
+  clampFitScore,
+  type Brief,
+  type Creator,
+  type CreatorScore,
+} from "./schemas";
 import { Semaphore } from "./semaphore";
 
 let provider: LlmProvider | null = null;
@@ -185,4 +198,32 @@ export async function generateQueries(brief: Brief): Promise<QueryPlan> {
     );
   }
   return { ...plan, queries };
+}
+
+/**
+ * Scores one batch of creators in a single request. A channel the model
+ * skipped is simply absent from the map; the caller decides what to do.
+ */
+export async function scoreCreators(
+  brief: Brief,
+  plan: QueryPlan,
+  creators: Creator[],
+): Promise<Map<string, CreatorScore>> {
+  const config = getConfig();
+  const batch = await completeJson(CreatorScoreBatch, {
+    model: config.LLM_SCORE_MODEL,
+    system: SCORE_SYSTEM_PROMPT,
+    prompt: scorePrompt(brief, plan, creators),
+    maxOutputTokens: 4096,
+    thinking: "low",
+    label: "scoreCreators",
+  });
+  const wanted = new Set(creators.map((c) => c.channelId));
+  const scores = new Map<string, CreatorScore>();
+  for (const entry of batch.scores) {
+    if (!wanted.has(entry.channelId) || scores.has(entry.channelId)) continue;
+    const { channelId, ...score } = entry;
+    scores.set(channelId, clampFitScore(score));
+  }
+  return scores;
 }

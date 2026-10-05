@@ -11,6 +11,10 @@ interface Step {
   detail?: string;
 }
 
+function plural(n: number, noun: string): string {
+  return `${n} ${noun}${n === 1 ? "" : "s"}`;
+}
+
 function steps(state: PipelineState): Step[] {
   const failed = state.stage === "error" ? state.failedStage : null;
 
@@ -41,10 +45,35 @@ function steps(state: PipelineState): Step[] {
     search === "running"
       ? "searching YouTube"
       : search === "done" && state.creators
-        ? `${state.creators.length} channel${state.creators.length === 1 ? "" : "s"} ${
+        ? `${plural(state.creators.length, "channel")} ${
             state.searchCached ? "from cache" : "found"
           } in ${state.searchMs} ms`
         : undefined;
+
+  const total = state.creators?.length ?? 0;
+  const settled = Object.values(state.scores).filter(
+    (s) => s.status !== "pending",
+  ).length;
+  const score: StepState =
+    state.stage === "score"
+      ? "running"
+      : failed === "score"
+        ? "error"
+        : state.scoreSummary
+          ? "done"
+          : "idle";
+  const scoreDetail =
+    score === "running"
+      ? `scoring ${plural(total, "channel")}, ${settled} done`
+      : score === "done" && state.scoreSummary
+        ? `${state.scoreSummary.scored} scored${
+            state.scoreSummary.failed
+              ? `, ${state.scoreSummary.failed} failed`
+              : ""
+          } in ${state.scoreMs} ms`
+        : score === "idle" && state.stage === "done"
+          ? "nothing to score"
+          : undefined;
 
   return [
     {
@@ -59,12 +88,7 @@ function steps(state: PipelineState): Step[] {
       state: search,
       detail: searchDetail,
     },
-    {
-      key: "score",
-      label: "Fit scores",
-      state: "idle",
-      detail: "next build step",
-    },
+    { key: "score", label: "Fit scores", state: score, detail: scoreDetail },
   ];
 }
 
@@ -78,6 +102,11 @@ const dotClass: Record<StepState, string> = {
 /** The pipeline stages, the generated queries, and any error. */
 export function PipelineStatus({ state }: { state: PipelineState }) {
   if (state.stage === "idle") return null;
+
+  const totalMs =
+    state.stage === "done"
+      ? (state.briefMs ?? 0) + (state.searchMs ?? 0) + (state.scoreMs ?? 0)
+      : null;
 
   return (
     <section
@@ -108,6 +137,12 @@ export function PipelineStatus({ state }: { state: PipelineState }) {
           </li>
         ))}
       </ol>
+
+      {totalMs !== null && (
+        <p className="text-xs text-zinc-500">
+          Total {(totalMs / 1000).toFixed(1)} s. Cards are ordered by fit score.
+        </p>
+      )}
 
       {state.error && (
         <p

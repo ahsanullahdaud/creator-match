@@ -8,7 +8,7 @@ import { EXAMPLE_BRIEFS } from "@/lib/example-briefs";
 
 /** Owns the page state: the form feeds the pipeline, the panels show it. */
 export function MatchWorkspace() {
-  const { state, run, busy } = useMatchPipeline();
+  const { state, run, retryScore, busy } = useMatchPipeline();
 
   return (
     <div className="flex flex-col gap-6">
@@ -20,6 +20,9 @@ export function MatchWorkspace() {
         <CreatorGrid
           creators={state.creators}
           totalQueries={state.queries?.queries.length ?? 3}
+          scores={state.scores}
+          settled={state.stage === "done" || state.stage === "error"}
+          onRetry={retryScore}
         />
       )}
     </div>

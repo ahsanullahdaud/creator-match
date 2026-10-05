@@ -6,6 +6,7 @@ import {
   generateQueries,
   mapLlmError,
   resetLlm,
+  scoreCreators,
   setProvider,
   toJsonSchema,
 } from "@/lib/llm";
@@ -132,5 +133,45 @@ describe("completeJson", () => {
       code: "llm_error",
       retryable: true,
     });
+  });
+});
+
+describe("scoreCreators", () => {
+  beforeEach(() => {
+    vi.stubEnv("KV_REST_API_URL", "");
+    vi.stubEnv("KV_REST_API_TOKEN", "");
+    resetCache();
+    resetLlm();
+  });
+
+  it("maps scores by channel id, clamps, and ignores unknown or duplicate ids", async () => {
+    const { creatorsFixture } = await import("@/test/score-helpers");
+    const { creatorScoreFixture } = await import("@/test/fixtures");
+    const creators = creatorsFixture(["A", "B", "C"]);
+    let prompt = "";
+    setProvider(
+      fakeProvider(async (request) => {
+        prompt = request.prompt;
+        return JSON.stringify({
+          scores: [
+            { channelId: "A", ...creatorScoreFixture, fitScore: 140 },
+            { channelId: "B", ...creatorScoreFixture, fitScore: 55.4 },
+            { channelId: "B", ...creatorScoreFixture, fitScore: 1 },
+            { channelId: "ZZZ", ...creatorScoreFixture },
+          ],
+        });
+      }),
+    );
+    const scores = await scoreCreators(
+      briefFixture,
+      queryPlanFixture,
+      creators,
+    );
+    expect([...scores.keys()]).toEqual(["A", "B"]);
+    expect(scores.get("A")?.fitScore).toBe(100);
+    expect(scores.get("B")?.fitScore).toBe(55);
+    expect(prompt).toMatch(/Channels to score \(3\)/);
+    expect(prompt).toMatch(/"channelId":"A"/);
+    expect(prompt).toMatch(/Content themes expected: running/);
   });
 });
