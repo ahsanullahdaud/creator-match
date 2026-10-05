@@ -1,0 +1,509 @@
+{
+  "slug": "loomnotes",
+  "title": "LoomNotes",
+  "blurb": "AI note-taking app for students. App installs.",
+  "brief": {
+    "briefId": "3a364e28edab8367",
+    "brief": {
+      "brandName": "LoomNotes",
+      "product": "AI note-taking app that turns lectures into summaries",
+      "audience": "University students juggling lectures and exams",
+      "goal": "app_installs",
+      "subscriberRange": "10k-100k",
+      "region": "any",
+      "language": "en",
+      "notes": ""
+    },
+    "queries": {
+      "queries": [
+        {
+          "q": "how to take lecture notes",
+          "intent": "Surfaces study-blr and academic creators whose audience consists of university students looking for academic efficiency."
+        },
+        {
+          "q": "university semester routine",
+          "intent": "Targets lifestyle and study vloggers documenting college life, reaching students who need better time management and study tools."
+        },
+        {
+          "q": "best ipad apps for students",
+          "intent": "Captures tech-savvy students actively searching for productivity software and digital tools to enhance their studies."
+        }
+      ],
+      "contentThemes": [
+        "Study tips and academic advice",
+        "College vlogs and university routines",
+        "Student productivity and digital planning",
+        "App reviews and tech recommendations"
+      ],
+      "avoid": [
+        "High school or middle school study channels",
+        "K-12 teacher channels",
+        "Channels focused exclusively on hardware unboxing without software context"
+      ]
+    },
+    "createdAt": "2026-10-05T13:40:55.309Z"
+  },
+  "search": {
+    "briefId": "3a364e28edab8367",
+    "creators": [
+      {
+        "channelId": "UCimLf_I27xo1QGMvCLTHCgQ",
+        "title": "P.B Study Class",
+        "handle": "@p.bstudyclass1299",
+        "description": "Dear Students i am P.Barman. Welcome to P.B. Study Class, this is my Education Channel \nপ্রিয় ছাত্রছাত্রীরা তোমাদের এখানে বি.এ এবং বি.কম এর অনলাইন ক্লাস ও আদর্শ নোটস্ দেওয়া হয়। \nSuccess Point Edu Care XI to BCOM (H) and B.A and Computer Accounting\nKolkata Branch : Ultadanga, Shyambazar, Rajar Hat (R",
+        "thumbnailUrl": "https://yt3.ggpht.com/rFTsCZhOOvwXnPDwoqoFh9K-My2gfGX0eu1Cp_ZBfdKh26371153ASXtVlr2l6KvPN8o4_Rk=s240-c-k-c0x00ffffff-no-rj",
+        "country": "IN",
+        "subscriberCount": 95100,
+        "videoCount": 8435,
+        "viewCount": 19661793,
+        "hits": 1,
+        "matchedVideos": [
+          {
+            "videoId": "_LPp06y46Mk",
+            "title": "CU 7th semester exam date 2026 | CU 5th semester exam date 2026 | CU 4th semester result date 2026",
+            "publishedAt": "2026-10-04T21:34:13Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@p.bstudyclass1299"
+      },
+      {
+        "channelId": "UCSRLKfUhPy5z9dsQ4QyQaUA",
+        "title": "Sourabh Talks",
+        "handle": "@sourabhtalks",
+        "description": "\n🎓 Sourabh Talks | Education Updates & Student Guidance\n\nWelcome to Sourabh Talks – your trusted source for educational updates and student guidance.\n\nOn this channel, we provide the latest information related to:\n\n✅ Class 11th & 12th Updates\n✅ Graduation (UG) Admissions & News\n✅ Post Graduation (P",
+        "thumbnailUrl": "https://yt3.ggpht.com/SlxXSeEib7uzOOX97ddKMzW6y8Uy_iTvJtBJYqWTMEN1JWRMb5O-oYq8Y7ExJkts2ywIZQnm_uc=s240-c-k-c0x00ffffff-no-rj",
+        "country": "IN",
+        "subscriberCount": 64700,
+        "videoCount": 4710,
+        "viewCount": 14435583,
+        "hits": 1,
+        "matchedVideos": [
+          {
+            "videoId": "Wj8SjQcgjIo",
+            "title": "BBMKU Semester 2 Exam Routine कब होगा जारी | 2025-29 Session Semester 2 Internal Exam routine ",
+            "publishedAt": "2026-10-04T13:55:45Z"
+          },
+          {
+            "videoId": "SGwYaETg7Hg",
+            "title": "SEMESTER 2 Exam Routine 2025-29 Session | SEMESTER 4 Exam अभी भी बाकी है, यह गलती मत करना आप। ",
+            "publishedAt": "2026-10-03T04:33:42Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@sourabhtalks"
+      },
+      {
+        "channelId": "UCeVf8KaEFbse6aof4OeYAtQ",
+        "title": "Tech Dad",
+        "handle": "@techdad650",
+        "description": "Welcome! This channel focuses on solid tech reviews, with an emphasis on how to use Apple technologies in everyday life. I have a particular passion about the iPad and I offer quite a bit of content on how you can use this wonderful device professionally and at home. If you’re looking for help on ho",
+        "thumbnailUrl": "https://yt3.ggpht.com/zQ6M8Gx9DUYh7M3lLJ-A-Zu6yvLnc01fHTP0qxxvX5hSR0bZ6JTkAGvmaMXr5s_EKRQdmbZ4wQ=s240-c-k-c0x00ffffff-no-rj",
+        "country": "US",
+        "subscriberCount": 64100,
+        "videoCount": 282,
+        "viewCount": 11937184,
+        "hits": 1,
+        "matchedVideos": [
+          {
+            "videoId": "WuWqk1dUECM",
+            "title": "Tops tips for using iPad as a student in 2026! From an actual teacher…",
+            "publishedAt": "2026-08-06T18:06:43Z"
+          },
+          {
+            "videoId": "4KuktdHkARs",
+            "title": "The Best Note Taking Apps for iPad in 2026!",
+            "publishedAt": "2026-05-30T14:19:19Z"
+          },
+          {
+            "videoId": "tT8mnPtSZqU",
+            "title": "The Ultimate Guide to Note Taking on iPad in 2026!",
+            "publishedAt": "2026-03-05T16:50:10Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@techdad650"
+      },
+      {
+        "channelId": "UCOCb9lvNu33Sukgt7FT8AnQ",
+        "title": "Avishek Jha Classes",
+        "handle": "@avishekjhaclasses",
+        "description": "Hello Everyone I am Avishek Jha\nThis Channel is created to disseminate knowledge among students of [11th,12th,Bcom and Bba and to provide various learning videos, EXAM stretegies, MOTIVATION, calculator tricks, COACHING REVIEWS on regular basis\n\nEmail - iamavishek01@gmail.com\ninstagram - https://ins",
+        "thumbnailUrl": "https://yt3.ggpht.com/FlqlIixXo1X4SGMk-aB0bumTPSCEXTh9ca9Wrvzp88B4JYu7D-kyf26MvhLERajQs1L-vti3=s240-c-k-c0x00ffffff-no-rj",
+        "subscriberCount": 56800,
+        "videoCount": 1965,
+        "viewCount": 12521863,
+        "hits": 1,
+        "matchedVideos": [
+          {
+            "videoId": "PNjohg6fk4s",
+            "title": "Academic Calender 2026-27 | Semester Exam dates | Calcutta University ",
+            "publishedAt": "2026-08-07T11:13:20Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@avishekjhaclasses"
+      },
+      {
+        "channelId": "UCfFLsREwiqw-TBue4QcGDeA",
+        "title": "VU khanpur",
+        "handle": "@vukhanpur",
+        "description": "The Virtual University, Pakistan’s first University based completely on modern Information and Communication Technologies, was established by the Government as a public sector, not-for-profit institution with a clear mission: to provide extremely affordable world-class education.\n\n\n",
+        "thumbnailUrl": "https://yt3.ggpht.com/L8nMXAMk5DlIYCJYpWhdF4eFpzxTywIP3PD24r6b9XuHIWkIsujhwBOV8BV2ZsxyoDPHvTZs=s240-c-k-c0x00ffffff-no-rj",
+        "country": "PK",
+        "subscriberCount": 48200,
+        "videoCount": 2444,
+        "viewCount": 4655486,
+        "hits": 1,
+        "matchedVideos": [
+          {
+            "videoId": "QcNOrJB2w6E",
+            "title": "VU Fall 2026 Classes Schedule Change | Nai Date Kya Hai? | Virtual University",
+            "publishedAt": "2026-10-04T14:51:55Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@vukhanpur"
+      },
+      {
+        "channelId": "UCLLvx9YezzZ0Bozvj5Z6vpA",
+        "title": "The IO PREP",
+        "handle": "@theioprep",
+        "description": "curious about how you can actually get into your dream university?\nthis channel is here to demystify top universities and share honest, practical insights into studying, routines, and student life. You’ll find vlogs, advice videos, and Q&As from students studying at places like the Ivy League and Ox",
+        "thumbnailUrl": "https://yt3.ggpht.com/GFfdIZ1nCubooT8p4pw6ksdQXmRoGv96ahbMIzrPeEewTwureAB7lVtnpjmpn0WmT9uuPRe6=s240-c-k-c0x00ffffff-no-rj",
+        "subscriberCount": 33800,
+        "videoCount": 128,
+        "viewCount": 1847886,
+        "hits": 1,
+        "matchedVideos": [
+          {
+            "videoId": "6PDDv_sy5Jg",
+            "title": "how to make notes like an Oxford student | learn everything",
+            "publishedAt": "2026-08-12T17:40:14Z"
+          },
+          {
+            "videoId": "m-8_PyCJ36Q",
+            "title": "how to take notes like an Oxford student | master any book",
+            "publishedAt": "2026-03-12T19:43:06Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@theioprep"
+      },
+      {
+        "channelId": "UCzCeibfV7veJskK-ByTkg6g",
+        "title": "S.N ACADEMY",
+        "handle": "@sahityaniketanaccademys.-vn4sh",
+        "description": "",
+        "thumbnailUrl": "https://yt3.ggpht.com/CMRy1KJmOD0gvoL_JAPsrxsXgwfV1CtV5GlbIGqpz9uspzukjpQ6ZaMUlwvCrcJDrQq8m8Xn=s240-c-k-c0x00ffffff-no-rj",
+        "country": "IN",
+        "subscriberCount": 25400,
+        "videoCount": 1259,
+        "viewCount": 2487967,
+        "hits": 1,
+        "matchedVideos": [
+          {
+            "videoId": "DcnjT297F2s",
+            "title": "REAL OR FAKE BURDWAN UNIVERSITY 4TH SEMESTER NEW REVISE ROUTINE 2026🥺🥺",
+            "publishedAt": "2026-09-15T15:13:00Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@sahityaniketanaccademys.-vn4sh"
+      },
+      {
+        "channelId": "UChGOEGjWhGFY4QGgvhdVVIA",
+        "title": "MANTU SIR",
+        "handle": "@mantushil9950",
+        "description": "B.Sc physics; class 11,class12\n\nJEE/WBJEE/NEET / SLST /SSC /MSC ",
+        "thumbnailUrl": "https://yt3.ggpht.com/xpxUJFPe_Yb4bql3PKRidrv0TXta-ALgIYmDW2VPpWXm2qN7sLzEBTnjbJX4fuK2ntqPKXZE=s240-c-k-c0x00ffffff-no-rj",
+        "subscriberCount": 18700,
+        "videoCount": 1653,
+        "viewCount": 55302636,
+        "hits": 1,
+        "matchedVideos": [
+          {
+            "videoId": "9CoIhegQmZ4",
+            "title": "Kalyani University UG 4th Semester Exam 2026 Revised Routine|| NEP",
+            "publishedAt": "2026-07-07T18:13:57Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@mantushil9950"
+      },
+      {
+        "channelId": "UCoh5RJATxxfomLFxwSqbpoA",
+        "title": "Ajoy Kar ",
+        "handle": "@ajoy",
+        "description": "Educational Channel \n\nTelegram group for Paid Notes and Pdf👉👉👉\n\nhttps://t.me/ajoykar96\n\nস্কুল কলেজ বিশ্ববিদ্যালয়ের বিভিন্ন শিক্ষামূলক পোস্ট চ্যানেলটিতে শেয়ার করা হবে । বিভিন্ন নোট তার পিডিএফ কম্পিটিটিভ এক্সামের জন্য নোটস। স্কুল এবং কলেজের পরীক্ষার নোটস চ্যানেলের শেয়ার করা হবে।\n\nভিডিওগুলো ভালো ",
+        "thumbnailUrl": "https://yt3.ggpht.com/47IrYjBHytbR6ohhbOHl772MoZpr1tlxNjPQqENOQ7vbFLrjgmTU4hQsrD14DoQaw4W-xInRttA=s240-c-k-c0x00ffffff-no-rj",
+        "country": "IN",
+        "subscriberCount": 17500,
+        "videoCount": 1632,
+        "viewCount": 3080794,
+        "hits": 1,
+        "matchedVideos": [
+          {
+            "videoId": "66-ZpiVXXmM",
+            "title": "Kalyani university nep 2nd semester exam routine 2026",
+            "publishedAt": "2026-08-05T10:36:27Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@ajoy"
+      },
+      {
+        "channelId": "UCTo7XSa22wQG-tLKihnxdTA",
+        "title": "Nitin Kumar Gupta Classes",
+        "handle": "@nitinkumarguptaclasses",
+        "description": "UG, PG",
+        "thumbnailUrl": "https://yt3.ggpht.com/eL3U7RA2ZUiCQi2UWvs-RCydvAElcj0Em0LBOdlCWd_kgztqCHRGptqIE5nF80laSTd5MIUBMQ=s240-c-k-c0x00ffffff-no-rj",
+        "country": "IN",
+        "subscriberCount": 12300,
+        "videoCount": 5669,
+        "viewCount": 3214109,
+        "hits": 1,
+        "matchedVideos": [
+          {
+            "videoId": "X9x1Ett52P4",
+            "title": "ccsu odl/ol 1st/2nd semester exam time table आ गया 🔥 2026-27 | चौधरी चरण सिंह यूनिवर्सिटी ",
+            "publishedAt": "2026-10-05T07:42:18Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@nitinkumarguptaclasses"
+      }
+    ],
+    "liveSearches": 3,
+    "createdAt": "2026-10-05T13:40:56.026Z"
+  },
+  "scores": [
+    {
+      "briefId": "3a364e28edab8367",
+      "channelId": "UCimLf_I27xo1QGMvCLTHCgQ",
+      "score": {
+        "fitScore": 40,
+        "verdict": "weak",
+        "reasons": [
+          "The channel focuses heavily on local exam dates and announcements for Calcutta University, such as the matched video published on 2026-10-04.",
+          "Content is centered on administrative updates rather than general study tips or productivity apps.",
+          "The language and regional focus may not align well with a global English productivity app campaign."
+        ],
+        "concerns": [
+          "Content format consists of exam notices, leaving little room for software reviews."
+        ],
+        "audienceOverlap": "Viewers are local college students looking for administrative exam schedules rather than global English-speaking university students seeking study tools.",
+        "outreach": {
+          "angle": "Reviewing LoomNotes as a tool to manage heavy semester reading and exam preparation.",
+          "subjectLine": "Quick question about LoomNotes for your students",
+          "openingMessage": "Hi, I am reaching out from LoomNotes. We built an AI note-taking app that helps university students turn complex lectures into clear summaries. Since your audience is focused on university exams and coursework, I think your viewers would find it super helpful for keeping up with their semesters. We would love to sponsor a short segment on your channel to show how it works. Let me know if you would be open to testing it out."
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:41:03.901Z"
+    },
+    {
+      "briefId": "3a364e28edab8367",
+      "channelId": "UCSRLKfUhPy5z9dsQ4QyQaUA",
+      "score": {
+        "fitScore": 40,
+        "verdict": "weak",
+        "reasons": [
+          "The channel delivers localized educational updates and exam routines, as seen in the matched video from October 2026.",
+          "Videos are administrative and news-driven rather than focused on student productivity routines or tech tools.",
+          "Does not match the expected content themes of study tips or app reviews."
+        ],
+        "concerns": [
+          "Channel focuses on regional university news rather than general study methods."
+        ],
+        "audienceOverlap": "The audience consists of specific regional university students tracking exam routines rather than a broad student demographic looking for productivity software.",
+        "outreach": {
+          "angle": "Sponsoring a video to show how students can save time summarizing lectures during exam season.",
+          "subjectLine": "Quick question about LoomNotes for your students",
+          "openingMessage": "Hi, I am reaching out from LoomNotes. We built an AI note-taking app that helps university students turn complex lectures into clear summaries. Since your audience is focused on university exams and coursework, I think your viewers would find it super helpful for keeping up with their semesters. We would love to sponsor a short segment on your channel to show how it works. Let me know if you would be open to testing it out."
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:41:03.901Z"
+    },
+    {
+      "briefId": "3a364e28edab8367",
+      "channelId": "UCeVf8KaEFbse6aof4OeYAtQ",
+      "score": {
+        "fitScore": 85,
+        "verdict": "strong",
+        "reasons": [
+          "The channel creates direct content for student technology use, including matched videos like 'The Best Note Taking Apps for iPad in 2026!' and 'The Ultimate Guide to Note Taking on iPad in 2026!'.",
+          "The subscriber count of 64k sits comfortably in the preferred 10k to 100k range.",
+          "Content themes directly target student productivity, digital planning, and app recommendations."
+        ],
+        "concerns": [],
+        "audienceOverlap": "The audience consists of students and educators looking for iPad workflows and tech tools, which matches the target university student demographic perfectly.",
+        "outreach": {
+          "angle": "Featuring LoomNotes as a top AI note-taking app recommendation for students using iPads.",
+          "subjectLine": "Sponsoring your next iPad student setup video",
+          "openingMessage": "Hi, I am reaching out from LoomNotes. We built an AI note-taking app that turns lectures into concise summaries, perfect for students juggling heavy course loads. Given your recent guides on iPad note-taking apps, we think our tool would be a fantastic fit for your audience. We would love to sponsor an upcoming video and give your viewers a firsthand look at how it works. Let me know if you are interested."
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:41:03.901Z"
+    },
+    {
+      "briefId": "3a364e28edab8367",
+      "channelId": "UCOCb9lvNu33Sukgt7FT8AnQ",
+      "score": {
+        "fitScore": 45,
+        "verdict": "weak",
+        "reasons": [
+          "Content is centered on commerce and accounting coaching, exam strategies, and academic calendars, such as the August 2026 matched video.",
+          "Lacks the study tips, digital planning, or software review format expected for LoomNotes.",
+          "Targeted heavily at specific regional commerce streams."
+        ],
+        "concerns": [
+          "The content format is heavily focused on exam strategies and coaching reviews rather than software."
+        ],
+        "audienceOverlap": "Viewers are commerce and business students looking for exam coaching rather than general digital productivity tools.",
+        "outreach": {
+          "angle": "Showing commerce students how to use AI summaries to keep up with lecture notes.",
+          "subjectLine": "Quick question about LoomNotes for your students",
+          "openingMessage": "Hi, I am reaching out from LoomNotes. We built an AI note-taking app that helps university students turn complex lectures into clear summaries. Since your audience is focused on university exams and coursework, I think your viewers would find it super helpful for keeping up with their semesters. We would love to sponsor a short segment on your channel to show how it works. Let me know if you would be open to testing it out."
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:41:03.901Z"
+    },
+    {
+      "briefId": "3a364e28edab8367",
+      "channelId": "UCfFLsREwiqw-TBue4QcGDeA",
+      "score": {
+        "fitScore": 35,
+        "verdict": "weak",
+        "reasons": [
+          "The channel is dedicated to Virtual University Pakistan announcements and class schedules, as shown in the October 2026 matched video.",
+          "Does not feature general student productivity, study tips, or app recommendations.",
+          "Too institution-specific for a broad software campaign."
+        ],
+        "concerns": [
+          "Strictly tied to a single university's administrative updates."
+        ],
+        "audienceOverlap": "The audience is limited to students enrolled in a specific virtual university looking for schedule changes rather than general university productivity apps.",
+        "outreach": {
+          "angle": "A sponsored integration for online students managing remote lectures.",
+          "subjectLine": "Quick question about LoomNotes for your students",
+          "openingMessage": "Hi, I am reaching out from LoomNotes. We built an AI note-taking app that helps university students turn complex lectures into clear summaries. Since your audience is focused on university exams and coursework, I think your viewers would find it super helpful for keeping up with their semesters. We would love to sponsor a short segment on your channel to show how it works. Let me know if you would be open to testing it out."
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:41:03.901Z"
+    },
+    {
+      "briefId": "3a364e28edab8367",
+      "channelId": "UCLLvx9YezzZ0Bozvj5Z6vpA",
+      "score": {
+        "fitScore": 85,
+        "verdict": "strong",
+        "reasons": [
+          "The channel focuses directly on university study methods, featuring relevant videos like 'how to make notes like an Oxford student' published in August 2026.",
+          "With 33,800 subscribers, it falls squarely into the preferred creator size range.",
+          "Content style naturally aligns with student productivity, making an AI note-taking app a seamless integration."
+        ],
+        "concerns": [],
+        "audienceOverlap": "Viewers are aspiring and current university students looking for academic optimization, perfectly matching the LoomNotes target audience.",
+        "outreach": {
+          "angle": "Demonstrating how LoomNotes can automate the Oxford-style note-taking process discussed in your recent videos.",
+          "subjectLine": "Sponsoring your next study routine video with LoomNotes",
+          "openingMessage": "Hi, I reach out from LoomNotes. We built an AI note-taking app that turns dense university lectures into clean summaries, and I think your audience of students would love it. We would love to sponsor an upcoming study routine or note-taking video to show how it helps students master their reading lists faster. Let me know if you are open to discussing a partnership."
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:41:09.765Z"
+    },
+    {
+      "briefId": "3a364e28edab8367",
+      "channelId": "UCzCeibfV7veJskK-ByTkg6g",
+      "score": {
+        "fitScore": 35,
+        "verdict": "weak",
+        "reasons": [
+          "Channel focuses primarily on administrative exam routines and local university notices rather than general study tips or productivity.",
+          "Matched video 'REAL OR FAKE BURDWAN UNIVERSITY 4TH SEMESTER NEW REVISE ROUTINE 2026' targets very narrow regional exam logistics."
+        ],
+        "concerns": [
+          "Content format is purely informational notices rather than lifestyle or study productivity.",
+          "Regional focus is heavily localized to specific Indian universities."
+        ],
+        "audienceOverlap": "Local university students check this channel for exam timetables rather than broader academic productivity tools.",
+        "outreach": {
+          "angle": "Not recommended for outreach due to content format mismatch.",
+          "subjectLine": "Collaboration with LoomNotes",
+          "openingMessage": "Hi, I am reaching out from LoomNotes."
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:41:09.765Z"
+    },
+    {
+      "briefId": "3a364e28edab8367",
+      "channelId": "UChGOEGjWhGFY4QGgvhdVVIA",
+      "score": {
+        "fitScore": 30,
+        "verdict": "weak",
+        "reasons": [
+          "Channel is dedicated to physics coaching and entrance exam prep (JEE/NEET/B.Sc) with occasional administrative exam routines.",
+          "Matched video 'Kalyani University UG 4th Semester Exam 2026 Revised Routine' does not align with general note-taking or study software content."
+        ],
+        "concerns": [
+          "Content is strictly focused on physics tutorials and exam schedules.",
+          "Audience is looking for subject-specific tutoring rather than productivity apps."
+        ],
+        "audienceOverlap": "Science students and test-prep candidates watch this channel for academic coaching rather than study workflow tools.",
+        "outreach": {
+          "angle": "Not recommended for outreach due to subject-matter mismatch.",
+          "subjectLine": "Collaboration with LoomNotes",
+          "openingMessage": "Hi, I am reaching out from LoomNotes."
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:41:09.765Z"
+    },
+    {
+      "briefId": "3a364e28edab8367",
+      "channelId": "UCoh5RJATxxfomLFxwSqbpoA",
+      "score": {
+        "fitScore": 35,
+        "verdict": "weak",
+        "reasons": [
+          "Channel provides educational notices, exam routines, and sells PDF notes directly via Telegram.",
+          "Matched video 'Kalyani university nep 2nd semester exam routine 2026' focuses on administrative updates rather than study habits."
+        ],
+        "concerns": [
+          "Content relies heavily on text updates and exam schedules rather than engaging student vlogs or productivity advice.",
+          "Language and region target a very specific local demographic."
+        ],
+        "audienceOverlap": "Local college students use this channel for administrative updates and downloadable PDF notes.",
+        "outreach": {
+          "angle": "Not recommended for outreach due to lack of suitable video format.",
+          "subjectLine": "Collaboration with LoomNotes",
+          "openingMessage": "Hi, I am reaching out from LoomNotes."
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:41:09.765Z"
+    },
+    {
+      "briefId": "3a364e28edab8367",
+      "channelId": "UCTo7XSa22wQG-tLKihnxdTA",
+      "score": {
+        "fitScore": 30,
+        "verdict": "weak",
+        "reasons": [
+          "Channel features heavy academic class content and exam timetables, as seen in the matched CCSU exam time table video.",
+          "Format consists of lectures and administrative notices rather than student lifestyle or productivity tips."
+        ],
+        "concerns": [
+          "Content is centered around formal classes and exam dates.",
+          "Poor fit for software app installs targeted at general university students."
+        ],
+        "audienceOverlap": "Students tuning in are looking for specific university class lectures and schedule announcements.",
+        "outreach": {
+          "angle": "Not recommended for outreach due to content format mismatch.",
+          "subjectLine": "Collaboration with LoomNotes",
+          "openingMessage": "Hi, I am reaching out from LoomNotes."
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:41:09.765Z"
+    }
+  ],
+  "precomputedAt": "2026-10-05T13:41:09.765Z"
+}

@@ -1,5 +1,6 @@
 import { hasBypass } from "@/lib/access";
 import { getCache } from "@/lib/cache";
+import { listExamples } from "@/lib/examples";
 import { LIMITS, getConfig } from "@/lib/config";
 import {
   budgetState,
@@ -33,13 +34,17 @@ export const GET = handle("status", async (request, ctx) => {
   ctx.log.cache_ms = Date.now() - started;
   ctx.log.searches_today = searchesUsed;
 
-  // Examples arrive in step 11.
   const body: StatusResponse = {
     visitor: visitorStatus,
     budget: budgetState(searchesUsed, config, bypass),
     maxCreators: LIMITS.MAX_CREATORS,
     store: cache.kind,
-    examples: [],
+    examples: listExamples().map(({ slug, title, blurb, brief }) => ({
+      slug,
+      title,
+      blurb,
+      brief,
+    })),
   };
   return json(body);
 });

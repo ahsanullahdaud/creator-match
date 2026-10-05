@@ -1,0 +1,518 @@
+{
+  "slug": "peak-fuel",
+  "title": "Peak Fuel",
+  "blurb": "Electrolyte mix for marathon runners. US, awareness.",
+  "brief": {
+    "briefId": "20fb8aa65cab4b79",
+    "brief": {
+      "brandName": "Peak Fuel",
+      "product": "Electrolyte drink mix for long-distance runners",
+      "audience": "Amateur marathon and half-marathon runners",
+      "goal": "awareness",
+      "subscriberRange": "10k-100k",
+      "region": "US",
+      "language": "en",
+      "notes": ""
+    },
+    "queries": {
+      "queries": [
+        {
+          "q": "marathon training tips for beginners",
+          "intent": "Surfaces runners actively seeking guidance to improve their distance running performance."
+        },
+        {
+          "q": "what I eat during long runs",
+          "intent": "Targets creators sharing nutrition, hydration, and fueling strategies for endurance events."
+        },
+        {
+          "q": "half marathon race day vlog",
+          "intent": "Finds runners documenting their race experiences, preparation routines, and gear."
+        }
+      ],
+      "contentThemes": [
+        "Marathon training",
+        "Running nutrition and hydration",
+        "Race day vlogs",
+        "Running gear reviews",
+        "Endurance sports"
+      ],
+      "avoid": [
+        "Sprinters or short-distance track athletes",
+        "Gym-only fitness channels with no running focus",
+        "Extreme ultra-marathoners focused entirely on multi-day survival runs"
+      ]
+    },
+    "createdAt": "2026-10-05T13:40:35.778Z"
+  },
+  "search": {
+    "briefId": "20fb8aa65cab4b79",
+    "creators": [
+      {
+        "channelId": "UCwJaLh1vVoPcEL4EHW7dxog",
+        "title": "Ultra Marathon Trail Running with Simon",
+        "handle": "@runningwithsimon",
+        "description": "Welcome to Running with Simon! Follow my Trail and Ultra Running journey towards 100x 100+ miles Ultra Marathon (49x so far). Plenty of running and training tips videos along the way. My goal with this channel is to make Trail and Ultra Running accessible, inspiring you to get out and have your own ",
+        "thumbnailUrl": "https://yt3.ggpht.com/b-CX9fDEdzD7vsc52aIDbzM_w5aDQhOXexrtppU7850YvgokgjS5H4_vdw7QtmNqI_eoxzFfmw=s240-c-k-c0x00ffffff-no-rj",
+        "country": "US",
+        "subscriberCount": 45500,
+        "videoCount": 645,
+        "viewCount": 8563083,
+        "hits": 2,
+        "matchedVideos": [
+          {
+            "videoId": "FbIZS-n4OT4",
+            "title": "How To Run Longer (without getting tired) – Ultra Marathon Training Tips",
+            "publishedAt": "2023-12-30T16:50:31Z"
+          },
+          {
+            "videoId": "DkH_aMcdQBo",
+            "title": "Fuel Your Run - Nutrition for Ultra Marathon &amp; Long Runs",
+            "publishedAt": "2023-12-21T21:27:57Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@runningwithsimon"
+      },
+      {
+        "channelId": "UCnn4cWpCZZv0ML_ObNcSZzQ",
+        "title": "Running With Jane",
+        "handle": "@runningwithjane",
+        "description": "Hi, I'm Jane! As an RRCA certified running coach and experienced marathon runner, here I'll give you all the tips and tricks you need to train properly for a marathon and get you to the start prepared, healthy and injury-free so you can crush your marathon goal. Interested in run coaching services? ",
+        "thumbnailUrl": "https://yt3.ggpht.com/50VK71WUcQPpwypHuvuo6LCvGYIojrStjdjDZudtqtEb-Bkh6LJAmGJKJPVxZsjuOLqZ_h2GVQ=s240-c-k-c0x00ffffff-no-rj",
+        "country": "US",
+        "subscriberCount": 17000,
+        "videoCount": 234,
+        "viewCount": 2186001,
+        "hits": 2,
+        "matchedVideos": [
+          {
+            "videoId": "TAXvNyavl_c",
+            "title": "Five Tips for a STRONG First Marathon",
+            "publishedAt": "2024-09-24T15:15:01Z"
+          },
+          {
+            "videoId": "UKjbM0WVg-E",
+            "title": "Beginner Marathon Training: How to Get Started",
+            "publishedAt": "2023-03-26T14:00:25Z"
+          },
+          {
+            "videoId": "6Y2JcGVj5Ko",
+            "title": "What to Eat (and not Eat) Before a Long Run",
+            "publishedAt": "2021-01-25T15:00:05Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@runningwithjane"
+      },
+      {
+        "channelId": "UCKv8bGnFm0eaXkoxtxzUWYg",
+        "title": "Mica Rivera Wood",
+        "handle": "@micawoodruns",
+        "description": "hi i’m (mica)ela !! i’m a runner chasing my dreams to represent peru at the LA 2028 olympic games 🇵🇪 this is where I document that journey!\n\n💍: @AdamWoodRuns \n🏃🏽‍♀️: 15:36 5K, 32:28 10K, 1:11 HM, 2:29 Marathon\n\n💌: teammica@fullcircle-mgmt.co",
+        "thumbnailUrl": "https://yt3.ggpht.com/ArMyOFCOHm75d7aZtwPA1voLcK8CEMceXJ1dG7Ju8Lvj6lFG3TIqRH1j2jsZsspaFJKU9rQYW5U=s240-c-k-c0x00ffffff-no-rj",
+        "subscriberCount": 76500,
+        "videoCount": 259,
+        "viewCount": 53614254,
+        "hits": 2,
+        "matchedVideos": [
+          {
+            "videoId": "F5WhZsczwkY",
+            "title": "HOUSTON HALF MARATHON race vlog + exciting news &amp; updates on what&#39;s next!",
+            "publishedAt": "2025-01-31T19:50:31Z"
+          },
+          {
+            "videoId": "3mNNRqIfkhw",
+            "title": "DAY OF EATS 🫐🧇🍌 24hrs before 16 miles edition #training #fuel #whatieatinaday #running #runner",
+            "publishedAt": "2024-09-05T21:01:48Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@micawoodruns"
+      },
+      {
+        "channelId": "UCNhvxFNlvV3RwR7f3TdAunA",
+        "title": "NK Medani",
+        "handle": "@nk.medani",
+        "description": "My name is Nkeiruka Medani, NK for short, and I am a lifestyle blogger & content creator living in New York City. I share my life unfiltered and authentically through Instagram (@nk.medani), TikTok (@nk.medani) , Pinterest (@nkmedani), Spotify (@missunderstood.pod), & Youtube.\n\nOn my channel, I'll b",
+        "thumbnailUrl": "https://yt3.ggpht.com/IlsTrFl7U2DnCbpSCXxz5UyjUmhK0jeGqVJEwOQu6bLn7h-QK-ZkZ1ktZYiMCu1yKa5vHpgB=s240-c-k-c0x00ffffff-no-rj",
+        "subscriberCount": 25500,
+        "videoCount": 171,
+        "viewCount": 2249863,
+        "hits": 2,
+        "matchedVideos": [
+          {
+            "videoId": "wzPcLXdw4Q0",
+            "title": "HOW TO: couch to half marathon in 3 months! meals, gear, training schedule: everything you need!",
+            "publishedAt": "2025-03-08T19:02:21Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@nk.medani"
+      },
+      {
+        "channelId": "UCVsONon1TotO4vUlW_wstDQ",
+        "title": "Livfiit",
+        "handle": "@livfiit",
+        "description": "Hey :) I'm Olivia. Welcome to my creative space full of overall wellness & self improvement🦋🌈⚡️🪴🌞🌊🍄\n\n",
+        "thumbnailUrl": "https://yt3.ggpht.com/PC4hhrn7Lu-KcXDUR33ux36VxIQJOL6UyNzp3OkrsR7_aEcGU3m-_deSN-bdJ5WEy6x35xrY7Aw=s240-c-k-c0x00ffffff-no-rj",
+        "country": "US",
+        "subscriberCount": 66400,
+        "videoCount": 941,
+        "viewCount": 8387085,
+        "hits": 1,
+        "matchedVideos": [
+          {
+            "videoId": "4PpHUJs6-7o",
+            "title": "I DID IT! I RACED MY FIRST HALF MARATHON! | Race Day Prep Vlog, Carb Loading, 2 Days Out Routine",
+            "publishedAt": "2026-07-02T17:06:17Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@livfiit"
+      },
+      {
+        "channelId": "UCIpT-JgoOI0HpTCdWE_qH2Q",
+        "title": "Runna TV",
+        "handle": "@runna-tv",
+        "description": "Welcome to Runna TV!\nRunna TV is your go-to destination for all things running on YouTube. At Runna TV we share expert-led training tips, inspirational stories, and everything you need to level up your running. Our videos will get you off the couch and out the door. So lace up and hit play!\n",
+        "thumbnailUrl": "https://yt3.ggpht.com/I8-tMdEke28psiaEkrQMrV1XDlTKxkk27ajVy2RgIKvYpakacVz7tVA8PicZTAUKnetkUHPo=s240-c-k-c0x00ffffff-no-rj",
+        "country": "US",
+        "subscriberCount": 49600,
+        "videoCount": 228,
+        "viewCount": 7126488,
+        "hits": 1,
+        "matchedVideos": [
+          {
+            "videoId": "BmUj3qy8FbY",
+            "title": "I Attempted to Run a Sub-90 Half Marathon",
+            "publishedAt": "2026-03-04T15:00:31Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@runna-tv"
+      },
+      {
+        "channelId": "UCW4CCAMyceAtaGVKhpUqcfQ",
+        "title": "Doc Lyss Fitness",
+        "handle": "@doclyssfitness",
+        "description": "⚡️The best channel for science-backed hybrid running, cardio, hyrox, and lifting training.  \n\nWelcome to Dr. Alyssa Olenick's official YouTube channel! With a PhD in Exercise Physiology, she combines her expertise as a scientist, ultramarathon runner, and weightlifter to connect exercise science wit",
+        "thumbnailUrl": "https://yt3.ggpht.com/34fEuWLMcl9I2N-jiOnH2kzcP8ZzMJ1c06K1Zwx0j2RTINCnN3dDaGPvkgqQHbEtOOE4knbTOw=s240-c-k-c0x00ffffff-no-rj",
+        "country": "US",
+        "subscriberCount": 44100,
+        "videoCount": 1819,
+        "viewCount": 5962302,
+        "hits": 1,
+        "matchedVideos": [
+          {
+            "videoId": "ZGSYCfvGawc",
+            "title": "Long Run Fueling Explained: How Much to Eat, Drink &amp; When",
+            "publishedAt": "2026-01-30T14:20:14Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@doclyssfitness"
+      },
+      {
+        "channelId": "UCnSaiuthEvlbMC6sFRKYVBw",
+        "title": "trenton Sandler",
+        "handle": "@trentonsandler",
+        "description": "3.75-lap runner\ntrying to make the best running content on youtube\n",
+        "thumbnailUrl": "https://yt3.ggpht.com/KAjGP7aDYqLYGEwJ3NKONwb-u81df-41qL2-G8YUe4OleY3LfJ3L9W2oYAxR4xI49IBS4oJ0PA=s240-c-k-c0x00ffffff-no-rj",
+        "country": "US",
+        "subscriberCount": 64000,
+        "videoCount": 259,
+        "viewCount": 20848823,
+        "hits": 1,
+        "matchedVideos": [
+          {
+            "videoId": "Z3lbK8GO0-M",
+            "title": "Running 12 miles lets you EAT 😵‍💫 here’s how I fuel my training",
+            "publishedAt": "2025-03-18T14:48:21Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@trentonsandler"
+      },
+      {
+        "channelId": "UC4jOqxeguLMFLMEJ9m7SK1A",
+        "title": "Brock Kelly",
+        "handle": "@thebrockkelly",
+        "description": "Business Inquiries: thebrockkelly@gmail.com",
+        "thumbnailUrl": "https://yt3.ggpht.com/EAx2_lyozfBzPqbRTNt8HfJbYx5EGDP_ZN1AlY6p6Vmy7gBbFqT9BLcKfnb-pawKeUK4lqCX=s240-c-k-c0x00ffffff-no-rj",
+        "country": "US",
+        "subscriberCount": 33300,
+        "videoCount": 217,
+        "viewCount": 2320734,
+        "hits": 1,
+        "matchedVideos": [
+          {
+            "videoId": "IkFJhrlnB-Y",
+            "title": "A Full Guide to Building Mileage Without Injury",
+            "publishedAt": "2025-09-24T17:26:17Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@thebrockkelly"
+      },
+      {
+        "channelId": "UCpZM7A3ymRQc-UC7tirFTTg",
+        "title": "Jen Lauren",
+        "handle": "@jenlauren",
+        "description": "healing & realistic wellness for the busy girlies\n29-year-old living in nyc \n*new videos every week!*\n\n📩 Partnerships: marissa@creatorsconcierge.com\n🎧 TikTok: @jenlaurenn\n📸 Instagram: @jen_laurenn\n",
+        "thumbnailUrl": "https://yt3.ggpht.com/ud5RjxN-ZhqMYD14mQ-fDbHiBG_HHnd4qTNbbcLbpGCAdoPkpQtXLEzxX9-0NgdLidQfp9Eg5T4=s240-c-k-c0x00ffffff-no-rj",
+        "country": "US",
+        "subscriberCount": 27900,
+        "videoCount": 731,
+        "viewCount": 16346298,
+        "hits": 1,
+        "matchedVideos": [
+          {
+            "videoId": "WqYG-SsKb2Q",
+            "title": "I ran a half marathon with a sub 2-hour attempt... | RACE DAY VLOG",
+            "publishedAt": "2025-05-25T13:00:51Z"
+          },
+          {
+            "videoId": "i3mEnWk292Y",
+            "title": "I tried running a sub 2 hour half marathon... | RACE DAY VLOG",
+            "publishedAt": "2024-05-25T12:00:40Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@jenlauren"
+      }
+    ],
+    "liveSearches": 3,
+    "createdAt": "2026-10-05T13:40:36.478Z"
+  },
+  "scores": [
+    {
+      "briefId": "20fb8aa65cab4b79",
+      "channelId": "UCwJaLh1vVoPcEL4EHW7dxog",
+      "score": {
+        "fitScore": 45,
+        "verdict": "weak",
+        "reasons": [
+          "The channel focuses heavily on extreme ultra-marathon distances rather than standard marathons.",
+          "Matched videos like 'Fuel Your Run - Nutrition for Ultra Marathon & Long Runs' are from December 2023, indicating old matched content.",
+          "The subscriber count of 45,500 fits the range, but the ultra-survival focus violates the poor-fit signals."
+        ],
+        "concerns": [
+          "Content is tailored to multi-hour ultra-running rather than amateur marathoners.",
+          "Matched videos are quite old."
+        ],
+        "audienceOverlap": "Ultra-trail runners watch this channel, whereas Peak Fuel targets amateur half-marathon and marathon runners.",
+        "outreach": {
+          "angle": "Sponsor a hydration tip segment within a long training run video.",
+          "subjectLine": "Hydration partnership for Running with Simon",
+          "openingMessage": "Hi Simon, I love your dedication to the ultra-running journey and your practical training tips. I reach out from Peak Fuel because we make an electrolyte drink mix specifically designed to keep endurance runners hydrated during long efforts. I think your audience would appreciate hearing about our clean ingredients during your next long training video. Let me know if you would be open to trying a sample box."
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:40:44.127Z"
+    },
+    {
+      "briefId": "20fb8aa65cab4b79",
+      "channelId": "UCnn4cWpCZZv0ML_ObNcSZzQ",
+      "score": {
+        "fitScore": 85,
+        "verdict": "strong",
+        "reasons": [
+          "Jane is an RRCA certified running coach whose content targets marathon training and race preparation directly.",
+          "Matched videos include 'Five Tips for a STRONG First Marathon' (September 2024) and nutrition-focused content.",
+          "Subscriber count of 17,000 falls right into the preferred 10k to 100k US range."
+        ],
+        "concerns": [],
+        "audienceOverlap": "Her audience consists of dedicated amateur marathoners and beginners looking for structured training advice, matching Peak Fuel's exact target.",
+        "outreach": {
+          "angle": "Integrate Peak Fuel into a race prep or long run nutrition video as the go-to electrolyte source.",
+          "subjectLine": "Hydration partnership for Running With Jane",
+          "openingMessage": "Hi Jane, I have been following your marathon coaching tips and love how practical your advice is for everyday runners. I am with Peak Fuel, and we make an electrolyte drink mix built for long-distance training without the heavy sugar crash. Since you often cover pre-run nutrition and race prep, I would love to send you some product to test out on your long runs and discuss a potential partnership."
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:40:44.127Z"
+    },
+    {
+      "briefId": "20fb8aa65cab4b79",
+      "channelId": "UCKv8bGnFm0eaXkoxtxzUWYg",
+      "score": {
+        "fitScore": 70,
+        "verdict": "possible",
+        "reasons": [
+          "Mica is an elite runner targeting the Olympics, but she shares lifestyle, fueling, and race vlogs like 'DAY OF EATS' and 'HOUSTON HALF MARATHON race vlog'.",
+          "Channel has 76,500 subscribers and is based in the US.",
+          "Matched videos from late 2024 and early 2025 show active content relevant to running nutrition."
+        ],
+        "concerns": [
+          "Her pacing and times are at an elite level, which might feel slightly disconnected for casual amateur marathoners."
+        ],
+        "audienceOverlap": "Her viewers are running enthusiasts and marathoners who follow elite training journeys, offering a strong overlap with distance runners.",
+        "outreach": {
+          "angle": "Feature Peak Fuel in a 'Day of Eats' or marathon race prep vlog.",
+          "subjectLine": "Fueling collaboration with Peak Fuel",
+          "openingMessage": "Hi Mica, your journey toward the 2028 Olympic games is incredible to follow. I reach out from Peak Fuel because we create electrolyte mixes designed to support high-mileage endurance training. Given your frequent fueling and nutrition updates, I would love to send you a package to try out during your upcoming training blocks."
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:40:44.127Z"
+    },
+    {
+      "briefId": "20fb8aa65cab4b79",
+      "channelId": "UCNhvxFNlvV3RwR7f3TdAunA",
+      "score": {
+        "fitScore": 65,
+        "verdict": "possible",
+        "reasons": [
+          "NK Medani is a lifestyle and fitness creator in NYC who posted 'HOW TO: couch to half marathon in 3 months!' in March 2025.",
+          "Subscriber count is 25,500, fitting the preferred size range.",
+          "Focuses partly on beginner half-marathon prep, including meals and gear."
+        ],
+        "concerns": [
+          "The channel is primarily a lifestyle blog rather than a dedicated running channel, so running content is intermittent."
+        ],
+        "audienceOverlap": "Her audience includes lifestyle-oriented fitness beginners and new runners, whereas Peak Fuel targets dedicated endurance runners.",
+        "outreach": {
+          "angle": "Sponsor a hydration mention in a beginner half-marathon training update.",
+          "subjectLine": "Half-marathon hydration partnership",
+          "openingMessage": "Hi NK, I really enjoyed your couch to half marathon guide and your authentic approach to fitness in New York. I am with Peak Fuel, an electrolyte drink mix brand built for distance runners. Since you touch on race prep and nutrition in your training updates, I would love to send you some product to see if it fits into your routine."
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:40:44.127Z"
+    },
+    {
+      "briefId": "20fb8aa65cab4b79",
+      "channelId": "UCVsONon1TotO4vUlW_wstDQ",
+      "score": {
+        "fitScore": 75,
+        "verdict": "strong",
+        "reasons": [
+          "Olivia focuses on wellness and successfully raced her first half marathon, documented in her recent July 2026 matched video.",
+          "Subscriber count is 66,400 with a US-based wellness and running audience.",
+          "Matched video includes race day prep and carb loading, making electrolyte integration completely natural."
+        ],
+        "concerns": [
+          "Content spans broader wellness topics alongside running, so running is not her exclusive focus."
+        ],
+        "audienceOverlap": "Her wellness and running audience closely mirrors amateur runners looking for holistic health and race day readiness.",
+        "outreach": {
+          "angle": "Include Peak Fuel in a race-day prep or carb-loading routine video.",
+          "subjectLine": "Race day hydration collaboration",
+          "openingMessage": "Hi Olivia, congratulations on tackling your first half marathon! I watch your wellness and running content and love your approach to race day prep. I reach out from Peak Fuel because we make clean-ingredient electrolyte drink mixes designed for distance runners. I would love to send you some samples to support your next race prep vlog."
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:40:44.127Z"
+    },
+    {
+      "briefId": "20fb8aa65cab4b79",
+      "channelId": "UCIpT-JgoOI0HpTCdWE_qH2Q",
+      "score": {
+        "fitScore": 85,
+        "verdict": "strong",
+        "reasons": [
+          "The channel matches the target subscriber size with 49,600 subscribers and is based in the US.",
+          "The matched video 'I Attempted to Run a Sub-90 Half Marathon' published in March 2026 aligns perfectly with the brief's focus on half-marathon runners.",
+          "Content centers entirely on expert-led training tips and running progression, offering natural integration points for an electrolyte drink mix."
+        ],
+        "concerns": [],
+        "audienceOverlap": "Viewers are dedicated runners and half-marathon aspirants who directly match the Peak Fuel target demographic.",
+        "outreach": {
+          "angle": "Sponsor a training breakdown video leading up to a half-marathon attempt, highlighting race-day fueling strategies.",
+          "subjectLine": "Peak Fuel partnership / Runna TV",
+          "openingMessage": "Hi, I am reaching out from Peak Fuel. We love the training insights on Runna TV, especially your recent sub-90 half marathon attempt. Our electrolyte drink mix is designed specifically for endurance runners tackling long distances, and we think it would fit right into your training and race prep routines. We would love to send some product your way and discuss a potential partnership for an upcoming video. Let us know if you are open to chatting!"
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:40:52.385Z"
+    },
+    {
+      "briefId": "20fb8aa65cab4b79",
+      "channelId": "UCW4CCAMyceAtaGVKhpUqcfQ",
+      "score": {
+        "fitScore": 88,
+        "verdict": "strong",
+        "reasons": [
+          "Dr. Alyssa Olenick creates science-backed running content and has 44,100 US-based subscribers.",
+          "The matched video 'Long Run Fueling Explained: How Much to Eat, Drink & When' from January 2026 is an ideal, organic context for an electrolyte product.",
+          "Her expertise in exercise physiology adds strong credibility to nutrition and hydration discussions."
+        ],
+        "concerns": [],
+        "audienceOverlap": "Her audience consists of runners and hybrid athletes who actively seek out scientific guidance on hydration and fueling.",
+        "outreach": {
+          "angle": "Partner on a deep-dive hydration science video explaining electrolyte balance during long runs using Peak Fuel.",
+          "subjectLine": "Hydration collaboration with Peak Fuel",
+          "openingMessage": "Hi Alyssa, I am with Peak Fuel. We are huge fans of your science-backed approach to endurance training, and your recent video on long run fueling was spot on. Given your expertise in exercise physiology, we think our electrolyte drink mix would be a great fit for your audience's long-distance training needs. We would love to sponsor a segment or video breaking down hydration science. Let us know if you would be interested in trying our mix!"
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:40:52.385Z"
+    },
+    {
+      "briefId": "20fb8aa65cab4b79",
+      "channelId": "UCnSaiuthEvlbMC6sFRKYVBw",
+      "score": {
+        "fitScore": 55,
+        "verdict": "possible",
+        "reasons": [
+          "The channel has 64,000 US subscribers and fits the preferred size range.",
+          "The matched video 'Running 12 miles lets you EAT 😵‍💫 here’s how I fuel my training' from March 2025 touches on fueling, but is dated over a year ago.",
+          "The creator focuses more on middle-distance and track content ('3.75-lap runner') rather than pure marathon or half-marathon endurance."
+        ],
+        "concerns": [
+          "The matched fueling video is from early 2025, raising questions about current content alignment.",
+          "Track-focused running leans slightly away from long-distance endurance hydration."
+        ],
+        "audienceOverlap": "His audience consists of track and general runners who appreciate lifestyle running vlogs rather than strictly marathon training.",
+        "outreach": {
+          "angle": "Feature Peak Fuel in a high-mileage training week vlog focusing on recovery and hydration.",
+          "subjectLine": "Peak Fuel x Trenton Sandler",
+          "openingMessage": "Hi Trenton, I am reaching out from Peak Fuel. We follow your running journey and enjoyed your high-mileage fueling video. As you tackle longer training blocks, proper hydration is key, and we would love to get some of our electrolyte drink mix into your hands for an upcoming session. Let me know if you are open to discussing a potential partnership."
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:40:52.385Z"
+    },
+    {
+      "briefId": "20fb8aa65cab4b79",
+      "channelId": "UC4jOqxeguLMFLMEJ9m7SK1A",
+      "score": {
+        "fitScore": 50,
+        "verdict": "possible",
+        "reasons": [
+          "Channel has 33,300 US subscribers, fitting the size criteria.",
+          "The matched video 'A Full Guide to Building Mileage Without Injury' from September 2025 addresses endurance preparation.",
+          "The channel lacks a strong, recurring focus on nutrition and hydration compared to dedicated running nutrition creators."
+        ],
+        "concerns": [
+          "The matched video is over a year old.",
+          "Content leans toward general mileage-building tips rather than race-day nutrition."
+        ],
+        "audienceOverlap": "The audience includes general distance runners looking to increase weekly mileage safely.",
+        "outreach": {
+          "angle": "Integrate Peak Fuel into a long run routine emphasizing injury prevention through proper hydration.",
+          "subjectLine": "Peak Fuel partnership idea",
+          "openingMessage": "Hi Brock, I am with Peak Fuel. We liked your guide on building mileage safely and know that hydration plays a massive role in injury prevention during high-mileage weeks. We make an electrolyte drink mix built for distance runners, and we'd love to partner on a video integration. Let us know if you would be interested in trying it out."
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:40:52.385Z"
+    },
+    {
+      "briefId": "20fb8aa65cab4b79",
+      "channelId": "UCpZM7A3ymRQc-UC7tirFTTg",
+      "score": {
+        "fitScore": 72,
+        "verdict": "possible",
+        "reasons": [
+          "Jen Lauren has 27,900 US subscribers and publishes lifestyle and wellness running content in NYC.",
+          "The matched race day vlog from May 2025 ('I ran a half marathon with a sub 2-hour attempt') directly targets the brand's core demographic of amateur half-marathon runners.",
+          "Vlog formats provide a natural environment to showcase race-day nutrition and pre-race hydration routines."
+        ],
+        "concerns": [
+          "The most recent matched race vlog is from mid-2025, though she continues active wellness vlogging.",
+          "The channel covers general wellness alongside running rather than being exclusively dedicated to endurance sports."
+        ],
+        "audienceOverlap": "Her viewers are lifestyle-oriented wellness enthusiasts and amateur runners working toward milestones like a sub-2-hour half marathon.",
+        "outreach": {
+          "angle": "Sponsor a race-day prep vlog highlighting morning-of hydration and race fueling with Peak Fuel.",
+          "subjectLine": "Peak Fuel x Jen Lauren race prep",
+          "openingMessage": "Hi Jen, I am reaching out from Peak Fuel. We loved your half marathon race day vlog and your sub-2-hour attempt! As you prep for future races, we would love to support your training with our electrolyte drink mix designed for distance runners. It makes a great addition to race-day morning routines. Let us know if you would be interested in collaborating on an upcoming video!"
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:40:52.385Z"
+    }
+  ],
+  "precomputedAt": "2026-10-05T13:40:52.385Z"
+}

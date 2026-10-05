@@ -17,13 +17,13 @@ describe("GET /api/status", () => {
     expect(res.headers.get("content-type")).toBe("application/json");
     expect(res.headers.get("cache-control")).toBe("no-store");
     const body = StatusResponse.parse(await res.json());
-    expect(body).toEqual({
+    expect(body).toMatchObject({
       visitor: { remaining: 3, limit: 3, bypass: false },
       budget: "ok",
       maxCreators: 10,
       store: "memory",
-      examples: [],
     });
+    expect(body.examples).toHaveLength(3);
 
     expect(log).toHaveBeenCalledTimes(1);
     const line = JSON.parse(log.mock.calls[0][0] as string);

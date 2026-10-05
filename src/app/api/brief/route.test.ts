@@ -85,7 +85,7 @@ describe("POST /api/brief", () => {
   it("serves the second identical brief from cache without an LLM call", async () => {
     gemini.create.mockResolvedValueOnce(interactionWith(validText));
     await post(briefFixture);
-    const res = await post({ ...briefFixture, brandName: "  peak FUEL " });
+    const res = await post({ ...briefFixture, brandName: "  peak FUEL labs " });
     const body = BriefResponse.parse(await res.json());
     expect(body.cached).toBe(true);
     expect(body.queries).toEqual(queryPlanFixture);

@@ -32,6 +32,8 @@ interface Props {
   examples: readonly ExampleBrief[];
   onValid: (brief: Brief, source: BriefSource) => void;
   busy?: boolean;
+  /** Starting values, e.g. an example picked elsewhere on the page. */
+  initialValues?: Brief;
 }
 
 const GOAL_OPTIONS = toOptions(GOAL_LABELS);
@@ -66,8 +68,13 @@ function friendlyMessage(issue: IssueLike, value: string): string {
   return issue.message;
 }
 
-export function BriefForm({ examples, onValid, busy = false }: Props) {
-  const [values, setValues] = useState<Brief>(EMPTY_BRIEF);
+export function BriefForm({
+  examples,
+  onValid,
+  busy = false,
+  initialValues,
+}: Props) {
+  const [values, setValues] = useState<Brief>(initialValues ?? EMPTY_BRIEF);
   const [errors, setErrors] = useState<Errors>({});
   const prefix = useId();
   const id = (field: keyof Brief) => `${prefix}-${field}`;

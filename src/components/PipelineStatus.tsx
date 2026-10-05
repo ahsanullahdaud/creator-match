@@ -1,6 +1,8 @@
 "use client";
 
+import { ExampleButtons } from "./ExampleButtons";
 import type { PipelineState } from "@/hooks/useMatchPipeline";
+import type { ExampleBrief } from "@/lib/example-briefs";
 
 type StepState = "idle" | "running" | "done" | "error";
 
@@ -9,6 +11,12 @@ interface Step {
   label: string;
   state: StepState;
   detail?: string;
+}
+
+interface Props {
+  state: PipelineState;
+  examples: readonly ExampleBrief[];
+  onPickExample: (example: ExampleBrief) => void;
 }
 
 function plural(n: number, noun: string): string {
@@ -99,14 +107,17 @@ const dotClass: Record<StepState, string> = {
   error: "bg-red-500",
 };
 
-/** The pipeline stages, the generated queries, and any error. */
-export function PipelineStatus({ state }: { state: PipelineState }) {
+const QUOTA_CODES = new Set(["budget_exhausted", "visitor_limit"]);
+
+/** The pipeline stages, the generated queries, any error, and the quota fallback. */
+export function PipelineStatus({ state, examples, onPickExample }: Props) {
   if (state.stage === "idle") return null;
 
   const totalMs =
     state.stage === "done"
       ? (state.briefMs ?? 0) + (state.searchMs ?? 0) + (state.scoreMs ?? 0)
       : null;
+  const quotaBlocked = state.error ? QUOTA_CODES.has(state.error.code) : false;
 
   return (
     <section
@@ -140,17 +151,22 @@ export function PipelineStatus({ state }: { state: PipelineState }) {
 
       {totalMs !== null && (
         <p className="text-xs text-zinc-500">
-          Total {(totalMs / 1000).toFixed(1)} s. Cards are ordered by fit score.
+          Total {(totalMs / 1000).toFixed(1)} s.
+          {state.source === "example" && state.briefCached
+            ? " Precomputed example, no quota spent."
+            : " Cards are ordered by fit score."}
         </p>
       )}
 
       {state.error && (
-        <p
-          role="alert"
-          className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800 dark:border-red-900 dark:bg-red-950/40 dark:text-red-200"
-        >
-          {state.error.message}
-        </p>
+        <div className="flex flex-col gap-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-800 dark:border-red-900 dark:bg-red-950/40 dark:text-red-200">
+          <p role="alert">{state.error.message}</p>
+          {quotaBlocked && (
+            <div className="text-zinc-800 dark:text-zinc-200">
+              <ExampleButtons examples={examples} onPick={onPickExample} />
+            </div>
+          )}
+        </div>
       )}
 
       {state.queries && (
@@ -159,7 +175,7 @@ export function PipelineStatus({ state }: { state: PipelineState }) {
             Searching YouTube for
             {state.briefCached && (
               <span className="ml-2 rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-normal text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300">
-                cached
+                {state.source === "example" ? "precomputed" : "cached"}
               </span>
             )}
           </h2>

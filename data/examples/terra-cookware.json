@@ -1,0 +1,541 @@
+{
+  "slug": "terra-cookware",
+  "title": "Terra Cookware",
+  "blurb": "Ceramic pans for weeknight batch cooking. UK, sales.",
+  "brief": {
+    "briefId": "d72e90b621ab4e38",
+    "brief": {
+      "brandName": "Terra Cookware",
+      "product": "Ceramic non-stick pans for weeknight batch cooking",
+      "audience": "Home cooks who meal-prep on Sundays",
+      "goal": "conversions",
+      "subscriberRange": "100k-1m",
+      "region": "GB",
+      "language": "en",
+      "notes": ""
+    },
+    "queries": {
+      "queries": [
+        {
+          "q": "sunday meal prep routine",
+          "intent": "Surfaces home cooks who organize their weekly food prep in batches, directly matching the product's use case."
+        },
+        {
+          "q": "healthy batch cooking recipes",
+          "intent": "Targets creators focused on efficient cooking for multiple meals, aligning with ceramic pan performance."
+        },
+        {
+          "q": "kitchen organization and cleaning",
+          "intent": "Captures lifestyle content creators who value aesthetic, easy-to-clean cookware for their daily routines."
+        }
+      ],
+      "contentThemes": [
+        "Meal prep and planning",
+        "Healthy weeknight dinners",
+        "Kitchen product reviews",
+        "Grocery hauls and budgeting",
+        "Home cooking tutorials"
+      ],
+      "avoid": [
+        "Restaurant chefs or fine dining channels not focused on home cooking",
+        "Takeout review or fast-food channels",
+        "Minimalist channels that never review physical products"
+      ]
+    },
+    "createdAt": "2026-10-05T13:41:12.797Z"
+  },
+  "search": {
+    "briefId": "d72e90b621ab4e38",
+    "creators": [
+      {
+        "channelId": "UCE2hIKMrB6Heg3b53NcoeLQ",
+        "title": "Joe Delaney",
+        "handle": "@joedelaneyy",
+        "description": "",
+        "thumbnailUrl": "https://yt3.ggpht.com/jdg49pxQ2dOBV0XGlTX9JxlqgWNMHhBTcUl6PTgYtcwEsW4qPHFcNcLV-ahn_hk2BgPr5L887A=s240-c-k-c0x00ffffff-no-rj",
+        "country": "GB",
+        "subscriberCount": 836000,
+        "videoCount": 470,
+        "viewCount": 110391548,
+        "hits": 2,
+        "matchedVideos": [
+          {
+            "videoId": "vgNSddHF5xY",
+            "title": "Simple High Protein Meal Prep on a Budget **Breakfast, Lunch &amp; Dinner under £20**",
+            "publishedAt": "2024-04-07T11:10:14Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@joedelaneyy"
+      },
+      {
+        "channelId": "UCVALinyrHjsdDok1dB4I0Ig",
+        "title": "Mom Nutritionist",
+        "handle": "@momnutritionist",
+        "description": "Hi! My name is Ayat and I am a Registered Dietitian sharing healthy tips, recipes and easy ways to live a healthier life! ",
+        "thumbnailUrl": "https://yt3.ggpht.com/MSqcL17rpqvhi2oRqutVoBkOocCV-ekJ2RSGpPX8aXJt5wuLvSNpe9HDTKs0sn6aWf4rr1pb=s240-c-k-c0x00ffffff-no-rj",
+        "subscriberCount": 196000,
+        "videoCount": 843,
+        "viewCount": 44646942,
+        "hits": 2,
+        "matchedVideos": [
+          {
+            "videoId": "s_BbLy-1hxA",
+            "title": "I’m a dietitian &amp; here’s my easy healthy sunday meal prep recipes #mealprep #sundayreset",
+            "publishedAt": "2026-08-09T14:11:02Z"
+          },
+          {
+            "videoId": "Vx8X6JngRZA",
+            "title": "I’m a dietitian and this is my Sunday meal prep ideas (Easy, Healthy Recipes) #mealprepsunday",
+            "publishedAt": "2026-01-18T16:17:52Z"
+          },
+          {
+            "videoId": "QbKo1vstdCA",
+            "title": "I’m a dietitian &amp; this is my Sunday Meal Prep (easy healthy recipes) #recipe #healthyrecipes",
+            "publishedAt": "2025-10-19T15:17:06Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@momnutritionist"
+      },
+      {
+        "channelId": "UCAAKwDsrywhnaWgwbr28bRQ",
+        "title": "Jenn Lueke",
+        "handle": "@jenneatsgoood",
+        "description": "Hi, I'm Jenn! Welcome to my YouTube channel and get ready to EAT GOOOD!!! I’ll be sharing new healthy recipes, actionable tips, & realistic strategies every Sunday so we can make meal planning, shopping, cooking, and prepping way more fun. \n\nAnd if you’re looking for even more, check out my newslett",
+        "thumbnailUrl": "https://yt3.ggpht.com/hDudG-XYfM6REa_n6vGbHQq7sKw95uXu4K4mi69S2VNffA3WCmbVNyVqXL-LdYh4so-mxs45=s240-c-k-c0x00ffffff-no-rj",
+        "country": "US",
+        "subscriberCount": 178000,
+        "videoCount": 446,
+        "viewCount": 25307455,
+        "hits": 2,
+        "matchedVideos": [
+          {
+            "videoId": "NJrSwZTaAa8",
+            "title": "the october meal prep plan is up now🎃",
+            "publishedAt": "2026-10-04T14:30:25Z"
+          },
+          {
+            "videoId": "d2j6-KUpYig",
+            "title": "Turning $55 into 20 healthy meals- full list will be in description! #healthyliving #healthyrecipe",
+            "publishedAt": "2023-10-02T18:03:26Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@jenneatsgoood"
+      },
+      {
+        "channelId": "UCDHTLhQbYlFnPBv-iLgFsQQ",
+        "title": "The Doctor's Kitchen",
+        "handle": "@doctors_kitchen",
+        "description": "I want to help you feel in control of your health with food.\nBecause, what we put on our plate can be powerful medicine.\n\nI'm Dr Rupy, a medical doctor with over 15 years experience in medicine and a nutritionist, with a masters in Nutritional Medicine.\n\nJoin our community learning about how to use ",
+        "thumbnailUrl": "https://yt3.ggpht.com/rh2kxZe8ViUSupM8obCVb_M0L0N1XEoglP89CxryxxtmWxzfYxcqkfoKFx4S2QoUaWJ9_EUU5YQ=s240-c-k-c0x00ffffff-no-rj",
+        "country": "GB",
+        "subscriberCount": 795000,
+        "videoCount": 912,
+        "viewCount": 50162122,
+        "hits": 1,
+        "matchedVideos": [
+          {
+            "videoId": "Llp8pCmH4a0",
+            "title": "My freezer meal prep for healthy high-protein dinners on busy weeks",
+            "publishedAt": "2026-05-24T11:45:01Z"
+          },
+          {
+            "videoId": "s01ONOM-QzI",
+            "title": "3 high-protein lunches I eat every week (prep ahead, gut-friendly)",
+            "publishedAt": "2026-03-01T12:45:06Z"
+          },
+          {
+            "videoId": "d-HlXNgOSkM",
+            "title": "How to prep high-protein meals for the week in under an hour",
+            "publishedAt": "2025-07-13T11:50:00Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@doctors_kitchen"
+      },
+      {
+        "channelId": "UCP0CN417pisSq5Q4tdPcWrQ",
+        "title": "Channel 4 Food",
+        "handle": "@channel4food",
+        "description": "Welcome to Channel 4 Food! Pull up a chair and get cosy at the table, we're so pleased to have you dining with us.\n\nWondering how to make the ultimate bolognese to blow the socks off your dinner guests? Or just in need of some easy, quick weeknight recipes to get you through the after-work slump? Wh",
+        "thumbnailUrl": "https://yt3.ggpht.com/YmLbeKBQTdxp7f7x6NVjdYiza4mN6FeSh_p81rOhliyHbynL3CyBNxFMhGaW_d7vmjhq1wTK=s240-c-k-c0x00ffffff-no-rj",
+        "country": "GB",
+        "subscriberCount": 110000,
+        "videoCount": 385,
+        "viewCount": 48382283,
+        "hits": 1,
+        "matchedVideos": [
+          {
+            "videoId": "aYkooUEFPnM",
+            "title": "The BEST Healthy Batch Cooking Recipes To Save You Thousands | Batch From Scratch",
+            "publishedAt": "2026-05-11T16:00:00Z"
+          },
+          {
+            "videoId": "5pSzDUIqSKY",
+            "title": "Quick &amp; Healthy Batch Cooking Recipes That Will Save Time And Money | Batch From Scratch",
+            "publishedAt": "2025-03-24T17:00:11Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@channel4food"
+      },
+      {
+        "channelId": "UCe0RrttK67uph8PMQ9aibgQ",
+        "title": "LGQUEEN Home Decor",
+        "handle": "@lgqueenhomedecor",
+        "description": "Hi everyone! Welcome to my channel, LGQUEEN Home Decor! \n\nMy name is Linda and here you will see DIY, Home Decor, Organization, Cleaning, Home Renovation, Room Makeover videos and so much more! I enjoy creating DIY home decor, decorating with glam elegance and filling my home with the word of the Lo",
+        "thumbnailUrl": "https://yt3.ggpht.com/n5xR7hsO0qhghmy5gDFeKwH1Evh73vXJdawRzrBwYDIBETwB4i7UkeRa-uc8DdOKO5FwVNNALQ=s240-c-k-c0x00ffffff-no-rj",
+        "country": "US",
+        "subscriberCount": 851000,
+        "videoCount": 237,
+        "viewCount": 100900871,
+        "hits": 1,
+        "matchedVideos": [
+          {
+            "videoId": "dZQBDxLq6Ao",
+            "title": "KITCHEN ORGANIZATION IDEAS | Satisfying Kitchen Restock, Organizing &amp; Clean With Me",
+            "publishedAt": "2026-04-28T16:39:23Z"
+          },
+          {
+            "videoId": "l38eCfZLytA",
+            "title": "ULTIMATE KITCHEN ORGANIZATION | Satisfying Clean and Kitchen Restock Organizing on A Budget",
+            "publishedAt": "2026-04-11T16:51:53Z"
+          },
+          {
+            "videoId": "1WzI23qxKu8",
+            "title": "ULTIMATE KITCHEN ORGANIZATION | Satisfying Clean and Kitchen Restock Organizing on A Budget",
+            "publishedAt": "2025-06-16T23:04:28Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@lgqueenhomedecor"
+      },
+      {
+        "channelId": "UCE4w8Xle0IPZHyUYDX5Jq2w",
+        "title": "Sham Glam Official ",
+        "handle": "@sham.glam.",
+        "description": "Foodie Fashionista 😉",
+        "thumbnailUrl": "https://yt3.ggpht.com/COhWPtGXnTArcbvYTIMV8C39EmKeMJ22Hw6gMeulgUn1Yf4e4IpHmNr92W3_vyYrSmrNrHHgP9o=s240-c-k-c0x00ffffff-no-rj",
+        "subscriberCount": 762000,
+        "videoCount": 612,
+        "viewCount": 641547317,
+        "hits": 1,
+        "matchedVideos": [
+          {
+            "videoId": "Y5eokurvN7E",
+            "title": "Fridge deep cleaning and organizing, kitchen reset and dinner cooked.",
+            "publishedAt": "2026-05-14T14:57:22Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@sham.glam."
+      },
+      {
+        "channelId": "UCC3YA7qybOTCzwr7DO4tvNQ",
+        "title": "Nathalie Fischer",
+        "handle": "@nathaliebellax3",
+        "description": "Lifestyle Vlogger based in New York & Renovating our first home in the Hudson Valley!\n\nInstagram https://www.instagram.com/nathaliefischerx3/\nTikTok https://www.tiktok.com/@nathaliefischerx3\nPinterest https://www.pinterest.com/NathalieFischerx3/\n\nBusiness Inquiries | nathalie@socialclimate.me\n\n",
+        "thumbnailUrl": "https://yt3.ggpht.com/gAV6rrMESFZBuZz8wfKunEBkVE_KoMcDeEf5sHrkWwpaUl-noqnAk5HsdHVNhlcZ8lqXYBoNyg=s240-c-k-c0x00ffffff-no-rj",
+        "country": "US",
+        "subscriberCount": 379000,
+        "videoCount": 748,
+        "viewCount": 48570736,
+        "hits": 1,
+        "matchedVideos": [
+          {
+            "videoId": "fjZDCUwpLHk",
+            "title": "Spring Cleaning My Entire Kitchen 🫧 Decluttering, Organizing &amp; Deep Cleaning Motivation",
+            "publishedAt": "2026-05-22T14:19:44Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@nathaliebellax3"
+      },
+      {
+        "channelId": "UC7urt-oXYb5QCES9gMqtilA",
+        "title": "Evette Renee",
+        "handle": "@itsevetterenee",
+        "description": "Welcome to my space ✨ I share the daily systems, intentional habits, and lifestyle frameworks that make structured living feel effortless.\n\n👗 Intentional Presentation & Maintenance: Elevated beauty routines, thoughtful wardrobe choices, and the discipline of looking and feeling your best\n\n💻 Daily ",
+        "thumbnailUrl": "https://yt3.ggpht.com/cBAhZPRmxPw4vu0juT6kuEEKMWvFyysD75sNZRchd3NAm57hMVbjYpAexY7toLfQUZdC19Rn=s240-c-k-c0x00ffffff-no-rj",
+        "country": "US",
+        "subscriberCount": 354000,
+        "videoCount": 222,
+        "viewCount": 68701399,
+        "hits": 1,
+        "matchedVideos": [
+          {
+            "videoId": "ehtzc8IhYkY",
+            "title": "Soft Life Diaries: Sunday Reset Routine | Meal Prep &amp; Grocery Haul",
+            "publishedAt": "2026-03-29T13:00:00Z"
+          },
+          {
+            "videoId": "6bFn0QOc4K8",
+            "title": "MY SUNDAY RESET ROUTINE | meal prep, planning &amp; preparing for 2026",
+            "publishedAt": "2025-12-21T15:05:30Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@itsevetterenee"
+      },
+      {
+        "channelId": "UCBQza5Ie61SqzFNl2lkdNAQ",
+        "title": "Amy Darley",
+        "handle": "@amy.darley",
+        "description": "Hey there! I'm Amy Darley, a JESUS LOVING, stay-at-home mom of two awesome kids, happily married to my husband Chance for 17 years.\n\nOn this channel, I share cleaning tips, organization hacks, and easy recipes. My goal is to motivate you and keep you company even during the mundane everyday tasks.\n",
+        "thumbnailUrl": "https://yt3.ggpht.com/R5qLJ_ye_YxMQWuzQDh0o__jdmD9XXrB8_gYIPZogTU3KVJSIsjNw1sMer3LZ_O-RWixcMz7=s240-c-k-c0x00ffffff-no-rj",
+        "country": "US",
+        "subscriberCount": 280000,
+        "videoCount": 795,
+        "viewCount": 50026970,
+        "hits": 1,
+        "matchedVideos": [
+          {
+            "videoId": "hOZSxshVRB8",
+            "title": "NEW! CLEAN, DECLUTTER, &amp; ORGANIZE KITCHEN PART 1 | DEEP CLEANING MOTIVATION",
+            "publishedAt": "2026-02-23T14:08:41Z"
+          }
+        ],
+        "url": "https://www.youtube.com/@amy.darley"
+      }
+    ],
+    "liveSearches": 3,
+    "createdAt": "2026-10-05T13:41:13.547Z"
+  },
+  "scores": [
+    {
+      "briefId": "d72e90b621ab4e38",
+      "channelId": "UCE2hIKMrB6Heg3b53NcoeLQ",
+      "score": {
+        "fitScore": 55,
+        "verdict": "possible",
+        "reasons": [
+          "Joe Delaney has 836k UK subscribers and produced a matched video on simple high-protein meal prep on a budget.",
+          "The matched video was published in April 2024, making it older content.",
+          "His primary content focus is fitness and lifestyle rather than dedicated home cooking tutorials."
+        ],
+        "concerns": [
+          "The matched content is quite old, indicating meal prep is not a current focus.",
+          "Fitness vlogs may not convert as effectively for cookware compared to dedicated recipe channels."
+        ],
+        "audienceOverlap": "His fitness-focused audience overlaps partially with home cooks who meal prep for health and physique goals.",
+        "outreach": {
+          "angle": "Showcase batch cooking high-protein meals efficiently using a ceramic non-stick pan in a weekly routine vlog.",
+          "subjectLine": "Collaboration idea with Terra Cookware",
+          "openingMessage": "Hi Joe, I love how you break down practical high-protein meal prep for busy routines. We are reaching out from Terra Cookware because our ceramic non-stick pans make Sunday batch cooking and cleanup completely seamless. We would love to send you a set to test out during your next meal prep video if you are open to it. Let me know what you think!"
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:41:20.765Z"
+    },
+    {
+      "briefId": "d72e90b621ab4e38",
+      "channelId": "UCVALinyrHjsdDok1dB4I0Ig",
+      "score": {
+        "fitScore": 88,
+        "verdict": "strong",
+        "reasons": [
+          "Mom Nutritionist is a UK-range dietitian channel with 196k subscribers focused on healthy eating.",
+          "Multiple recent matched videos directly target Sunday meal prep, including posts from August 2026 and January 2026.",
+          "The content format naturally features kitchen tools and cookware during routine cooking tutorials."
+        ],
+        "concerns": [],
+        "audienceOverlap": "Her audience of health-conscious home cooks aligns perfectly with Sunday meal-preppers looking for reliable kitchen gear.",
+        "outreach": {
+          "angle": "Feature our ceramic non-stick pans in an upcoming Sunday meal prep routine video.",
+          "subjectLine": "Sunday meal prep partnership with Terra Cookware",
+          "openingMessage": "Hi Ayat, we have been following your Sunday meal prep ideas and love how accessible your healthy recipes are. I am reaching out from Terra Cookware. Our non-stick ceramic pans are designed specifically to make batch cooking and clean-up effortless for home cooks. We would love to gift you a set to use in your upcoming prep videos. Let me know if you would be interested!"
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:41:20.765Z"
+    },
+    {
+      "briefId": "d72e90b621ab4e38",
+      "channelId": "UCAAKwDsrywhnaWgwbr28bRQ",
+      "score": {
+        "fitScore": 65,
+        "verdict": "possible",
+        "reasons": [
+          "Jenn Lueke has 178k subscribers and frequently creates content dedicated to weekly meal planning and grocery budgeting.",
+          "Matched videos include active weekly series such as the October 2026 meal prep plan.",
+          "The channel is based in the US, which falls outside the requested United Kingdom region."
+        ],
+        "concerns": [
+          "The channel region is the United States, missing the UK campaign target."
+        ],
+        "audienceOverlap": "Her community consists of home cooks who plan and prep weekly meals, matching the target demographic despite the geographic mismatch.",
+        "outreach": {
+          "angle": "Integrate our ceramic pans into a budget-friendly weekly meal planning and cooking video.",
+          "subjectLine": "Partnering with Terra Cookware",
+          "openingMessage": "Hi Jenn, your weekly meal planning guides are fantastic and so practical for home cooks. I'm reaching out from Terra Cookware because we make ceramic non-stick pans that make batch cooking simple and cleanup a breeze. Even though we are focusing heavily on the UK right now, we love your content and think your audience would connect with our pans. Let me know if you'd like to test a set!"
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:41:20.765Z"
+    },
+    {
+      "briefId": "d72e90b621ab4e38",
+      "channelId": "UCDHTLhQbYlFnPBv-iLgFsQQ",
+      "score": {
+        "fitScore": 82,
+        "verdict": "strong",
+        "reasons": [
+          "The Doctor's Kitchen is a UK-based channel with 795k subscribers run by Dr Rupy, focusing on healthy food and nutrition.",
+          "Recent matched videos from 2026 feature high-protein freezer meal prep and quick weekday lunch preparation.",
+          "The kitchen-centric format provides a natural integration point for ceramic non-stick cookware."
+        ],
+        "concerns": [],
+        "audienceOverlap": "His audience of health-minded individuals and home cooks looking for efficient meal prep overlaps directly with the brief.",
+        "outreach": {
+          "angle": "Highlight the ease of batch cooking healthy high-protein dinners using a durable ceramic pan.",
+          "subjectLine": "Recipe video collaboration with Terra Cookware",
+          "openingMessage": "Hi Rupy, we are big fans of your efficient high-protein meal prep guides on the channel. I'm reaching out from Terra Cookware. Our ceramic non-stick pans provide even heating and easy release, making them ideal for quick batch cooking. We would love to sponsor a cooking segment or gift you pans for your kitchen setup. Let me know if you are open to collaborating!"
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:41:20.765Z"
+    },
+    {
+      "briefId": "d72e90b621ab4e38",
+      "channelId": "UCP0CN417pisSq5Q4tdPcWrQ",
+      "score": {
+        "fitScore": 75,
+        "verdict": "strong",
+        "reasons": [
+          "Channel 4 Food is a UK-based channel with 110k subscribers featuring accessible cooking content.",
+          "Matched videos specifically highlight healthy batch cooking recipes designed to save time and money, such as the May 2026 upload.",
+          "The format centers entirely on practical home cooking tutorials."
+        ],
+        "concerns": [
+          "As a broadcaster-backed channel, collaboration logistics and sponsored integration rates may differ from independent creators."
+        ],
+        "audienceOverlap": "Their viewers are British home cooks looking for accessible weeknight dinner and batch cooking inspiration.",
+        "outreach": {
+          "angle": "Incorporate our non-stick pans naturally into a 'Batch From Scratch' episode featuring money-saving recipes.",
+          "subjectLine": "Batch From Scratch partnership with Terra Cookware",
+          "openingMessage": "Hi team, we love the practical approach of the Batch From Scratch series on Channel 4 Food. I am reaching out from Terra Cookware. Our ceramic non-stick pans are designed for weeknight batch cooking, helping home cooks prepare meals efficiently without the cleanup headache. We would love to discuss a product integration for an upcoming batch cooking episode. Let me know who best to speak with!"
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:41:20.765Z"
+    },
+    {
+      "briefId": "d72e90b621ab4e38",
+      "channelId": "UCe0RrttK67uph8PMQ9aibgQ",
+      "score": {
+        "fitScore": 30,
+        "verdict": "weak",
+        "reasons": [
+          "The channel is based in the US rather than the United Kingdom.",
+          "Content focuses on home decor, cleaning, and organization rather than batch cooking or cookware reviews.",
+          "Matched videos like 'KITCHEN ORGANIZATION IDEAS' do not feature recipe tutorials or meal prep."
+        ],
+        "concerns": [
+          "Wrong geographic market for the UK campaign.",
+          "Content format does not align with ceramic pan usage or batch cooking."
+        ],
+        "audienceOverlap": "Viewers love home organization and cleaning aesthetics, but they are not specifically looking for weeknight batch-cooking cookware.",
+        "outreach": {
+          "angle": "Kitchen organization reset featuring durable ceramic pans.",
+          "subjectLine": "Collaboration with Terra Cookware",
+          "openingMessage": "Hi Linda, I love your kitchen organization and restock videos. I reach out from Terra Cookware. We make ceramic non-stick pans designed for easy weeknight batch cooking. Since you frequently feature kitchen updates, we would love to send you a set to test in your routine. Let me know if you are open to checking them out."
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:41:27.383Z"
+    },
+    {
+      "briefId": "d72e90b621ab4e38",
+      "channelId": "UCE4w8Xle0IPZHyUYDX5Jq2w",
+      "score": {
+        "fitScore": 35,
+        "verdict": "weak",
+        "reasons": [
+          "The channel is based in the US, missing the UK target region.",
+          "Matched content focuses on fridge cleaning and basic reset routines rather than dedicated meal prep or cookware reviews.",
+          "Subscriber base and foodie angle skew general lifestyle rather than home cooking tutorials."
+        ],
+        "concerns": [
+          "Geographic mismatch for UK sales.",
+          "Lack of core batch-cooking focus."
+        ],
+        "audienceOverlap": "Followers enjoy lifestyle and food vlogs, but the UK meal-prep demographic is only partially represented.",
+        "outreach": {
+          "angle": "Fridge reset and meal prep day using our ceramic pans.",
+          "subjectLine": "Terra Cookware collaboration idea",
+          "openingMessage": "Hi, I watch your kitchen resets and dinner vlogs and love your style. I work with Terra Cookware, crafting ceramic non-stick pans for Sunday meal prep. We would love to gift you a set to use during your next kitchen reset and cooking session. Let me know if you would be interested."
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:41:27.383Z"
+    },
+    {
+      "briefId": "d72e90b621ab4e38",
+      "channelId": "UCC3YA7qybOTCzwr7DO4tvNQ",
+      "score": {
+        "fitScore": 30,
+        "verdict": "weak",
+        "reasons": [
+          "Channel is located in the US instead of the United Kingdom.",
+          "Focus is primarily on lifestyle vlogging and home renovation rather than cooking tutorials.",
+          "Matched video is strictly about spring cleaning and decluttering."
+        ],
+        "concerns": [
+          "Wrong region for the campaign.",
+          "Product integration would feel forced given the cleaning-only focus of the matched content."
+        ],
+        "audienceOverlap": "Audience enjoys home renovation and lifestyle content, but is not specifically searching for batch-cooking gear.",
+        "outreach": {
+          "angle": "Kitchen refresh featuring new ceramic cookware.",
+          "subjectLine": "Terra Cookware pans for your kitchen",
+          "openingMessage": "Hi Nathalie, I’ve been following your home renovation journey in the Hudson Valley. I reach out from Terra Cookware. We make ceramic non-stick pans perfect for easy home cooking. As you settle into your kitchen, we would love to send you some pans to try out. Let me know if you'd be open to this."
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:41:27.383Z"
+    },
+    {
+      "briefId": "d72e90b621ab4e38",
+      "channelId": "UC7urt-oXYb5QCES9gMqtilA",
+      "score": {
+        "fitScore": 45,
+        "verdict": "weak",
+        "reasons": [
+          "Channel is based in the US, missing the UK requirement.",
+          "Matched videos like 'Sunday Reset Routine | Meal Prep & Grocery Haul' align well with meal prep themes.",
+          "Content format touches on structured living and planning, though cookware is not a central focus."
+        ],
+        "concerns": [
+          "Target region is the UK, but this creator is US-based."
+        ],
+        "audienceOverlap": "Viewers are highly aligned with Sunday reset routines and meal prep, but reside in the wrong geographic market.",
+        "outreach": {
+          "angle": "Sunday reset meal prep session using non-stick ceramic pans.",
+          "subjectLine": "Sunday meal prep partnership with Terra Cookware",
+          "openingMessage": "Hi Evette, I really enjoy your Sunday reset and meal prep routines. I reach out on behalf of Terra Cookware. We make ceramic non-stick pans designed specifically for batch cooking and meal prepping. Given your routine content, we would love to send you a set to test out. Let me know if you are interested."
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:41:27.383Z"
+    },
+    {
+      "briefId": "d72e90b621ab4e38",
+      "channelId": "UCBQza5Ie61SqzFNl2lkdNAQ",
+      "score": {
+        "fitScore": 35,
+        "verdict": "weak",
+        "reasons": [
+          "Based in the US rather than the UK.",
+          "Matched content focuses on kitchen deep cleaning and decluttering rather than meal preparation tutorials.",
+          "Channel primarily targets stay-at-home moms with cleaning motivation rather than dedicated batch cookers."
+        ],
+        "concerns": [
+          "Geographic mismatch for the UK market.",
+          "Product fit is secondary to cleaning content."
+        ],
+        "audienceOverlap": "Audience consists of home organizers and parents looking for cleaning motivation rather than UK meal-prep enthusiasts.",
+        "outreach": {
+          "angle": "Post-cleaning kitchen restock and easy dinner prep.",
+          "subjectLine": "Terra Cookware for your kitchen",
+          "openingMessage": "Hi Amy, I love your kitchen cleaning and organization motivation videos. I reach out from Terra Cookware. We produce ceramic non-stick pans ideal for quick weeknight dinners. Since you spend time getting your kitchen in order, we'd love to gift you a set for your cooking videos. Let me know if you're open to it."
+        }
+      },
+      "model": "gemini-3.5-flash-lite",
+      "createdAt": "2026-10-05T13:41:27.383Z"
+    }
+  ],
+  "precomputedAt": "2026-10-05T13:41:27.383Z"
+}

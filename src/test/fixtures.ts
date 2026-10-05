@@ -6,7 +6,7 @@ import {
 } from "@/lib/schemas";
 
 export const briefFixture: Brief = Brief.parse({
-  brandName: "Peak Fuel",
+  brandName: "Peak Fuel Labs", // not an example brief, so no precomputed record matches
   product: "Electrolyte drink mix for long-distance runners",
   audience: "Amateur marathon and half-marathon runners",
   goal: "awareness",

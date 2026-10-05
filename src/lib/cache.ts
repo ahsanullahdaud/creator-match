@@ -1,5 +1,6 @@
 import { Redis } from "@upstash/redis";
 import { getConfig, hasRedis } from "./config";
+import { exampleLookup } from "./examples";
 
 export type StoreKind = "memory" | "redis";
 
@@ -99,15 +100,45 @@ export class RedisStore implements CacheStore {
   }
 }
 
+/**
+ * Precomputed example records answer first; everything else goes to the
+ * real store. Writes never touch the examples, so they cannot be overwritten.
+ */
+export class ExampleBackedStore implements CacheStore {
+  constructor(private readonly inner: CacheStore) {}
+
+  get kind(): StoreKind {
+    return this.inner.kind;
+  }
+
+  async get<T>(key: string): Promise<T | null> {
+    const example = exampleLookup<T>(key);
+    return example !== undefined ? example : this.inner.get<T>(key);
+  }
+
+  set<T>(key: string, value: T, ttlSeconds: number): Promise<void> {
+    return this.inner.set(key, value, ttlSeconds);
+  }
+
+  incr(key: string, ttlSeconds: number): Promise<number> {
+    return this.inner.incr(key, ttlSeconds);
+  }
+
+  del(key: string): Promise<void> {
+    return this.inner.del(key);
+  }
+}
+
 let singleton: CacheStore | null = null;
 
-/** Redis when the Vercel Upstash variables are set, otherwise the in-memory store. */
+/** Redis when the Vercel Upstash variables are set, otherwise the in-memory store, with the examples in front. */
 export function getCache(): CacheStore {
   if (singleton) return singleton;
   const config = getConfig();
   const { KV_REST_API_URL: url, KV_REST_API_TOKEN: token } = config;
+  let store: CacheStore;
   if (hasRedis(config) && url && token) {
-    singleton = new RedisStore(
+    store = new RedisStore(
       new Redis({ url, token, automaticDeserialization: false }),
     );
   } else {
@@ -116,8 +147,9 @@ export function getCache(): CacheStore {
         "KV_REST_API_URL/KV_REST_API_TOKEN not set: using in-memory cache, counters will not be shared",
       );
     }
-    singleton = new MemoryStore();
+    store = new MemoryStore();
   }
+  singleton = new ExampleBackedStore(store);
   return singleton;
 }
 

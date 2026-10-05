@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
+import type { BriefSource } from "@/components/BriefForm";
 import { readNdjson } from "@/lib/ndjson";
 import type {
   Brief,
@@ -30,6 +31,8 @@ export type ScoreStatus =
 
 export interface PipelineState {
   stage: Stage;
+  /** Whether the run started from the form or an example button. */
+  source: BriefSource;
   /** Which stage failed when stage is "error". */
   failedStage: "brief" | "search" | "score" | null;
   brief: Brief | null;
@@ -50,6 +53,7 @@ export interface PipelineState {
 
 const INITIAL: PipelineState = {
   stage: "idle",
+  source: "form",
   failedStage: null,
   brief: null,
   briefId: null,
@@ -222,10 +226,10 @@ export function useMatchPipeline() {
   );
 
   const run = useCallback(
-    async (brief: Brief) => {
+    async (brief: Brief, source: BriefSource = "form") => {
       const id = ++runId.current;
       const current = () => id === runId.current;
-      setState({ ...INITIAL, stage: "brief", brief });
+      setState({ ...INITIAL, stage: "brief", brief, source });
 
       const briefOutcome = await postJson<BriefResponse>("/api/brief", brief);
       if (!current()) return;
