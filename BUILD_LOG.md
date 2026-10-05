@@ -261,3 +261,26 @@ Decided before step 6, so no LLM code exists yet. The user chose the Google Gemi
 
 - The plain live status afterwards showed 0 of 3 searches left for this IP. The machine running these checks shares its public IP with the user's own browser testing after step 9, so that is their usage, not a bug. The passcode is exactly the escape hatch for this.
 - The passcode value was read from `.env.local` into a shell variable and sent through a JSON encoder, never echoed; the cookie jar files held only the HMAC token and were deleted.
+
+## Step 11 - Precomputed examples (2026-10-05)
+
+### What was built
+
+- `scripts/precompute-examples.ts` (`npm run precompute`, optionally with slugs): runs `generateQueries`, the YouTube search and ranking pipeline, and batched `scoreCreators` through the lib functions for each example brief, then writes `data/examples/<slug>.json` as an `Example` record (brief, search and score records plus `precomputedAt`). Prints the Gemini and YouTube counts at the end.
+- `src/lib/examples.ts` imports the three JSON files statically, so they are bundled into the serverless functions, validates them against the schema, and indexes them by cache key. `ExampleBackedStore` in `cache.ts` wraps the real store: reads of an example's `brief:`, `search:` or `score:` key are answered from the bundle, writes never touch it. The routes needed no change to serve examples for free.
+- `/api/status` lists the examples. The pipeline hook records whether a run came from an example; the status panel shows a "precomputed" badge and "no quota spent", and offers the example buttons inside the error box when a run is blocked by `budget_exhausted` or `visitor_limit`. Picking one there remounts the form with the example's values and runs it.
+- The test fixture brand became "Peak Fuel Labs" because the fixture had been identical to the Peak Fuel example and thirty route tests started answering from the precomputed layer. Fixtures must never collide with real example data.
+- Tests: example files match `EXAMPLE_BRIEFS` one to one and are internally consistent, read-through serves them without writes, the full pipeline runs with every budget at zero and no external calls, the status route lists them. 24 files, 149 tests.
+
+### Verification
+
+- `npm run lint`, `npm run typecheck`, `npm test`: clean.
+- `npm run precompute` ran once: 59 s, 9 Gemini requests, 9 YouTube searches, 10 creators and 10 scores per example.
+- Local, against a production build on port 3011 with `VISITOR_SEARCH_LIMIT`, `VISITOR_BRIEF_LIMIT`, both YouTube search budgets and `LLM_DAILY_REQUEST_BUDGET` all set to 0: each example returned a cached brief, a cached search with 10 creators and 10 cached score lines, in 66 to 88 ms end to end; a non-example brief was refused with 429 before any call; the server log contains no `live_searches` or `llm_ms` entries.
+- Commit `6794889` pushed. Vercel deployment `6860628547` succeeded. Live, with this IP already at 0 of 3 searches: all three examples returned full scored results in 485 to 702 ms, and `/api/status` was identical before and after.
+- Spent in this step: Gemini requests 9, YouTube searches 9, all by the single precompute run. The checks spent nothing.
+
+### Surprises
+
+- The example JSON is bundled through static imports rather than read from disk at runtime, because Vercel's function bundles only include files the bundler can see.
+- An inline Node check script mixing `require` with top-level `await` fails on Node 26 with `ERR_AMBIGUOUS_MODULE_SYNTAX`; the check moved to an `.mjs` file. The first live run of the checks produced no output for that reason and was repeated.
