@@ -217,3 +217,25 @@ Decided before step 6, so no LLM code exists yet. The user chose the Google Gemi
 
 - Nothing is streamed before the first batch finishes, so the response headers themselves arrive at about 6.5 s on a cold brief. Cached scores do go out immediately. Acceptable: the cards already show skeletons from the search stage.
 - TypeScript does not carry a null check into a nested generator function, so the brief record is destructured before `lines()` is defined.
+
+## Step 9 - Visitor limits and quota banner (2026-10-05)
+
+### What was built
+
+- `src/lib/rate-limit.ts`: `clientIp` (first `x-forwarded-for` entry, then `x-real-ip`, else `local`), `visitorId` (salted hash, the only form that reaches the cache or logs), `visitorSearchStatus`, `checkVisitorSearch`, `countVisitorSearch` (one count per `/api/search` run that hit YouTube), `checkVisitorBrief`, `countVisitorBrief` (one count per `/api/brief` cache miss). Buckets are per visitor and UTC day; a `bypass` flag (step 10's passcode) reports limits without enforcing them.
+- `/api/search` checks the allowance after the cache lookup, so cached results stay free, and counts only runs with at least one live search. `/api/brief` checks and counts before spending a model request. `/api/status` and the search response carry the visitor's remaining allowance.
+- `QuotaBanner`: "2 of 3 live searches left today", a warning at 0 pointing at the examples, the global low or exhausted budget, and passcode state. The page fetches status on load and after each run so the banner counts down.
+- Tests: IP parsing and hashing, search and brief buckets with bypass and day rollover, the search route refusing at the limit before any YouTube call, counting live runs once, separate buckets per IP, cached and query-cache runs not counting, the brief route refusing past its limit and not counting cached briefs, the status route per IP. 21 files, 132 tests.
+
+### Verification
+
+- `npm run lint`, `npm run typecheck`, `npm test`: clean.
+- Local, against a production build on port 3011 started with `VISITOR_SEARCH_LIMIT=1` in the process environment: fresh Terra Cookware brief (1 Gemini request), its search ran live (3 searches) and left `remaining: 0`; a second fresh brief (1 Gemini request) got `429 visitor_limit` on search before any YouTube call; the first search again was `cached: true` and free. The server log shows `live_searches: 3`, then the 429 in 1 ms, then the cached hit.
+- Commit `6dcf5f6` pushed. Vercel deployment `6859790133` succeeded. Live: status showed 3 remaining; the cached Peak Fuel search left it at 3; a fresh Terra Cookware brief (1 Gemini request) and search (3 searches) dropped it to 2; status confirmed 2.
+- Spent in this step: Gemini requests 7 attempted, 5 succeeded (4 attempts on the dev server with 2 failures, 2 on the production build, 1 live); YouTube searches 6 (3 local, 3 live).
+
+### Surprises
+
+- Changing `.env.local` makes the dev server reload the environment and re-evaluate server modules, which empties the in-memory cache. That is also why earlier steps found the dev cache "emptied". The limit check therefore ran against `next start` on another port with the variable set in the process environment, which Next 16 allows alongside the dev server because dev output lives in `.next/dev`.
+- The two brief calls made right after an env reload failed, one with `Gemini request timed out` after the SDK's own retries; the same calls succeeded a minute later. The 30 s timeout spans the SDK's retry attempts, so a run of transient failures reports as a timeout. It is marked retryable and the card offers Retry. Not reproduced in steady state.
+- `/api/brief` responses carry no visitor field, which is fine since the banner refreshes from `/api/status` after every run.
