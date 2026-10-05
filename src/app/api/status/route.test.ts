@@ -82,3 +82,34 @@ describe("GET /api/status visitor", () => {
     expect(other.visitor.remaining).toBe(3);
   });
 });
+
+describe("GET /api/status with the passcode cookie", () => {
+  it("reports bypass and judges the budget against the total threshold", async () => {
+    vi.stubEnv("KV_REST_API_URL", "");
+    vi.stubEnv("KV_REST_API_TOKEN", "");
+    vi.stubEnv("DEMO_PASSCODE", "open-sesame");
+    vi.stubEnv("RATE_LIMIT_SALT", "salt");
+    vi.stubEnv("YT_PUBLIC_SEARCH_BUDGET", "");
+    resetCache();
+    vi.spyOn(console, "log").mockImplementation(() => {});
+    const { passcodeToken } = await import("@/lib/access");
+    const { getCache } = await import("@/lib/cache");
+    const { keys } = await import("@/lib/keys");
+    await getCache().set(keys.ytSearches(), 60, 3600);
+    const headers = {
+      cookie: `cm_pass=${passcodeToken("open-sesame", "salt")}`,
+    };
+    const body = StatusResponse.parse(
+      await (
+        await GET(new Request("http://localhost/api/status", { headers }))
+      ).json(),
+    );
+    expect(body.visitor.bypass).toBe(true);
+    expect(body.budget).toBe("ok");
+    const plain = StatusResponse.parse(
+      await (await GET(new Request("http://localhost/api/status"))).json(),
+    );
+    expect(plain.visitor.bypass).toBe(false);
+    expect(plain.budget).toBe("exhausted");
+  });
+});

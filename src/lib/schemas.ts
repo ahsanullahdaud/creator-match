@@ -270,6 +270,9 @@ export const PasscodeRequest = z.object({
 });
 export type PasscodeRequest = z.infer<typeof PasscodeRequest>;
 
+export const PasscodeResponse = z.object({ bypass: z.boolean() });
+export type PasscodeResponse = z.infer<typeof PasscodeResponse>;
+
 export const StatusResponse = z.object({
   visitor: VisitorStatus,
   budget: BudgetState,

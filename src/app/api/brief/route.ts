@@ -1,3 +1,4 @@
+import { hasBypass } from "@/lib/access";
 import { getCache } from "@/lib/cache";
 import { getConfig, TTL_SECONDS } from "@/lib/config";
 import { fromZodError } from "@/lib/errors";
@@ -35,11 +36,12 @@ export const POST = handle("brief", async (request, ctx) => {
   }
 
   // A cache miss spends a model request, so it counts against the visitor.
-  // Passcode bypass arrives in step 10.
   const config = getConfig();
   const visitor = visitorId(request, config);
+  const bypass = hasBypass(request, config);
   ctx.log.visitor = visitor;
-  await checkVisitorBrief({ cache, config, visitor });
+  ctx.log.bypass = bypass;
+  await checkVisitorBrief({ cache, config, visitor, bypass });
   await countVisitorBrief({ cache, config, visitor });
 
   const started = Date.now();

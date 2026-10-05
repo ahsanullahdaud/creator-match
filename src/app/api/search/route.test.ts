@@ -114,6 +114,7 @@ describe("POST /api/search", () => {
       queryPlanFixture.queries[0].q,
       "US",
       "en",
+      { bypass: false },
     ]);
     expect(channelsMock).toHaveBeenCalledWith(["A", "B", "C", "D"]);
     const record = await getCache().get<SearchRecord>(keys.search(id));
@@ -275,5 +276,43 @@ describe("POST /api/search visitor limit", () => {
       await (await postAs("203.0.113.5", { briefId: id })).json(),
     );
     expect(body.visitor.remaining).toBe(3);
+  });
+});
+
+describe("POST /api/search with the passcode cookie", () => {
+  beforeEach(() => {
+    vi.stubEnv("KV_REST_API_URL", "");
+    vi.stubEnv("KV_REST_API_TOKEN", "");
+    vi.stubEnv("DEMO_PASSCODE", "open-sesame");
+    vi.stubEnv("RATE_LIMIT_SALT", "salt");
+    resetCache();
+    searchMock.mockReset();
+    channelsMock.mockReset();
+    vi.spyOn(console, "log").mockImplementation(() => {});
+  });
+
+  it("ignores the visitor limit and asks YouTube with the total budget", async () => {
+    const { passcodeToken } = await import("@/lib/access");
+    const { visitorId } = await import("@/lib/rate-limit");
+    const headers = {
+      "content-type": "application/json",
+      "x-forwarded-for": "203.0.113.5",
+      cookie: `cm_pass=${passcodeToken("open-sesame", "salt")}`,
+    };
+    const id = await seedBrief();
+    const visitor = visitorId(new Request("http://x", { headers }));
+    await getCache().set(keys.rlSearch(visitor), 3, 3600);
+    happyMocks();
+    const res = await POST(
+      new Request("http://localhost/api/search", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ briefId: id }),
+      }),
+    );
+    expect(res.status).toBe(200);
+    const body = SearchResponse.parse(await res.json());
+    expect(body.visitor).toEqual({ remaining: 3, limit: 3, bypass: true });
+    expect(searchMock.mock.calls[0][3]).toEqual({ bypass: true });
   });
 });

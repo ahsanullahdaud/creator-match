@@ -1,3 +1,4 @@
+import { hasBypass } from "@/lib/access";
 import { getCache } from "@/lib/cache";
 import { getConfig, LIMITS, TTL_SECONDS } from "@/lib/config";
 import { AppError, fromZodError } from "@/lib/errors";
@@ -38,10 +39,11 @@ export const POST = handle("search", async (request, ctx) => {
     throw new AppError("not_found", "Unknown brief. Submit the brief again.");
   }
 
-  // Passcode bypass arrives in step 10.
   const visitor = visitorId(request, config);
+  const bypass = hasBypass(request, config);
   ctx.log.visitor = visitor;
-  const limits = { cache, config, visitor };
+  ctx.log.bypass = bypass;
+  const limits = { cache, config, visitor, bypass };
 
   const respond = async (record: SearchRecord, cached: boolean) => {
     const body: SearchResponse = {
@@ -49,7 +51,7 @@ export const POST = handle("search", async (request, ctx) => {
       creators: record.creators,
       cached,
       visitor: await visitorSearchStatus(limits),
-      budget: budgetState(await youtubeSearchesToday(cache), config),
+      budget: budgetState(await youtubeSearchesToday(cache), config, bypass),
     };
     return json(body);
   };
@@ -68,7 +70,9 @@ export const POST = handle("search", async (request, ctx) => {
 
   const searchStart = Date.now();
   const settled = await Promise.allSettled(
-    plan.map((query) => searchVideos(query.q, brief.region, brief.language)),
+    plan.map((query) =>
+      searchVideos(query.q, brief.region, brief.language, { bypass }),
+    ),
   );
   const results: SearchResult[] = [];
   let firstFailure: unknown = null;

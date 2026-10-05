@@ -85,8 +85,12 @@ export async function countYoutubeUnit(
 export function budgetState(
   searchesUsed: number,
   config: Config = getConfig(),
+  bypass = false,
 ): BudgetState {
-  const remaining = config.YT_PUBLIC_SEARCH_BUDGET - searchesUsed;
+  const budget = bypass
+    ? config.YT_TOTAL_SEARCH_BUDGET
+    : config.YT_PUBLIC_SEARCH_BUDGET;
+  const remaining = budget - searchesUsed;
   if (remaining <= 0) return "exhausted";
   if (remaining < LIMITS.LOW_BUDGET_THRESHOLD) return "low";
   return "ok";
@@ -183,4 +187,12 @@ export async function countVisitorBrief(
 ): Promise<number> {
   const { cache, now, visitor } = resolve(context);
   return cache.incr(keys.rlBrief(visitor, now), TTL_SECONDS.visitorBucket);
+}
+
+/** Counts one passcode attempt for this visitor today and returns the total. */
+export async function countPasscodeAttempt(
+  context: VisitorContext,
+): Promise<number> {
+  const { cache, now, visitor } = resolve(context);
+  return cache.incr(keys.rlPasscode(visitor, now), TTL_SECONDS.visitorBucket);
 }

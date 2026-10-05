@@ -15,4 +15,6 @@ export const keys = {
   rlSearch: (ipHash: string, now?: Date) =>
     `rl:search:${ipHash}:${utcDate(now)}`,
   rlBrief: (ipHash: string, now?: Date) => `rl:brief:${ipHash}:${utcDate(now)}`,
+  rlPasscode: (ipHash: string, now?: Date) =>
+    `rl:passcode:${ipHash}:${utcDate(now)}`,
 } as const;

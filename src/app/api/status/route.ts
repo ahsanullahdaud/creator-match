@@ -1,3 +1,4 @@
+import { hasBypass } from "@/lib/access";
 import { getCache } from "@/lib/cache";
 import { LIMITS, getConfig } from "@/lib/config";
 import {
@@ -16,19 +17,26 @@ export const GET = handle("status", async (request, ctx) => {
   const config = getConfig();
   const cache = getCache();
   const visitor = visitorId(request, config);
+  const bypass = hasBypass(request, config);
   ctx.log.visitor = visitor;
+  ctx.log.bypass = bypass;
 
   // Real round trips, so bad Redis credentials show up here and not in /api/search.
   const started = Date.now();
   const searchesUsed = await youtubeSearchesToday(cache);
-  const visitorStatus = await visitorSearchStatus({ cache, config, visitor });
+  const visitorStatus = await visitorSearchStatus({
+    cache,
+    config,
+    visitor,
+    bypass,
+  });
   ctx.log.cache_ms = Date.now() - started;
   ctx.log.searches_today = searchesUsed;
 
   // Examples arrive in step 11.
   const body: StatusResponse = {
     visitor: visitorStatus,
-    budget: budgetState(searchesUsed, config),
+    budget: budgetState(searchesUsed, config, bypass),
     maxCreators: LIMITS.MAX_CREATORS,
     store: cache.kind,
     examples: [],

@@ -12,6 +12,7 @@ export const LIMITS = {
   YT_SEARCH_DAILY_CAP: 100, // search.list has its own bucket of 100 calls/day
   YT_UNIT_DAILY_CAP: 10_000, // channels.list and videos.list, 1 unit each
   LOW_BUDGET_THRESHOLD: 10, // "low" once fewer public searches remain today
+  PASSCODE_ATTEMPTS_PER_DAY: 20,
 } as const;
 
 const HOUR = 3_600;

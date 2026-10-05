@@ -224,3 +224,40 @@ describe("POST /api/brief visitor limit", () => {
     expect(await getCache().get(keys.rlBrief(visitor))).toBe(1);
   });
 });
+
+describe("POST /api/brief with the passcode cookie", () => {
+  it("ignores the brief limit", async () => {
+    vi.stubEnv("GEMINI_API_KEY", "test-key");
+    vi.stubEnv("KV_REST_API_URL", "");
+    vi.stubEnv("KV_REST_API_TOKEN", "");
+    vi.stubEnv("VISITOR_BRIEF_LIMIT", "1");
+    vi.stubEnv("DEMO_PASSCODE", "open-sesame");
+    vi.stubEnv("RATE_LIMIT_SALT", "salt");
+    resetCache();
+    resetLlm();
+    gemini.create.mockReset();
+    gemini.create.mockResolvedValue(interactionWith(validText));
+    vi.spyOn(console, "log").mockImplementation(() => {});
+    const { passcodeToken } = await import("@/lib/access");
+    const headers = {
+      "content-type": "application/json",
+      "x-forwarded-for": "203.0.113.5",
+      cookie: `cm_pass=${passcodeToken("open-sesame", "salt")}`,
+    };
+    const send = (body: unknown) =>
+      POST(
+        new Request("http://localhost/api/brief", {
+          method: "POST",
+          headers,
+          body: JSON.stringify(body),
+        }),
+      );
+    expect((await send(briefFixture)).status).toBe(200);
+    expect((await send({ ...briefFixture, brandName: "Second" })).status).toBe(
+      200,
+    );
+    expect((await send({ ...briefFixture, brandName: "Third" })).status).toBe(
+      200,
+    );
+  });
+});

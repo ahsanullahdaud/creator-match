@@ -166,3 +166,28 @@ describe("visitor buckets", () => {
     ).resolves.toBeUndefined();
   });
 });
+
+describe("budgetState with bypass and passcode attempts", () => {
+  it("uses the total threshold for passcode holders", async () => {
+    const { budgetState } = await import("@/lib/rate-limit");
+    const config = getConfig({
+      YT_PUBLIC_SEARCH_BUDGET: "60",
+      YT_TOTAL_SEARCH_BUDGET: "95",
+    });
+    expect(budgetState(60, config)).toBe("exhausted");
+    expect(budgetState(60, config, true)).toBe("ok");
+    expect(budgetState(90, config, true)).toBe("low");
+    expect(budgetState(95, config, true)).toBe("exhausted");
+  });
+
+  it("countPasscodeAttempt counts per visitor and day", async () => {
+    const { MemoryStore } = await import("@/lib/cache");
+    const { countPasscodeAttempt } = await import("@/lib/rate-limit");
+    const cache = new MemoryStore();
+    const now = new Date("2026-10-05T12:00:00Z");
+    expect(await countPasscodeAttempt({ cache, now, visitor: "abc" })).toBe(1);
+    expect(await countPasscodeAttempt({ cache, now, visitor: "abc" })).toBe(2);
+    expect(await countPasscodeAttempt({ cache, now, visitor: "xyz" })).toBe(1);
+    expect(await cache.get(keys.rlPasscode("abc", now))).toBe(2);
+  });
+});
