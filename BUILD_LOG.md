@@ -312,3 +312,21 @@ Decided before step 6, so no LLM code exists yet. The user chose the Google Gemi
   1. _Finding the production domain (step 2)._ Every URL GitHub's deployment record exposes redirected to Vercel's login because Standard Protection hides generated URLs, and `creator-match.vercel.app` belonged to someone else. Probing suffixes found `-seven` serving the template page, which proves nothing on its own; changing the page title and watching that domain pick up the new deployment proved ownership.
   2. _The vanishing dev cache (steps 7 to 9)._ Editing `.env.local` makes the dev server reload the environment and re-evaluate server modules, which empties the in-memory cache, and the first Gemini calls after a reload timed out. Verification moved to a production build on a second port with limits set in the process environment, which Next 16 allows beside the dev server. That pattern made the zero-quota proofs in steps 9, 10 and 11 possible.
   3. _Thirty tests that passed for the wrong reason (step 11)._ The test fixture brief was identical to the Peak Fuel example, so as soon as the precomputed read-through existed, route tests started answering from it and asserting on the wrong data. Renaming the fixture brand fixed it; the lesson is that fixtures must never collide with real data the app ships.
+
+## Fix - Fail closed when Redis is unavailable (2026-10-05)
+
+### What was built
+
+- `CacheUnavailableError` in `errors.ts`; `RedisStore` wraps every Upstash call in it and the client is configured with two quick retries (150 ms, 300 ms) so an outage costs about a second, not the SDK's default five-retry backoff.
+- The route wrapper maps it to `503 budget_exhausted` with "Live search is unavailable right now. The example briefs still work." and logs `cache_down`. `toErrorResponse` does the same for any caller. The client shows the server's message as is and offers the example buttons, as it already did for that code.
+- `/api/score` streams one `budget_exhausted` line per channel still waiting when Redis fails before or during scoring, then `done`, instead of breaking the stream. The scoring-cap read is skipped when every score was already cached, so an example never touches Redis.
+- `/api/search` and `/api/status` still return a cached or precomputed result when Redis is down, reporting the new `budget: "unavailable"` state with `remaining: 0`; the banner reads "Live search is temporarily unavailable. The example briefs still work." `BudgetState` gained that value.
+- `FailingStore` test double and `setCache()` for tests. New tests: live brief, search, score stream, and passcode fail closed with the friendly message and no external calls; the examples run end to end; status degrades but lists the examples; `RedisStore` wraps client errors. 26 files, 158 tests.
+- README: the cache bullet states the fail-closed behaviour, and a Known limitations section lists the remaining six weaknesses with their trade-offs.
+
+### Verification
+
+- `npm run lint`, `npm run typecheck`, `npm test`: clean.
+- Local, production build on port 3011 with `KV_REST_API_URL=https://127.0.0.1:9` (nothing listening): status answered in 668 ms with `budget: "unavailable"` and the examples listed; the Peak Fuel example ran fully cached in 591 ms; a fresh brief got `503 budget_exhausted` with the friendly message in about a second and no Gemini call; the passcode route got the same 503; the log shows `cache_down` and no spend lines.
+- Commit `77fe374` pushed. Vercel deployment `6861669530` succeeded. Live, with Redis healthy: status `budget: "ok"`, the Terra Cookware example fully cached in 858 ms.
+- Spent: 0 Gemini requests, 0 YouTube searches. Repository confirmed public at https://github.com/ahsanullahdaud/creator-match.
