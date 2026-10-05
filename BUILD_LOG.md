@@ -304,7 +304,7 @@ Decided before step 6, so no LLM code exists yet. The user chose the Google Gemi
 
 ## Summary
 
-- **Elapsed.** About 8 hours of working sessions: 2 October, roughly 16:10 to 19:20 (plan, scaffold, deploy, schemas, cache, form); 5 October, roughly 11:00 to 15:30 (Gemini plan change, LLM, YouTube, scoring, limits, passcode, examples, polish). 29 commits.
+- **Elapsed.** About 8 hours of working sessions: 2 October, roughly 16:10 to 19:20 (plan, scaffold, deploy, schemas, cache, form); 5 October, roughly 11:00 to 15:30 (Gemini plan change, LLM, YouTube, scoring, limits, passcode, examples, polish). 28 commits before this final note.
 - **Tests.** 151 across 25 files, all with the Gemini SDK and the YouTube client mocked; the suite spends no quota.
 - **Final timings.** Fresh brief live: brief 3.1 s, search 1.5 s, scoring 7.8 s for 10 channels in two batches, about 12 s end to end; with a cached brief and search, 9.1 s. Repeats and the three examples: 0.4 to 0.7 s live, under 100 ms on a local production build.
 - **Quota spent over the whole build.** YouTube searches about 36 of the 100-a-day bucket in total across all days; Gemini requests about 45. Most of it went to the one precompute run and to live verification of fresh briefs.
