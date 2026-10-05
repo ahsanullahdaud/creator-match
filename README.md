@@ -2,7 +2,7 @@
 
 Creator Match turns a short brand brief into a ranked shortlist of YouTube creators, each with a fit score, the reasons behind it, and a ready-to-send first message. It runs entirely on free tiers: the Gemini API writes the search queries and scores the channels, the public YouTube Data API supplies the channels and their stats, and Upstash Redis caches everything so repeated briefs cost nothing. It was built in about eight hours of working sessions with Claude Code, planned before any code was written, and every step was tested and verified on the live site before the next one started.
 
-**Live:** https://creator-match-seven.vercel.app
+**Live:** https://creator-match-ahsanullahdaud.vercel.app
 
 ![Creator Match on a phone and a laptop](docs/screenshot.png)
 

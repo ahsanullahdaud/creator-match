@@ -16,7 +16,7 @@ const description =
   "Find YouTube creators that fit a brand brief, with a fit score and outreach angle for each.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://creator-match-seven.vercel.app"),
+  metadataBase: new URL("https://creator-match-ahsanullahdaud.vercel.app"),
   title: "Creator Match",
   description,
   openGraph: {

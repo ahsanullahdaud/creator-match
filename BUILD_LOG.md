@@ -59,7 +59,7 @@ One entry per build step from `PLAN.md`, appended in order, never rewritten.
 - The Vercel project already existed and was connected to the GitHub repo but had no production deployment. Empty commit `a3bb252` "Trigger first Vercel deploy" pushed to `main`.
 - Build passed. GitHub deployment `6814097709`, environment Production, state `success`; Vercel commit status "Deployment has completed". From push to success in under 30 s.
 - The generated URLs (`creator-match-or5fjb2bq-ahsanullahdaud.vercel.app`, `creator-match-ahsanullahdaud.vercel.app`, `creator-match-git-main-ahsanullahdaud.vercel.app`) all redirect to Vercel login: Standard Protection is on, which is the default and is fine. The open production domain is a different hostname because `creator-match.vercel.app` was already taken by an unrelated project.
-- Production domain found and verified: https://creator-match-seven.vercel.app. Vercel assigned the `-seven` suffix because the bare name was taken. Confirmed by changing the page title in `src/app/layout.tsx` (commit `e5cffd9`), which deployment `6814161731` picked up within a minute of the push. The domain returns 200 with title "Creator Match" and the new description meta. Step 2 complete.
+- Production domain found and verified: https://creator-match-ahsanullahdaud.vercel.app. Vercel assigned the `-seven` suffix because the bare name was taken. Confirmed by changing the page title in `src/app/layout.tsx` (commit `e5cffd9`), which deployment `6814161731` picked up within a minute of the push. The domain returns 200 with title "Creator Match" and the new description meta. Step 2 complete.
 
 ## Step 3 - Schemas, config, hashing, errors, semaphore (2026-10-02)
 
@@ -75,7 +75,7 @@ One entry per build step from `PLAN.md`, appended in order, never rewritten.
 ### Verification
 
 - `npm run lint`, `npm run typecheck`, `npm test`: clean, 5 files, 35 tests, under 1 s.
-- Commit `26025b3` pushed. Vercel deployment `6814629219` succeeded; https://creator-match-seven.vercel.app returns 200 with title "Creator Match".
+- Commit `26025b3` pushed. Vercel deployment `6814629219` succeeded; https://creator-match-ahsanullahdaud.vercel.app returns 200 with title "Creator Match".
 
 ### Surprises
 
@@ -95,7 +95,7 @@ One entry per build step from `PLAN.md`, appended in order, never rewritten.
 
 - `npm run lint`, `npm run typecheck`, `npm test`: clean, 8 files, 50 tests.
 - Local, against the running dev server: `GET /api/status` returned 200, `cache-control: no-store`, `store: "memory"`.
-- Commit `1a8416b` pushed. Vercel deployment `6814998720` succeeded. Live `GET https://creator-match-seven.vercel.app/api/status` returned 200 with `store: "redis"`, confirming the Marketplace Upstash variables are injected and the round trip works.
+- Commit `1a8416b` pushed. Vercel deployment `6814998720` succeeded. Live `GET https://creator-match-ahsanullahdaud.vercel.app/api/status` returned 200 with `store: "redis"`, confirming the Marketplace Upstash variables are injected and the round trip works.
 
 ### Surprises
 
@@ -330,3 +330,7 @@ Decided before step 6, so no LLM code exists yet. The user chose the Google Gemi
 - Local, production build on port 3011 with `KV_REST_API_URL=https://127.0.0.1:9` (nothing listening): status answered in 668 ms with `budget: "unavailable"` and the examples listed; the Peak Fuel example ran fully cached in 591 ms; a fresh brief got `503 budget_exhausted` with the friendly message in about a second and no Gemini call; the passcode route got the same 503; the log shows `cache_down` and no spend lines.
 - Commit `77fe374` pushed. Vercel deployment `6861669530` succeeded. Live, with Redis healthy: status `budget: "ok"`, the Terra Cookware example fully cached in 858 ms.
 - Spent: 0 Gemini requests, 0 YouTube searches. Repository confirmed public at https://github.com/ahsanullahdaud/creator-match.
+
+## Note - Production address changed (2026-10-05)
+
+The production address is now https://creator-match-ahsanullahdaud.vercel.app, which answers without Vercel's login screen. The README live link, `metadataBase` in `src/app/layout.tsx`, and the earlier entries in this log that quoted the old `creator-match-seven` address were updated to the new one, so links in the repo resolve. The steps those entries describe were verified against the address that was live at the time.
