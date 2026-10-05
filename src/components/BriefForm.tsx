@@ -11,6 +11,7 @@ import {
   toOptions,
   type Option,
 } from "@/lib/labels";
+import { sameBrief } from "@/lib/normalize";
 import { Brief } from "@/lib/schemas";
 
 export type BriefSource = "form" | "example";
@@ -76,8 +77,17 @@ export function BriefForm({
 }: Props) {
   const [values, setValues] = useState<Brief>(initialValues ?? EMPTY_BRIEF);
   const [errors, setErrors] = useState<Errors>({});
+  // The example the current values came from, if any, so edits can be called out.
+  const [picked, setPicked] = useState<ExampleBrief | null>(
+    () =>
+      examples.find((e) => sameBrief(e.brief, initialValues ?? EMPTY_BRIEF)) ??
+      null,
+  );
   const prefix = useId();
   const id = (field: keyof Brief) => `${prefix}-${field}`;
+
+  const editedExample = picked !== null && !sameBrief(values, picked.brief);
+  const stillExample = picked !== null && !editedExample;
 
   function update<K extends keyof Brief>(field: K, value: Brief[K]) {
     setValues((current) => ({ ...current, [field]: value }));
@@ -105,13 +115,23 @@ export function BriefForm({
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    validate(values, "form");
+    validate(values, stillExample ? "example" : "form");
   }
 
   function pickExample(example: ExampleBrief) {
     setValues(example.brief);
+    setPicked(example);
+    setErrors({});
     validate(example.brief, "example");
   }
+
+  const submitLabel = busy
+    ? "Working"
+    : editedExample
+      ? "Run live search"
+      : stillExample
+        ? "Show results"
+        : "Find creators";
 
   return (
     <form
@@ -126,7 +146,12 @@ export function BriefForm({
         disabled={busy}
       />
 
-      <Field id={id("brandName")} label="Brand name" error={errors.brandName}>
+      <Field
+        id={id("brandName")}
+        label="Brand name"
+        error={errors.brandName}
+        hint="Used in the outreach drafts, not in the search. Product and target audience drive the results."
+      >
         <input
           id={id("brandName")}
           name="brandName"
@@ -238,11 +263,26 @@ export function BriefForm({
           disabled={busy}
           className="inline-flex w-full items-center justify-center rounded-lg bg-zinc-900 px-5 py-2.5 text-base font-semibold text-white transition hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
         >
-          {busy ? "Working" : "Find creators"}
+          {submitLabel}
         </button>
-        <p className="text-xs text-zinc-500 dark:text-zinc-500">
-          Three fields are enough. The rest have sensible defaults.
-        </p>
+        {editedExample ? (
+          <p
+            role="status"
+            className="text-xs text-amber-700 dark:text-amber-300"
+          >
+            You changed the example, so this runs a new live search and uses one
+            of your daily searches.
+          </p>
+        ) : stillExample ? (
+          <p className="text-xs text-zinc-500 dark:text-zinc-500">
+            This example is precomputed and costs nothing. Edit any field to run
+            a live search instead.
+          </p>
+        ) : (
+          <p className="text-xs text-zinc-500 dark:text-zinc-500">
+            Three fields are enough. The rest have sensible defaults.
+          </p>
+        )}
       </div>
     </form>
   );
@@ -308,7 +348,7 @@ function SelectField<T extends string>({
   disabled: boolean;
 }) {
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="flex min-w-0 flex-col gap-1.5">
       <label
         htmlFor={id}
         className="text-sm font-medium text-zinc-800 dark:text-zinc-200"
@@ -321,7 +361,7 @@ function SelectField<T extends string>({
         value={value}
         onChange={(e) => onChange(e.target.value as T)}
         disabled={disabled}
-        className={`${fieldClass} ${okClass}`}
+        className={`${fieldClass} ${okClass} min-w-0`}
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>

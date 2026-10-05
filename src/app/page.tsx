@@ -1,5 +1,7 @@
 import { MatchWorkspace } from "@/components/MatchWorkspace";
 
+const REPO_URL = "https://github.com/ahsanullahdaud/creator-match";
+
 export default function Home() {
   return (
     <div className="flex flex-1 flex-col bg-zinc-50 dark:bg-black">
@@ -15,8 +17,34 @@ export default function Home() {
         </header>
         <MatchWorkspace />
       </main>
-      <footer className="mx-auto w-full max-w-3xl px-4 py-6 text-xs text-zinc-500 sm:px-6">
-        Built with Next.js, Claude and the YouTube Data API. No account needed.
+      <footer className="mx-auto flex w-full max-w-3xl flex-col gap-1.5 px-4 py-6 text-xs text-zinc-500 sm:px-6">
+        <p>
+          Runs on the Gemini API free tier and public YouTube Data API results.
+          Google may use free-tier prompts to improve its products, so keep
+          briefs non-confidential. Results are cached for 7 days and nothing
+          else is stored. No account needed.
+        </p>
+        <p>
+          <a
+            href={REPO_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="underline-offset-2 hover:underline"
+          >
+            Source on GitHub
+          </a>
+          {" · "}
+          Built with{" "}
+          <a
+            href="https://claude.com/claude-code"
+            target="_blank"
+            rel="noreferrer"
+            className="underline-offset-2 hover:underline"
+          >
+            Claude Code
+          </a>
+          .
+        </p>
       </footer>
     </div>
   );

@@ -15,10 +15,10 @@ export const SUBSCRIBER_RANGE_LABELS: Record<
   string
 > = {
   any: "Any size",
-  "1k-10k": "1k to 10k subs",
-  "10k-100k": "10k to 100k subs",
-  "100k-1m": "100k to 1M subs",
-  "1m-plus": "1M+ subs",
+  "1k-10k": "1k to 10k",
+  "10k-100k": "10k to 100k",
+  "100k-1m": "100k to 1M",
+  "1m-plus": "1M or more",
 };
 
 export const REGION_LABELS: Record<z.infer<typeof Region>, string> = {

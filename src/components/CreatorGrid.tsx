@@ -17,6 +17,36 @@ function fitOf(status: ScoreStatus | undefined): number {
   return status?.status === "done" ? status.score.fitScore : -1;
 }
 
+/** Placeholder cards shown while YouTube is being searched. */
+export function CreatorGridSkeleton({ count = 4 }: { count?: number }) {
+  const bar = "animate-pulse rounded bg-zinc-200 dark:bg-zinc-800";
+  return (
+    <ul
+      aria-busy
+      aria-label="Loading channels"
+      className="grid gap-3 sm:grid-cols-2"
+    >
+      {Array.from({ length: count }, (_, i) => (
+        <li
+          key={i}
+          className="flex flex-col gap-3 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-950"
+        >
+          <div className="flex items-start gap-3">
+            <div className="h-14 w-14 shrink-0 animate-pulse rounded-full bg-zinc-200 dark:bg-zinc-800" />
+            <div className="flex flex-1 flex-col gap-2 pt-1">
+              <div className={`h-4 w-2/3 ${bar}`} />
+              <div className={`h-3 w-1/3 ${bar}`} />
+              <div className={`h-3 w-1/2 ${bar}`} />
+            </div>
+          </div>
+          <div className={`h-3 w-5/6 ${bar}`} />
+          <div className={`h-3 w-3/4 ${bar}`} />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function CreatorGrid({
   creators,
   totalQueries,

@@ -12,10 +12,18 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const description =
+  "Find YouTube creators that fit a brand brief, with a fit score and outreach angle for each.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL("https://creator-match-seven.vercel.app"),
   title: "Creator Match",
-  description:
-    "Find YouTube creators that fit a brand brief, with a fit score and outreach angle for each.",
+  description,
+  openGraph: {
+    title: "Creator Match",
+    description,
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { normalizeText } from "./normalize";
 import type { Brief } from "./schemas";
 
 export function sha256Hex(input: string): string {
@@ -23,10 +24,7 @@ export function canonicalJson(value: unknown): string {
   return JSON.stringify(sortKeys(value));
 }
 
-/** Lower-case, trimmed, single-spaced. Used wherever text feeds a cache key. */
-export function normalizeText(text: string): string {
-  return text.trim().toLowerCase().replace(/\s+/g, " ");
-}
+export { normalizeText };
 
 /** 16 hex chars identifying a brief. Same brief, same id, regardless of casing or spacing. */
 export function briefId(brief: Brief): string {

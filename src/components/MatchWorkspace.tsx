@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { BriefForm } from "./BriefForm";
-import { CreatorGrid } from "./CreatorGrid";
+import { CreatorGrid, CreatorGridSkeleton } from "./CreatorGrid";
 import { PasscodeDialog } from "./PasscodeDialog";
 import { PipelineStatus } from "./PipelineStatus";
 import { QuotaBanner } from "./QuotaBanner";
@@ -73,6 +73,7 @@ export function MatchWorkspace() {
         examples={EXAMPLE_BRIEFS}
         onPickExample={pickExample}
       />
+      {state.stage === "search" && <CreatorGridSkeleton />}
       {state.creators && (
         <CreatorGrid
           creators={state.creators}
