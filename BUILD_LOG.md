@@ -146,3 +146,28 @@ Decided before step 6, so no LLM code exists yet. The user chose the Google Gemi
 ### Code changes deferred to step 6
 
 `npm uninstall @anthropic-ai/sdk && npm install @google/genai`; `claude_error` to `llm_error` in `schemas.ts`, `errors.ts` and their tests; `CLAUDE_*` and `SCORE_CONCURRENCY` replaced by the `LLM_*` variables in `config.ts` and `config.test.ts`; `CreatorScoreBatch` schema added.
+
+## Step 6 - Query generation with Gemini (2026-10-05)
+
+### What was built
+
+- Provider switch: `@anthropic-ai/sdk` removed, `@google/genai` 2.27 added. `CLAUDE_*` and `SCORE_CONCURRENCY` replaced by the `LLM_*` variables in `config.ts` and its tests; `claude_error` renamed `llm_error`; `ErrorResponse` gained an optional `retryable`; `CreatorScoreBatch` schema added for step 8.
+- `src/lib/llm/provider.ts`: `LlmProvider`, `StructuredRequest`, `StructuredResult`, `LlmError` with a kind and retryable flag. No SDK imports.
+- `src/lib/llm/gemini.ts`: the only file importing `@google/genai`. Calls `ai.interactions.create` with `system_instruction`, `response_format` (JSON Schema) and `generation_config` (`thinking_level: "low"`, `max_output_tokens`), passing per-request `timeout`, `retries` (attempt-count backoff, `LLM_MAX_RETRIES`) and `retry_codes` 408/429/5xx. Maps `ApiError` statuses, timeouts, failed or empty interactions to `LlmError`.
+- `src/lib/llm.ts`: what the app calls. `generateQueries(brief)` builds the JSON Schema with `z.toJSONSchema` (minus `$schema`), reserves a daily LLM request, runs behind the `LLM_CONCURRENCY` semaphore, strips code fences, parses and Zod-validates, re-asks once, maps errors to `llm_error`, drops blank queries and truncates to 3.
+- `src/lib/prompts.ts` (system prompt and brief formatter), `src/lib/keys.ts` (every cache key), `src/lib/rate-limit.ts` (`reserveLlmRequest` against `llm:requests:{pacificDate}`), `readJson` in `route.ts`.
+- `POST /api/brief`: validate, `briefId`, cache hit returns `cached: true`, otherwise generate, store 7 days, return.
+- Client: `useMatchPipeline` hook (brief stage, friendly error messages) and `PipelineStatus` panel showing the three stages, the queries with intents, themes and avoid list, and a "cached" badge. `MatchWorkspace` now runs the pipeline instead of logging.
+- Tests: 14 files, 80 tests. `/api/brief` covers happy path with the exact Gemini call shape, cache hit, invalid and non-JSON body, empty answer, invalid JSON then valid, two invalid answers, 429 after retries, budget exhausted, truncation, missing key. Plus provider error mapping, concurrency cap, budget counter.
+
+### Verification
+
+- `npm run lint`, `npm run typecheck`, `npm test`: clean.
+- Local, through the running dev server: LoomNotes brief returned 3 queries in 6.3 s (first compile included), then `cached: true` in 228 ms.
+- Commit `fd9f74b` pushed. Vercel deployment `6857045006` succeeded. Live: Peak Fuel brief returned 3 queries in 3.1 s, then `cached: true` from Redis in 594 ms. Live `/api/status` still reports `store: "redis"`.
+- Gemini requests spent during verification: 2 (one local, one live).
+
+### Surprises
+
+- Shell commands above roughly 8 KB get broken mid-heredoc by the tool and fail with an unmatched-quote error before anything runs. Files are now written in commands under that size.
+- The Interactions client in `@google/genai` takes `timeout`, `retries` and `retry_codes` per request, not through the constructor's `httpOptions` as the classic client does.
