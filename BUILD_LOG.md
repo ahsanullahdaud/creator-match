@@ -122,3 +122,27 @@ One entry per build step from `PLAN.md`, appended in order, never rewritten.
 
 - A shell heredoc holding the JSX component failed to parse as a command, so the two component files were written with the file tool instead of a heredoc.
 - `git rm` of the last files in `public/` deleted the folder itself. Next does not need it, and `favicon.ico` lives under `src/app`.
+
+## Plan change - Gemini instead of Claude (2026-10-05)
+
+Decided before step 6, so no LLM code exists yet. The user chose the Google Gemini API free tier for both query generation and scoring, with the LLM calls kept behind one module so the provider can be swapped later.
+
+### Facts checked on ai.google.dev and npm
+
+- Official SDK: `@google/genai` 2.27 (Node 20+). It replaces `@google/generative-ai`. The docs now lead with the Interactions API (`ai.interactions.create`); `generateContent` is described as legacy but fully supported.
+- Models with a free tier: Gemini 3.8 Flash, 3.5 Flash, 3.5 Flash-Lite, 3.1 Flash-Lite. Gemini 3.1 Pro is paid only. Free-tier tokens cost nothing; Google may use free-tier content to improve its products.
+- Free-tier requests per minute and per day are not printed in the docs. They are shown per project at aistudio.google.com/rate-limit and change without notice. Third-party reports from September 2026 put 3.5 Flash-Lite near 500 requests/day and the newest 3.8 Flash far lower. Exceeding them returns `429 RESOURCE_EXHAUSTED`. Quotas reset at midnight Pacific.
+- Structured output: `response_format: { type: "text", mime_type: "application/json", schema }` with a JSON Schema subset (object, array, string, number, integer, boolean, null; required, additionalProperties, enum, minimum/maximum, minItems/maxItems, description). Output is text in `output_text`, so the caller parses and validates it.
+- SDK retries and timeouts: `httpOptions.retryOptions` (attempts, initialDelay, maxDelay, expBase, jitter, httpStatusCodes) and `httpOptions.timeout` (ms). Errors are `ApiError` with an HTTP `status`.
+
+### Decisions
+
+- Both calls default to `gemini-3.5-flash-lite`; `gemini-3.8-flash` is an env switch for scoring if its quota allows. Ids live in env only, no `-latest` aliases.
+- Scoring is batched: 5 creators per request, two batches per brief, so a fresh brief costs 3 LLM requests instead of 11. The streamed NDJSON response stays; lines are emitted per creator as each batch completes.
+- Concurrency cap 2 (`LLM_CONCURRENCY`), SDK retries 2 (`LLM_MAX_RETRIES`), 30 s timeout, and a daily request counter `llm:requests:{pacificDate}` that fails closed at `LLM_DAILY_REQUEST_BUDGET` (450).
+- Provider boundary: `src/lib/llm/provider.ts` (interface and `LlmError`), `src/lib/llm/gemini.ts` (the only `@google/genai` import), `src/lib/llm.ts` (what the app calls). Error code `claude_error` becomes `llm_error`.
+- Tests mock `@google/genai` and cover happy path, invalid JSON then valid, safety block, 429 after retries, batch and concurrency counts, and the daily budget.
+
+### Code changes deferred to step 6
+
+`npm uninstall @anthropic-ai/sdk && npm install @google/genai`; `claude_error` to `llm_error` in `schemas.ts`, `errors.ts` and their tests; `CLAUDE_*` and `SCORE_CONCURRENCY` replaced by the `LLM_*` variables in `config.ts` and `config.test.ts`; `CreatorScoreBatch` schema added.
