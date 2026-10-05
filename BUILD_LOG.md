@@ -284,3 +284,31 @@ Decided before step 6, so no LLM code exists yet. The user chose the Google Gemi
 
 - The example JSON is bundled through static imports rather than read from disk at runtime, because Vercel's function bundles only include files the bundler can see.
 - An inline Node check script mixing `require` with top-level `await` fails on Node 26 with `ERR_AMBIGUOUS_MODULE_SYNTAX`; the check moved to an `.mjs` file. The first live run of the checks produced no output for that reason and was repeated.
+
+## Step 12 - Polish (2026-10-05)
+
+### What was built
+
+- Form: a hint under Brand name says it is used in the outreach drafts, not the search, and that product and audience drive the results. The form knows which example it was filled from: untouched, the button reads "Show results" with "costs nothing"; edited, the button reads "Run live search" with an amber note that it uses a daily search. `normalize.ts` holds the client-safe brief normalization that `hash.ts` now shares, so the form's "same brief" check matches the server's `briefId`. Channel-size labels shortened for two columns at phone width.
+- Skeleton cards while YouTube is searched, an SVG icon in place of the template favicon, Open Graph metadata, and a footer naming the Gemini free tier and public YouTube data, the data-use caveat, the GitHub repo, and Claude Code.
+- YouTube search titles arrive HTML-escaped (`&amp;`, `&#39;`); `decodeHtml` fixes them on the way in and when rendering precomputed data.
+- Phone layout: Chrome's headless `--window-size=375` is clamped to a minimum window width on Windows and crops rather than reflows, so the check moved to Puppeteer device emulation (375 px, DPR 2, touch) against the live site, tapping the precomputed Peak Fuel example at no cost. The results page measured 698 px wide: matched-video links were inline anchors inside truncating list items, and their unwrapped width extended the document. Links are now truncating blocks, cards clip their contents, and long text breaks. After the fix both the form and the results page measure exactly 375 px.
+- README rewritten for a hiring manager first: summary, live link, screenshot, five-step pipeline, engineering decisions with reasons, how Claude Code was used across planning, implementation, debugging, testing and refactoring, local setup, limits, next steps. `docs/screenshot.png` is a real above-the-fold capture of the live site.
+
+### Verification
+
+- `npm run lint`, `npm run typecheck`, `npm test`: clean, 25 files, 151 tests.
+- Commits `39529bc` (polish), `5845fb5` (overflow and entities) and this entry pushed; Vercel deployments `6860983447` and `6861107401` succeeded. Live checks: footer text, GitHub link, Claude Code link, brand hint and `/icon.svg` (200, `image/svg+xml`) present; emulated phone form and results pages at 375 px with no horizontal overflow; desktop at 1280 px.
+- Spent in this step: 0 Gemini requests, 0 YouTube searches. Every live check used the precomputed Peak Fuel example.
+- Git history scanned before going public (all 26+ commits): the only env-like file ever committed is `.env.example`; key-shaped patterns (Google, Anthropic, GitHub, AWS, private keys, Upstash tokens, Bearer, Vercel, cookie tokens, filled `*_KEY=` lines) all 0, the five Upstash hostname hits are the fake `example.upstash.io` in tests; the real values of `GEMINI_API_KEY`, `YOUTUBE_API_KEY`, `DEMO_PASSCODE` and `RATE_LIMIT_SALT` from `.env.local` appear 0 times.
+
+## Summary
+
+- **Elapsed.** About 8 hours of working sessions: 2 October, roughly 16:10 to 19:20 (plan, scaffold, deploy, schemas, cache, form); 5 October, roughly 11:00 to 15:30 (Gemini plan change, LLM, YouTube, scoring, limits, passcode, examples, polish). 29 commits.
+- **Tests.** 151 across 25 files, all with the Gemini SDK and the YouTube client mocked; the suite spends no quota.
+- **Final timings.** Fresh brief live: brief 3.1 s, search 1.5 s, scoring 7.8 s for 10 channels in two batches, about 12 s end to end; with a cached brief and search, 9.1 s. Repeats and the three examples: 0.4 to 0.7 s live, under 100 ms on a local production build.
+- **Quota spent over the whole build.** YouTube searches about 36 of the 100-a-day bucket in total across all days; Gemini requests about 45. Most of it went to the one precompute run and to live verification of fresh briefs.
+- **Three debugging stories worth reading.**
+  1. _Finding the production domain (step 2)._ Every URL GitHub's deployment record exposes redirected to Vercel's login because Standard Protection hides generated URLs, and `creator-match.vercel.app` belonged to someone else. Probing suffixes found `-seven` serving the template page, which proves nothing on its own; changing the page title and watching that domain pick up the new deployment proved ownership.
+  2. _The vanishing dev cache (steps 7 to 9)._ Editing `.env.local` makes the dev server reload the environment and re-evaluate server modules, which empties the in-memory cache, and the first Gemini calls after a reload timed out. Verification moved to a production build on a second port with limits set in the process environment, which Next 16 allows beside the dev server. That pattern made the zero-quota proofs in steps 9, 10 and 11 possible.
+  3. _Thirty tests that passed for the wrong reason (step 11)._ The test fixture brief was identical to the Peak Fuel example, so as soon as the precomputed read-through existed, route tests started answering from it and asserting on the wrong data. Renaming the fixture brand fixed it; the lesson is that fixtures must never collide with real data the app ships.
