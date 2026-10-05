@@ -84,3 +84,85 @@ describe("reserveYoutubeSearch and budgetState", () => {
     expect(await cache.get(keys.ytUnits(now))).toBe(2);
   });
 });
+
+describe("visitor buckets", () => {
+  it("clientIp prefers the first x-forwarded-for entry, then x-real-ip, then local", async () => {
+    const { clientIp } = await import("@/lib/rate-limit");
+    const make = (headers: Record<string, string>) =>
+      new Request("http://localhost/x", { headers });
+    expect(clientIp(make({ "x-forwarded-for": "203.0.113.5, 10.0.0.1" }))).toBe(
+      "203.0.113.5",
+    );
+    expect(clientIp(make({ "x-real-ip": "198.51.100.7" }))).toBe(
+      "198.51.100.7",
+    );
+    expect(clientIp(make({}))).toBe("local");
+  });
+
+  it("visitorId hashes the ip with the salt", async () => {
+    const { visitorId } = await import("@/lib/rate-limit");
+    const request = new Request("http://localhost/x", {
+      headers: { "x-forwarded-for": "203.0.113.5" },
+    });
+    const a = visitorId(request, getConfig({ RATE_LIMIT_SALT: "a" }));
+    const b = visitorId(request, getConfig({ RATE_LIMIT_SALT: "b" }));
+    expect(a).toMatch(/^[0-9a-f]{16}$/);
+    expect(a).not.toBe(b);
+  });
+
+  it("search allowance counts down per visitor and day, and bypass ignores it", async () => {
+    const { MemoryStore } = await import("@/lib/cache");
+    const { checkVisitorSearch, countVisitorSearch, visitorSearchStatus } =
+      await import("@/lib/rate-limit");
+    const cache = new MemoryStore();
+    const config = getConfig({ VISITOR_SEARCH_LIMIT: "2" });
+    const now = new Date("2026-10-05T12:00:00Z");
+    const me = { cache, config, now, visitor: "abc" };
+    expect(await visitorSearchStatus(me)).toEqual({
+      remaining: 2,
+      limit: 2,
+      bypass: false,
+    });
+    await countVisitorSearch(me);
+    expect(await checkVisitorSearch(me)).toEqual({
+      remaining: 1,
+      limit: 2,
+      bypass: false,
+    });
+    await countVisitorSearch(me);
+    await expect(checkVisitorSearch(me)).rejects.toMatchObject({
+      code: "visitor_limit",
+      status: 429,
+    });
+    expect(
+      await visitorSearchStatus({ ...me, visitor: "other" }),
+    ).toMatchObject({ remaining: 2 });
+    const tomorrow = new Date("2026-10-06T12:00:00Z");
+    expect(await visitorSearchStatus({ ...me, now: tomorrow })).toMatchObject({
+      remaining: 2,
+    });
+    expect(await checkVisitorSearch({ ...me, bypass: true })).toEqual({
+      remaining: 2,
+      limit: 2,
+      bypass: true,
+    });
+    expect(await cache.get(keys.rlSearch("abc", now))).toBe(2);
+  });
+
+  it("brief allowance refuses at VISITOR_BRIEF_LIMIT unless bypassed", async () => {
+    const { MemoryStore } = await import("@/lib/cache");
+    const { checkVisitorBrief, countVisitorBrief } =
+      await import("@/lib/rate-limit");
+    const cache = new MemoryStore();
+    const config = getConfig({ VISITOR_BRIEF_LIMIT: "1" });
+    const me = { cache, config, visitor: "abc" };
+    await expect(checkVisitorBrief(me)).resolves.toBeUndefined();
+    await countVisitorBrief(me);
+    await expect(checkVisitorBrief(me)).rejects.toMatchObject({
+      code: "visitor_limit",
+    });
+    await expect(
+      checkVisitorBrief({ ...me, bypass: true }),
+    ).resolves.toBeUndefined();
+  });
+});

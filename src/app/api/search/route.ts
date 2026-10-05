@@ -3,14 +3,20 @@ import { getConfig, LIMITS, TTL_SECONDS } from "@/lib/config";
 import { AppError, fromZodError } from "@/lib/errors";
 import { keys } from "@/lib/keys";
 import { aggregateHits, pickCandidates, selectCreators } from "@/lib/pipeline";
-import { budgetState, youtubeSearchesToday } from "@/lib/rate-limit";
+import {
+  budgetState,
+  checkVisitorSearch,
+  countVisitorSearch,
+  visitorId,
+  visitorSearchStatus,
+  youtubeSearchesToday,
+} from "@/lib/rate-limit";
 import { handle, json, readJson } from "@/lib/route";
 import {
   SearchRequest,
   type BriefRecord,
   type SearchRecord,
   type SearchResponse,
-  type VisitorStatus,
 } from "@/lib/schemas";
 import { getChannels, searchVideos, type SearchResult } from "@/lib/youtube";
 
@@ -32,28 +38,30 @@ export const POST = handle("search", async (request, ctx) => {
     throw new AppError("not_found", "Unknown brief. Submit the brief again.");
   }
 
-  // Visitor counters arrive in step 9; until then everyone sees the full allowance.
-  const visitor: VisitorStatus = {
-    remaining: config.VISITOR_SEARCH_LIMIT,
-    limit: config.VISITOR_SEARCH_LIMIT,
-    bypass: false,
-  };
+  // Passcode bypass arrives in step 10.
+  const visitor = visitorId(request, config);
+  ctx.log.visitor = visitor;
+  const limits = { cache, config, visitor };
+
   const respond = async (record: SearchRecord, cached: boolean) => {
     const body: SearchResponse = {
       briefId,
       creators: record.creators,
       cached,
-      visitor,
+      visitor: await visitorSearchStatus(limits),
       budget: budgetState(await youtubeSearchesToday(cache), config),
     };
     return json(body);
   };
 
+  // Cached results are free: no visitor allowance, no quota.
   const existing = await cache.get<SearchRecord>(keys.search(briefId));
   if (existing) {
     ctx.log.cached = true;
     return respond(existing, true);
   }
+
+  await checkVisitorSearch(limits);
 
   const { brief, queries } = briefRecord;
   const plan = queries.queries.slice(0, LIMITS.MAX_QUERIES);
@@ -88,6 +96,9 @@ export const POST = handle("search", async (request, ctx) => {
 
   const creators = selectCreators(channels, candidates, brief);
   ctx.log.creators = creators.length;
+
+  // Only a run that actually hit YouTube counts against the visitor.
+  if (liveSearches > 0) await countVisitorSearch(limits);
 
   const record: SearchRecord = {
     briefId,

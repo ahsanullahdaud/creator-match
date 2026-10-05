@@ -107,7 +107,7 @@ describe("POST /api/search", () => {
       "v4",
       "v6",
     ]);
-    expect(body.visitor).toEqual({ remaining: 3, limit: 3, bypass: false });
+    expect(body.visitor).toEqual({ remaining: 2, limit: 3, bypass: false });
     expect(body.budget).toBe("ok");
     expect(searchMock).toHaveBeenCalledTimes(3);
     expect(searchMock.mock.calls[0]).toEqual([
@@ -207,5 +207,73 @@ describe("POST /api/search", () => {
     );
     expect(spent.cached).toBe(true);
     expect(spent.budget).toBe("exhausted");
+  });
+});
+
+describe("POST /api/search visitor limit", () => {
+  function postAs(ip: string, body: unknown) {
+    return POST(
+      new Request("http://localhost/api/search", {
+        method: "POST",
+        headers: { "content-type": "application/json", "x-forwarded-for": ip },
+        body: JSON.stringify(body),
+      }),
+    );
+  }
+
+  beforeEach(() => {
+    vi.stubEnv("KV_REST_API_URL", "");
+    vi.stubEnv("KV_REST_API_TOKEN", "");
+    vi.stubEnv("VISITOR_SEARCH_LIMIT", "");
+    resetCache();
+    searchMock.mockReset();
+    channelsMock.mockReset();
+    vi.spyOn(console, "log").mockImplementation(() => {});
+  });
+
+  it("refuses a visitor who has used today's live searches, before any YouTube call", async () => {
+    const id = await seedBrief();
+    const { visitorId } = await import("@/lib/rate-limit");
+    const visitor = visitorId(
+      new Request("http://x", {
+        headers: { "x-forwarded-for": "203.0.113.5" },
+      }),
+    );
+    await getCache().set(keys.rlSearch(visitor), 3, 3600);
+    const res = await postAs("203.0.113.5", { briefId: id });
+    expect(res.status).toBe(429);
+    expect(ErrorResponse.parse(await res.json()).error.code).toBe(
+      "visitor_limit",
+    );
+    expect(searchMock).not.toHaveBeenCalled();
+    expect(await getCache().get(keys.search(id))).toBeNull();
+  });
+
+  it("counts a live run once, keeps buckets per ip, and never counts cached runs", async () => {
+    const id = await seedBrief();
+    happyMocks();
+    const first = SearchResponse.parse(
+      await (await postAs("203.0.113.5", { briefId: id })).json(),
+    );
+    expect(first.visitor.remaining).toBe(2);
+    const again = SearchResponse.parse(
+      await (await postAs("203.0.113.5", { briefId: id })).json(),
+    );
+    expect(again.cached).toBe(true);
+    expect(again.visitor.remaining).toBe(2);
+    const other = SearchResponse.parse(
+      await (await postAs("198.51.100.7", { briefId: id })).json(),
+    );
+    expect(other.visitor.remaining).toBe(3);
+  });
+
+  it("does not count a run served entirely from the query cache", async () => {
+    const id = await seedBrief();
+    searchMock.mockResolvedValue({ live: false, hits: [searchHit("A", "v1")] });
+    channelsMock.mockResolvedValueOnce([channelInfoFixture("A")]);
+    const body = SearchResponse.parse(
+      await (await postAs("203.0.113.5", { briefId: id })).json(),
+    );
+    expect(body.visitor.remaining).toBe(3);
   });
 });

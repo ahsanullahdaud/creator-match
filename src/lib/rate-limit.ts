@@ -1,8 +1,9 @@
 import { getCache, type CacheStore } from "./cache";
 import { getConfig, LIMITS, TTL_SECONDS, type Config } from "./config";
 import { AppError } from "./errors";
+import { ipHash } from "./hash";
 import { keys } from "./keys";
-import type { BudgetState } from "./schemas";
+import type { BudgetState, VisitorStatus } from "./schemas";
 
 interface LimitContext {
   cache?: CacheStore;
@@ -89,4 +90,97 @@ export function budgetState(
   if (remaining <= 0) return "exhausted";
   if (remaining < LIMITS.LOW_BUDGET_THRESHOLD) return "low";
   return "ok";
+}
+
+// ----- Per-visitor buckets (hashed IP, UTC day) -----
+
+/** First x-forwarded-for entry (what Vercel sets), else x-real-ip, else "local". */
+export function clientIp(request: Request): string {
+  const forwarded = request.headers.get("x-forwarded-for");
+  const first = forwarded?.split(",")[0]?.trim();
+  if (first) return first;
+  const real = request.headers.get("x-real-ip")?.trim();
+  return real || "local";
+}
+
+/** Salted hash of the visitor IP; the only form that reaches the cache or logs. */
+export function visitorId(
+  request: Request,
+  config: Config = getConfig(),
+): string {
+  return ipHash(clientIp(request), config.RATE_LIMIT_SALT);
+}
+
+interface VisitorContext extends LimitContext {
+  visitor: string;
+  /** A passcode holder: limits are reported but never enforced. */
+  bypass?: boolean;
+}
+
+function resolve(context: VisitorContext) {
+  return {
+    cache: context.cache ?? getCache(),
+    config: context.config ?? getConfig(),
+    now: context.now ?? new Date(),
+    visitor: context.visitor,
+    bypass: Boolean(context.bypass),
+  };
+}
+
+export async function visitorSearchStatus(
+  context: VisitorContext,
+): Promise<VisitorStatus> {
+  const { cache, config, now, visitor, bypass } = resolve(context);
+  const used = (await cache.get<number>(keys.rlSearch(visitor, now))) ?? 0;
+  const limit = config.VISITOR_SEARCH_LIMIT;
+  return {
+    remaining: bypass ? limit : Math.max(0, limit - used),
+    limit,
+    bypass,
+  };
+}
+
+/** Throws visitor_limit when this visitor has no live searches left today. */
+export async function checkVisitorSearch(
+  context: VisitorContext,
+): Promise<VisitorStatus> {
+  const status = await visitorSearchStatus(context);
+  if (!status.bypass && status.remaining <= 0) {
+    throw new AppError(
+      "visitor_limit",
+      "You have used today's live searches. The example briefs still work.",
+    );
+  }
+  return status;
+}
+
+/** Counts one live search run (a /api/search call that hit YouTube at least once). */
+export async function countVisitorSearch(
+  context: VisitorContext,
+): Promise<number> {
+  const { cache, now, visitor } = resolve(context);
+  return cache.incr(keys.rlSearch(visitor, now), TTL_SECONDS.visitorBucket);
+}
+
+/** Throws visitor_limit when this visitor has generated too many briefs today. */
+export async function checkVisitorBrief(
+  context: VisitorContext,
+): Promise<void> {
+  const { cache, config, now, visitor, bypass } = resolve(context);
+  if (bypass) return;
+  const used = (await cache.get<number>(keys.rlBrief(visitor, now))) ?? 0;
+  if (used >= config.VISITOR_BRIEF_LIMIT) {
+    throw new AppError(
+      "visitor_limit",
+      "You have generated enough new briefs for today. The example briefs still work.",
+    );
+  }
+}
+
+/** Counts one live query generation (a /api/brief cache miss). */
+export async function countVisitorBrief(
+  context: VisitorContext,
+): Promise<number> {
+  const { cache, now, visitor } = resolve(context);
+  return cache.incr(keys.rlBrief(visitor, now), TTL_SECONDS.visitorBucket);
 }

@@ -184,3 +184,43 @@ describe("POST /api/brief", () => {
     expect(gemini.create).not.toHaveBeenCalled();
   });
 });
+
+describe("POST /api/brief visitor limit", () => {
+  beforeEach(() => {
+    vi.stubEnv("GEMINI_API_KEY", "test-key");
+    vi.stubEnv("KV_REST_API_URL", "");
+    vi.stubEnv("KV_REST_API_TOKEN", "");
+    vi.stubEnv("VISITOR_BRIEF_LIMIT", "");
+    resetCache();
+    resetLlm();
+    gemini.create.mockReset();
+    vi.spyOn(console, "log").mockImplementation(() => {});
+  });
+
+  it("refuses a visitor past VISITOR_BRIEF_LIMIT before any model call", async () => {
+    vi.stubEnv("VISITOR_BRIEF_LIMIT", "1");
+    gemini.create.mockResolvedValue(interactionWith(validText));
+    expect((await post(briefFixture)).status).toBe(200);
+    const second = await post({ ...briefFixture, brandName: "Other Brand" });
+    expect(second.status).toBe(429);
+    expect(ErrorResponse.parse(await second.json()).error.code).toBe(
+      "visitor_limit",
+    );
+    expect(gemini.create).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not count a cached brief", async () => {
+    vi.stubEnv("VISITOR_BRIEF_LIMIT", "1");
+    gemini.create.mockResolvedValue(interactionWith(validText));
+    await post(briefFixture);
+    const cached = await post(briefFixture);
+    expect(BriefResponse.parse(await cached.json()).cached).toBe(true);
+    const { visitorId } = await import("@/lib/rate-limit");
+    const visitor = visitorId(
+      new Request("http://x", {
+        headers: { "x-forwarded-for": "203.0.113.5" },
+      }),
+    );
+    expect(await getCache().get(keys.rlBrief(visitor))).toBe(1);
+  });
+});

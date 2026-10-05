@@ -59,3 +59,26 @@ describe("GET /api/status budget", () => {
     expect(StatusResponse.parse(await res.json()).budget).toBe("exhausted");
   });
 });
+
+describe("GET /api/status visitor", () => {
+  it("reports the remaining searches for the calling ip", async () => {
+    vi.stubEnv("KV_REST_API_URL", "");
+    vi.stubEnv("KV_REST_API_TOKEN", "");
+    vi.stubEnv("VISITOR_SEARCH_LIMIT", "");
+    resetCache();
+    vi.spyOn(console, "log").mockImplementation(() => {});
+    const { getCache } = await import("@/lib/cache");
+    const { keys } = await import("@/lib/keys");
+    const { visitorId } = await import("@/lib/rate-limit");
+    const request = new Request("http://localhost/api/status", {
+      headers: { "x-forwarded-for": "203.0.113.5" },
+    });
+    await getCache().set(keys.rlSearch(visitorId(request)), 2, 3600);
+    const body = StatusResponse.parse(await (await GET(request)).json());
+    expect(body.visitor).toEqual({ remaining: 1, limit: 3, bypass: false });
+    const other = StatusResponse.parse(
+      await (await GET(new Request("http://localhost/api/status"))).json(),
+    );
+    expect(other.visitor.remaining).toBe(3);
+  });
+});

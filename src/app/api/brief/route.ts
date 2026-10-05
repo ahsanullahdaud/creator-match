@@ -1,9 +1,14 @@
 import { getCache } from "@/lib/cache";
-import { TTL_SECONDS } from "@/lib/config";
+import { getConfig, TTL_SECONDS } from "@/lib/config";
 import { fromZodError } from "@/lib/errors";
 import { briefId } from "@/lib/hash";
 import { keys } from "@/lib/keys";
 import { generateQueries } from "@/lib/llm";
+import {
+  checkVisitorBrief,
+  countVisitorBrief,
+  visitorId,
+} from "@/lib/rate-limit";
 import { handle, json, readJson } from "@/lib/route";
 import { Brief, type BriefRecord, type BriefResponse } from "@/lib/schemas";
 
@@ -28,6 +33,14 @@ export const POST = handle("brief", async (request, ctx) => {
     };
     return json(body);
   }
+
+  // A cache miss spends a model request, so it counts against the visitor.
+  // Passcode bypass arrives in step 10.
+  const config = getConfig();
+  const visitor = visitorId(request, config);
+  ctx.log.visitor = visitor;
+  await checkVisitorBrief({ cache, config, visitor });
+  await countVisitorBrief({ cache, config, visitor });
 
   const started = Date.now();
   const queries = await generateQueries(brief);
