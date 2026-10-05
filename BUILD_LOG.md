@@ -194,3 +194,26 @@ Decided before step 6, so no LLM code exists yet. The user chose the Google Gemi
 
 - Next 16 writes dev logs under `.next/dev/logs/`, but the file was not present on this run, so the per-request log line was checked on the live deployment instead of locally.
 - Ranking with only three queries rarely produces a channel with more than 2 hits, so recency and region do most of the ordering below the top spots. Worth revisiting once scores exist.
+
+## Step 8 - Scoring (2026-10-05)
+
+### What was built
+
+- `scoreCreators(brief, plan, creators)` in `src/lib/llm.ts`: one Gemini request per batch using the `CreatorScoreBatch` schema, results keyed by channelId, scores clamped, unknown or duplicate ids ignored. `SCORE_SYSTEM_PROMPT` carries the rubric (80+ only for an obvious fit, verdict thresholds, reasons must cite the given data, outreach rules) and `scorePrompt` sends the brief, today's date, the themes and avoid list, and the candidates as compact JSON.
+- `src/lib/ndjson.ts`: `ndjsonResponse` streams one JSON object per line as the generator yields; `readNdjson` parses lines as they arrive, including lines split across chunks.
+- `POST /api/score`: validates ids against the brief's search results, emits cached scores first, enforces the 10-per-brief cap with `score_cap` lines, splits the rest into batches of `LLM_SCORE_BATCH_SIZE`, runs them through `scoreCreators` (the semaphore in `llm.ts` caps concurrency), and emits each batch's lines the moment it lands. A skipped channel gets a retryable error line; a failed batch gets one error line per creator with the error's code and retryable flag; a `done` line closes the stream. Failures are neither cached nor counted.
+- Client: the pipeline hook runs a third stage that reads the stream and updates each card as its line arrives, with per-card retry for retryable failures. `CreatorCard` shows a skeleton, then the fit badge with verdict, reasons, concerns, audience overlap, and `OutreachPanel` (angle, subject line, opening message, copy buttons). `CreatorGrid` re-orders by fit once scoring settles. `PipelineStatus` shows scoring progress and the end-to-end total.
+- Tests: `/api/score` happy path (10 ids, exactly 2 requests, 10 lines plus done, counters), cached, score cap, 404 and 400; failure paths (concurrency never above `LLM_CONCURRENCY`, safety block, 429, skipped channel, daily budget, unexpected throw); `scoreCreators` mapping; NDJSON round trips. 21 files, 122 tests.
+
+### Verification and timings
+
+- `npm run lint`, `npm run typecheck`, `npm test`: clean.
+- Local, LoomNotes through the dev server. The dev server's memory cache had been emptied (a restart), so the brief and search ran live after all. Brief 3.7 s (1 Gemini request), search 0.8 s (3 real searches, 1 unit), scoring 8.9 s for 10 channels in 2 requests, 13.5 s end to end. Repeat scoring call: 113 ms, all 10 from cache.
+- Commit `6831a21` pushed. Vercel deployment `6859294422` succeeded. Live, Peak Fuel: brief 0.8 s (cached), search 0.5 s (cached), scoring streamed with the first batch of 5 at 6.5 s and the second at 7.8 s, 10 scored, 0 failed. End to end 9.1 s. Repeat scoring call: 0.7 s, all from Redis.
+- Spent in this step: Gemini requests 5 (3 local, 2 live), YouTube searches 3 (all local, because of the cleared dev cache; 0 live).
+- Score spread on the live run: 38 to 85, verdicts weak to strong, so the rubric separates channels rather than rating everything high.
+
+### Surprises
+
+- Nothing is streamed before the first batch finishes, so the response headers themselves arrive at about 6.5 s on a cold brief. Cached scores do go out immediately. Acceptable: the cards already show skeletons from the search stage.
+- TypeScript does not carry a null check into a nested generator function, so the brief record is destructured before `lines()` is defined.
