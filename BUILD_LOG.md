@@ -239,3 +239,25 @@ Decided before step 6, so no LLM code exists yet. The user chose the Google Gemi
 - Changing `.env.local` makes the dev server reload the environment and re-evaluate server modules, which empties the in-memory cache. That is also why earlier steps found the dev cache "emptied". The limit check therefore ran against `next start` on another port with the variable set in the process environment, which Next 16 allows alongside the dev server because dev output lives in `.next/dev`.
 - The two brief calls made right after an env reload failed, one with `Gemini request timed out` after the SDK's own retries; the same calls succeeded a minute later. The 30 s timeout spans the SDK's retry attempts, so a run of transient failures reports as a timeout. It is marked retryable and the card offers Retry. Not reproduced in steady state.
 - `/api/brief` responses carry no visitor field, which is fine since the banner refreshes from `/api/status` after every run.
+
+## Step 10 - Demo passcode (2026-10-05)
+
+### What was built
+
+- `src/lib/access.ts`: `verifyPasscode` (constant-time compare, false when none is configured), `passcodeToken` (HMAC-SHA256 of the passcode keyed by `RATE_LIMIT_SALT`, so the browser only ever holds a token), `hasBypass` (cookie token must match the current passcode and salt), `readCookie`, `passcodeCookie` (`cm_pass`, Path=/, 30 days, HttpOnly, SameSite=Lax, Secure only over https so localhost works), `clearPasscodeCookie`.
+- `POST /api/passcode` grants the cookie for the right passcode, 403 `forbidden` otherwise or when none is configured, 429 `visitor_limit` after 20 attempts per visitor per day. `DELETE /api/passcode` clears it.
+- Bypass wiring: `/api/brief` skips the brief allowance, `/api/search` skips the search allowance and asks YouTube against the total budget (95) instead of the public one (60), `/api/status` and the search response report `bypass: true` and judge the budget against the total threshold. Every log line now carries `bypass`.
+- `PasscodeDialog` under the banner: "Have a passcode?" opens a password field; success refreshes the status so the banner reads "Passcode active"; "Turn off" clears the cookie. The banner now prefers the freshly fetched status over the last search response.
+- Tests: access module (compare, cookie parsing, token binding to passcode and salt, cookie attributes, Secure rules), passcode route (grant, refuse, attempt cap, clear), bypass through the search, brief, and status routes, budget threshold with bypass. 23 files, 145 tests.
+
+### Verification
+
+- `npm run lint`, `npm run typecheck`, `npm test`: clean.
+- Local, against a production build on port 3011 started with `VISITOR_SEARCH_LIMIT=0`, `YT_PUBLIC_SEARCH_BUDGET=0` and `YT_TOTAL_SEARCH_BUDGET=0` in the process environment: wrong passcode 403; right passcode 200 with the cookie; status with the cookie `bypass: true`; a fresh brief (1 Gemini request); the same search answered `429 visitor_limit` without the cookie and `503 budget_exhausted` with it, which proves the visitor check was bypassed and the global budget still applied, with no search spent; DELETE then status `bypass: false`.
+- Commit `1fbae32` pushed. Vercel deployment `6860322502` succeeded. Live: wrong passcode 403; right passcode 200 with `cm_pass=...; Max-Age=2592000; HttpOnly; SameSite=Lax; Secure`; status with the cookie `bypass: true`; the cached Peak Fuel search free under bypass; DELETE then status `bypass: false`.
+- Spent in this step: Gemini requests 1 (the local fresh brief), YouTube searches 0.
+
+### Surprises
+
+- The plain live status afterwards showed 0 of 3 searches left for this IP. The machine running these checks shares its public IP with the user's own browser testing after step 9, so that is their usage, not a bug. The passcode is exactly the escape hatch for this.
+- The passcode value was read from `.env.local` into a shell variable and sent through a JSON encoder, never echoed; the cookie jar files held only the HMAC token and were deleted.
