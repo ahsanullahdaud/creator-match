@@ -14,7 +14,7 @@ Creator Match turns a short brand brief into a ranked shortlist of YouTube creat
 4. **Stats and ranking.** Channel stats arrive in one call. Channels outside the chosen size range, with hidden subscriber counts, or with almost no videos are dropped, and the rest are ranked by how many queries matched, recency, and region.
 5. **Scores.** Gemini scores the top ten against the brief in batches of five, streaming each batch to the page as it lands: a 0 to 100 fit score, two to four reasons grounded in the channel data, concerns, who actually watches, and an outreach draft with a subject line and opening message you can copy.
 
-A fresh brief takes under 10 seconds. A brief that has been seen before, and each of the three examples, takes under a second.
+A fresh brief takes under 12 seconds. A brief that has been seen before, and each of the three examples, takes under a second.
 
 ## Engineering decisions
 
@@ -33,7 +33,7 @@ Claude Code did the planning, implementation, debugging, testing, and refactorin
 - **Planning.** The first deliverables were `PLAN.md` (Zod data model, routes, components, risks, and a build order of small runnable steps) and `CLAUDE.md` (conventions and commands), written after a round of questions and after checking the live documentation for the SDKs, model names, Vercel limits, and the YouTube quota model, which turned out to have changed.
 - **Implementation.** Twelve steps, each ending in something that runs. The repo went to GitHub and Vercel after the first step, so every later step was checked on the production URL.
 - **Debugging.** Finding the production domain by changing the page title, discovering that an env file edit wipes the dev server's cache, and catching thirty tests that silently started passing through precomputed data are the stories worth reading in the log.
-- **Testing.** 150 tests with Vitest. Route handlers are called directly with `Request` objects; the Gemini SDK and the YouTube client are mocked, so the suite never spends quota. Each route has happy-path, limit, and failure cases.
+- **Testing.** 158 tests with Vitest. Route handlers are called directly with `Request` objects; the Gemini SDK and the YouTube client are mocked, so the suite never spends quota. Each route has happy-path, limit, and failure cases.
 - **Refactoring.** The move from the Claude API to the Gemini free tier was done as a documented plan change before step 6: docs updated and reviewed first, code changed after.
 
 ## Run it locally
